@@ -1,0 +1,126 @@
+TODO:
+
+# Notes:
+# dd if=/dev/zero of=/dev/sda3 bs=1M count=10
+# wipefs -a -t zfs -n /dev/sda3
+# dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx && sync
+#
+# WLAN-SETUP:
+# ip link set dev wlan0 up
+# iwlist wlan0 scan
+#
+# wifi-menu
+# control password: nano /etc/netctl/wlan0-SSID
+# netctl restart wlan0-SSID
+#
+# iw dev wlan0 link
+# wpa_supplicant -B -i wlan0 -D nl80211,wext -c<(wpa_passphrase MYSSID "passphrase")
+#
+# cp /etc/netctl/examples/wireless-wpa-static /etc/netctl/
+# nano /etc/netctl/wireless-wpa-static
+# netctl restart wireless-wpa-static
+# copy layout on other disk
+#
+# pacman --noconfirm -S gptfdisk;
+# sgdisk -R /dev/sdb /dev/sda;
+# sgdisk -R /dev/sdc /dev/sda;
+# parted /dev/sdb print;
+# parted /dev/sdc print;
+#
+# Raid, ext4 parameter see http://busybox.net/~aldot/mkfs_stride.html
+# parted /dev/sda1 set 1 raid on;
+# parted /dev/sdb1 set 1 raid on;
+# parted /dev/sdc1 set 1 raid on;
+# mdadm --create --verbose --force --assume-clean --name=raid5 --chunk=256 /dev/md0 --level=5 --raid-devices=3 --homehost="<none>" /dev/sda /dev/sdb /dev/sdc;
+# mkfs.ext4 -m 0 -b 4096 -E stride=64,stripe-width=128 -L raid5 /dev/md0;
+# mdadm --detail --scan >> /mnt/etc/mdadm/mdadm.conf;
+#
+# LVM
+# parted /dev/md0 set 1 lvm on;
+# pvcreate -v /dev/md0;
+# vgcreate -v vgroot /dev/md0;
+# lvcreate -v -L 2G -n lvswap vgroot;
+# lvcreate -v -l 50%VG -n lvroot vgroot;
+# lvcreate -v -l 100%free -n lvhome vgroot;
+# mkfs.ext4 -m 1 -b 4096 -E stride=64,stripe-width=128 -L root /dev/vgroot/lvroot;
+# mkfs.ext4 -m 0 -b 4096 -E stride=64,stripe-width=128 -L home /dev/vgroot/lvhome;
+
+/etc/skel/.bashrc
+PS1 entfernen
+
+/etc/profile
+alias df='df -hT'
+alias devices='sudo lsblk -o NAME,LABEL,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL,UUID'
+alias hs='history | grep $1'
+alias l='ls -hal --group-directories-first --color=auto'
+alias log-rsnapshot='sudo tail -100 /var/log/rsnapshot'
+alias log-firewall='journalctl -k | grep iptables'
+
+#export HISTCONTROL=ignoredups
+export HISTCONTROL=erasedups
+export HISTSIZE=5000
+export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S> "
+
+# Farben beim ls Befehl.
+LS_COLORS='di=36:fi=0:ln=32:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=33:*.rpm=90'
+export LS_COLORS
+
+# you are root, make the prompt red
+if [ $(id -u) -eq 0 ];
+then
+    PS1='\[\033[01;31m\]\u@\h\[\033[00m\] \t \[\033[01;36m\]\w \$\[\033[00m\] '
+else
+    PS1='\[\033[01;32m\]\u@\h\[\033[00m\] \t \[\033[01;36m\]\w \$\[\033[00m\] '
+fi
+
+# Copy Funktion mit rsync (nur lokal)
+function sync-dir()
+{
+  if [ $# -ne 2 ]; then
+      echo "Usage: /PATH/SOURCE /PATH/DEST"
+      return 1
+  fi
+
+  # Abschliessendes / entfernen, wenn vorhanden.
+  SRC=${1%/}
+  DEST=${2%/}
+
+  mkdir -p "$DEST"
+
+  nice -n 19 ionice -c3 rsync -avh --partial --delete-before --force --progress --stats --exclude=lost+found/ "$SRC"/ "$DEST"/
+}
+
+pacman -S nginx php-fpm
+#/etc/nginx.conf
+#user http http;
+#worker_processes  1;
+
+cat << EOF > "/etc/nginx/php.conf"
+location ~ \.php$ {
+        fastcgi_pass    unix:/var/run/php-fpm/php-fpm.sock;
+        root            /srv/http;
+        fastcgi_index   index.php;
+        include         fastcgi.conf;
+}
+EOF
+
+#/etc/php/php.ini, wird wohl nicht mehr benötigt
+#open_basedir = /srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/webapps/
+
+#/etc/php/php-fpm.conf[.d]
+#pid = /run/php-fpm/php-fpm.pid
+#pm = dynamic
+#pm.max_children = 5
+#pm.start_servers = 1
+#pm.min_spare_servers = 1
+#pm.max_spare_servers = 5
+
+#/etc/php/php-fpm.d/www.conf
+#listen.mode = 0660
+
+systemctl start php-fpm.service
+systemctl start nginx.service
+
+#/etc/fstab
+#/home/tommy/monitor/    /srv/http/monitor/      none    bind    0 0
+#sudo mount --bind /home/tommy/monitor/ /srv/http/monitor/
