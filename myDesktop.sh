@@ -93,14 +93,14 @@ formatAndMountPartitions()
 # lvcreate -v -L 16G -n swap vghost;
 # lvcreate -v -l 100%free -n root vghost;
 # mkswap -f /dev/vghost/swap;
-# swapon /dev/vghost/swap;
+# swapon -p 1 /dev/vghost/swap;
 # mkfs.ext4 -v -m 1 -b 4096 -L root /dev/vghost/root;
 # mount -t ext4 /dev/vghost/root /mnt;
 
 echo "";
 read -rp "Press any key to create swap";
 mkswap -f /dev/sda3;
-swapon /dev/sda3;
+swapon -p 1 /dev/sda3;
 
 echo "";
 read -rp "Press any key to format root partition";

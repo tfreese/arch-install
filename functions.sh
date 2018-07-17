@@ -17,9 +17,10 @@ echo "";
 read -rp "Press any key to pacstrap";
 pacstrap /mnt base base-devel wpa_supplicant wireless_tools iw net-tools;
 
-genfstab -p /mnt >> /mnt/etc/fstab;
+genfstab -U -p /mnt >> /mnt/etc/fstab;
 
 echo " " >> /mnt/etc/fstab;
+echo "Swap-Prio: DEVICE     none  swap   defaults,pri=1   0 0" >> /mnt/etc/fstab;
 echo "#Bei SSD fstab Eintrag ändern in" >> /mnt/etc/fstab;
 echo "#/dev/sda4	/	ext4	rw,defaults,noatime,nodiratime,discard	0	1" >> /mnt/etc/fstab;
 echo "#NICHT /dev/sda4	/	ext4	rw,relatime,data=ordered	0	1" >> /mnt/etc/fstab;
@@ -79,6 +80,9 @@ nano /etc/locale.gen;
 locale-gen;
 
 systemctl enable dhcpcd;
+
+# ggf. Raid speichern
+mdadm --detail --scan >> /etc/mdadm/mdadm.conf;
 }
 
 ################################################################################
@@ -91,7 +95,8 @@ passwd;
 
 cat << EOF > /root/.nanorc
 # Cursor Position anzeigen
-set const
+set constantshow
+set linenumbers
 EOF
 }
 
@@ -116,8 +121,8 @@ local l=$1
 makeKernel()
 {
 # https://wiki.archlinux.org/index.php/mkinitcpio#HOOKS
-# HOOKS=(base udev autodetect modconf block mdadm keyboard keymap encrypt lvm2 fsck filesystems)
-# HOOKS=(base systemd autodetect modconf block mdadm_udev keyboard sd-vconsole sd-encrypt sd-lvm2 fsck filesystems)
+# HOOKS=(base udev autodetect modconf block mdadm keyboard keymap encrypt lvm2 filesystems fsck)
+# HOOKS=(base systemd autodetect modconf block mdadm_udev keyboard sd-vconsole sd-encrypt sd-lvm2 filesystems fsck)
 nano /etc/mkinitcpio.conf;
 mkinitcpio -p linux;
 }
