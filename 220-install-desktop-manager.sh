@@ -1,0 +1,72 @@
+#!/bin/bash
+#
+# Thomas Freese
+#
+# ArchLinux Installation Script: Install the Desktop Manager
+#
+#############################################################################################################
+#
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+#############################################################################################################
+
+set -euo pipefail
+# –x für debug
+
+
+#############################################################################################################
+# Wenn der Loginmanager disabled ist, muss dieser mit "startx" aufgerufen werden !
+#############################################################################################################
+
+
+#############################################################################################################
+# Cinnamon
+pacman --noconfirm --needed -S cinnamon;
+pacman --noconfirm --needed -S nemo;
+pacman --noconfirm --needed -S faenza-icon-theme;
+pacman --noconfirm --needed -S numix-gtk-theme;
+pacman --noconfirm --needed -S gnome-keyring;
+pacman --noconfirm --needed -S libgnome-keyring;
+pacman --noconfirm --needed -S gnome-screenshot;
+
+#yaourt cinnamon-sound-effects
+#yaourt mint-sounds
+
+cp /etc/X11/xinit/xinitrc ~/.xinitrc;
+echo "exec cinnamon-session" >> ~/.xinitrc;
+
+
+#############################################################################################################
+# Mate
+pacman --noconfirm --needed -S mate;
+pacman --noconfirm --needed -S mate-extra;
+
+cp /etc/X11/xinit/xinitrc ~/.xinitrc;
+echo "exec mate-session" >> ~/.xinitrc;
+
+
+#############################################################################################################
+# GNOME
+pacman --noconfirm --needed -S gnome;
+pacman --noconfirm --needed -S gnome-extra;
+
+cp /etc/X11/xinit/xinitrc ~/.xinitrc;
+echo "exec gnome-session" >> ~/.xinitrc;
+
+
+#############################################################################################################
+# XFCE
+pacman --noconfirm --needed -S xfce4;
+pacman --noconfirm --needed -S xfce4-goodies;
+pacman --noconfirm --needed -S human-icon-theme;
+
+cp /etc/X11/xinit/xinitrc ~/.xinitrc;
+echo "exec startxfce4" >> ~/.xinitrc;
+
+
+#############################################################################################################
+# LXDE
+pacman --noconfirm --needed -S lxde;
+
+cp /etc/X11/xinit/xinitrc ~/.xinitrc;
+echo "exec startlxde" >> ~/.xinitrc;

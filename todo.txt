@@ -27,23 +27,6 @@ TODO:
 # parted /dev/sdb print;
 # parted /dev/sdc print;
 #
-# Raid, ext4 parameter see http://busybox.net/~aldot/mkfs_stride.html
-# parted /dev/sda1 set 1 raid on;
-# parted /dev/sdb1 set 1 raid on;
-# parted /dev/sdc1 set 1 raid on;
-# mdadm --create --verbose --force --assume-clean --name=raid5 --chunk=256 /dev/md0 --level=5 --raid-devices=3 --homehost="<none>" /dev/sda /dev/sdb /dev/sdc;
-# mkfs.ext4 -m 0 -b 4096 -E stride=64,stripe-width=128 -L raid5 /dev/md0;
-# mdadm --detail --scan >> /mnt/etc/mdadm/mdadm.conf;
-#
-# LVM
-# parted /dev/md0 set 1 lvm on;
-# pvcreate -v /dev/md0;
-# vgcreate -v vgroot /dev/md0;
-# lvcreate -v -L 2G -n lvswap vgroot;
-# lvcreate -v -l 50%VG -n lvroot vgroot;
-# lvcreate -v -l 100%free -n lvhome vgroot;
-# mkfs.ext4 -m 1 -b 4096 -E stride=64,stripe-width=128 -L root /dev/vgroot/lvroot;
-# mkfs.ext4 -m 0 -b 4096 -E stride=64,stripe-width=128 -L home /dev/vgroot/lvhome;
 
 /etc/skel/.bashrc
 PS1 entfernen

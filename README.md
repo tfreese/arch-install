@@ -8,5 +8,6 @@ Name | URL
 -----|-----
 arcolinuxd | https://github.com/arcolinuxd/arco-cinnamon
 archlinux  | https://wiki.archlinux.de/title/Anleitung_für_Einsteiger
+Drucker | https://wiki.archlinux.de/title/Drucker  
 systemd hooks  | https://wiki.archlinux.org/index.php/mkinitcpio#HOOKS
 working example | https://bbs.archlinux.org/viewtopic.php?id=177722

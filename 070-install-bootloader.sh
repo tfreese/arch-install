@@ -110,7 +110,7 @@ efibootmgr -c -d /dev/sdb -p 1 -L Arch\ Linux\ 2 -l \\EFI\\gummiboot\\gummibootx
 
 efibootmgr --create --disk /dev/sda --part 1 --label "Precise - GRUB2" --loader \\EFI\\ubuntu\\grubx64.efi
 efibootmgr --create --disk /dev/sda --part 2 --label "Fedora Grub" --loader /EFI/fedora/grubx64.efi
-efibootmgr --create --disk /dev/sda --part 1 --label "rEFInd Boot Manager" --loader /EFI/refind/refind_x64.efi --verbose
+efibootmgr --create --disk /dev/sda --part 3 --label "rEFInd Boot Manager" --loader /EFI/refind/refind_x64.efi --verbose
 efibootmgr --disk /dev/sdX --part Y --create --label "Arch Linux" --loader /vmlinuz-linux --unicode 'root=PARTUUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX rw initrd=\initramfs-linux.img' --verbose
 efibootmgr -c -d /dev/sda -p 1 -l \vmlinuz-linux -L "Arch Linux efistub" -u "initrd=/initramfs-linux.img root=LABEL=p_arch rw"
 efibootmgr -c -d /dev/sda -p 1 -l \vmlinuz-linux -L "Arch Linux fallback efistub" -u "initrd=/initramfs-linux-fallback.img root=LABEL=p_arch rw"

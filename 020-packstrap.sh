@@ -14,13 +14,22 @@ set -euo pipefail
 # –x für debug
 
 # System-Partition mounten
-# Boot-Partition mounten
 mount /dev/vghost/root /mnt;
-mkdir /mnt/boot;
-mount /dev/md0 /mnt/boot; # EFI-Partition
 
-pacstrap /mnt base net-tools;
-#pacstrap /mnt base base-devel wpa_supplicant wireless_tools iw net-tools;
+# Boot-Partition mounten: EFI / GRUP2
+mkdir /mnt/boot;
+mount /dev/md0 /mnt/boot;
+
+# Log-Partition
+mkdir -p /mnt/var/log;
+mount /dev/vghost/log /mnt/var/log;
+
+# Opt-Partition
+mkdir /mnt/opt;
+mount /dev/vghost/opt /mnt/opt;
+
+pacstrap /mnt base;
+#pacstrap /mnt base base-devel;
 
 genfstab -U -p /mnt >> /mnt/etc/fstab;
 

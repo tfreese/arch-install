@@ -27,10 +27,10 @@ wipefs --all --force /dev/sda;
 parted /dev/sda mklabel gpt;
 
 # GRUB2
-parted -a optimal /dev/sda mkpart primary 2048s 2MB;   # for gpt for grub
-parted -a optimal /dev/sda mkpart primary 2MB 250GB;   # Windows
+parted -a optimal /dev/sda mkpart primary 2048s 512MB; # for gpt for grub
+parted -a optimal /dev/sda mkpart primary 512MB 250GB; # Windows
 parted -a optimal /dev/sda mkpart primary 250GB 270GB; # swap
-parted -a optimal /dev/sda mkpart primary 270GB 100%;  # root
+parted -a optimal /dev/sda mkpart primary 270GB 100%; # root
 
 parted /dev/sda set 1 bios_grub on;
 
@@ -48,14 +48,15 @@ ls /sys/firmware/efi;
 # Devices ausgeben
 lsblk;
 
-parted -a optimal /dev/sda mkpart ESP fat32 2048s 500MB; # efiboot
-parted -a optimal /dev/sda mkpart primary 500MB 5GB;		 # swap
-parted -a optimal /dev/sda mkpart primary 5G 4TB;		     # raid
+parted -a optimal /dev/sda mkpart ESP fat32 2048s 512MB; # efiboot
+parted -a optimal /dev/sda mkpart primary 512MB 16GB;    # swap / raid
+parted -a optimal /dev/sda mkpart primary 16G 4TB;       # raid
 
 parted /dev/sda print;
 
 parted /dev/sda set 1 esp on;
-#parted /dev/sda set 2 swap on;
+parted /dev/sda set 2 raid on;
+# parted /dev/sda set 2 swap on;
 parted /dev/sda set 3 raid on;
 
 parted /dev/sda name 1 efiboot;
@@ -81,26 +82,45 @@ parted /dev/sdc print;
 
 # Raids erstellen
 mdadm --create --verbose /dev/md0 --metadata 1.0    --raid-devices=3 --level=1 /dev/sd[abc]1;
-mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 /dev/sd[abc]3;
+mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1 /dev/sd[abc]2;
+mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 /dev/sd[abc]3;
 #--force --assume-clean
 
-# LVM erstellen
-parted /dev/md1 set 1 lvm on;
+# EFI Partion formatieren (FAT32)
+mkfs.vfat -F 32 /dev/md0;
 
-pvcreate -v --dataalignment 64k /dev/md1;
-vgcreate -v --dataalignment 64k vghost /dev/md1;
+# SWAP erstellen
+# parted /dev/md1 set 1 lvm on;
+mkswap -f /dev/md1;
+swapon /dev/md1;
+
+# Oder SWAP ohne Raid mit Kernel-Striping
+mkswap -f /dev/sda2;
+mkswap -f /dev/sdb2;
+mkswap -f /dev/sdc2;
+swapon -p 1 /dev/sda2;
+swapon -p 1 /dev/sdb2;
+swapon -p 1 /dev/sdc2;
+#echo "DEVICE     none  swap   defaults,pri=1   0 0" >> /mnt/etc/fstab;
+
+# LVM erstellen
+parted /dev/md2 set 1 lvm on;
+
+pvcreate -v --dataalignment 64k /dev/md2;
+vgcreate -v --dataalignment 64k vghost /dev/md2;
 
 lvcreate -v --wipesignatures y -L 32G -n root vghost;
 lvcreate -v --wipesignatures y -L 2G -n log vghost;
 lvcreate -v --wipesignatures y -L 16G -n opt vghost;
 
-# EFI Partion formatieren (FAT32)
-mkfs.vfat -F 32 /dev/md0;
-
 # System Partionen formatieren.
 mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L root /dev/vghost/root;
 mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L log /dev/vghost/log;
 mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L opt /dev/vghost/opt;
+
+# Anpassen für Raid-Optionen
+# tune2fs -E stride=16,stripe-width=32 /dev/xxx;
+#
 # http://busybox.net/~aldot/mkfs_stride.html
 # block size (file system block size) = 4096
 # stripe-size (raid chunk size) = 64k
@@ -111,11 +131,3 @@ mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L opt /dev/vghost/opt;
 tune2fs -c 30 /dev/vghost/root;
 tune2fs -c 30 /dev/vghost/log;
 tune2fs -c 30 /dev/vghost/opt;
-
-# SWAP erstellen
-mkswap -f /dev/sda2;
-mkswap -f /dev/sdb2;
-mkswap -f /dev/sdc2;
-swapon -p 1 /dev/sda2;
-swapon -p 1 /dev/sdb2;
-swapon -p 1 /dev/sdc2;

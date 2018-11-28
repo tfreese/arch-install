@@ -20,6 +20,10 @@ systemctl disable dhcpcd;
 systemctl status dhcpcd;
 
 
+pacman --noconfirm --needed -S iw;
+pacman --noconfirm --needed -S net-tools;
+
+
 #############################################################################################################
 # Interfaces umbenennen (enp6s0 -> eth0)
 # MAC-Adresse ermitteln: cat /sys/class/net/enp6s0/address;
