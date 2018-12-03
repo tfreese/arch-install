@@ -20,6 +20,10 @@ mount /dev/vghost/root /mnt;
 mkdir /mnt/boot;
 mount /dev/md0 /mnt/boot;
 
+# Home-Partition
+mkdir -p /mnt/home;
+mount /dev/vghost/home /mnt/home;
+
 # Log-Partition
 mkdir -p /mnt/var/log;
 mount /dev/vghost/log /mnt/var/log;

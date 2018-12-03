@@ -29,10 +29,13 @@ parted /dev/sda mklabel gpt;
 # GRUB2
 parted -a optimal /dev/sda mkpart primary 2048s 512MB; # for gpt for grub
 parted -a optimal /dev/sda mkpart primary 512MB 250GB; # Windows
-parted -a optimal /dev/sda mkpart primary 250GB 270GB; # swap
-parted -a optimal /dev/sda mkpart primary 270GB 100%; # root
+parted -a optimal /dev/sda mkpart primary 250GB 270GB; # swap/raid
+parted -a optimal /dev/sda mkpart primary 270GB 100%;  # root/raid
 
 parted /dev/sda set 1 bios_grub on;
+parted /dev/sda set 3 raid on;
+# parted /dev/sda set 3 swap on;
+parted /dev/sda set 3 raid on;
 
 #############################################################################################################
 # Oder mit UEFI
@@ -42,15 +45,15 @@ efivar -l;
 efibootmgr -v;
 bootctl status;
 
-# Verzeichniss muss vorhanden sein
+# Verzeichnis muss vorhanden sein
 ls /sys/firmware/efi;
 
 # Devices ausgeben
 lsblk;
 
 parted -a optimal /dev/sda mkpart ESP fat32 2048s 512MB; # efiboot
-parted -a optimal /dev/sda mkpart primary 512MB 16GB;    # swap / raid
-parted -a optimal /dev/sda mkpart primary 16G 4TB;       # raid
+parted -a optimal /dev/sda mkpart primary 512MB 16GB;    # swap/raid
+parted -a optimal /dev/sda mkpart primary 16G 4TB;       # root/raid
 
 parted /dev/sda print;
 
@@ -110,11 +113,13 @@ pvcreate -v --dataalignment 64k /dev/md2;
 vgcreate -v --dataalignment 64k vghost /dev/md2;
 
 lvcreate -v --wipesignatures y -L 32G -n root vghost;
+lvcreate -v --wipesignatures y -L 64G -n home vghost;
 lvcreate -v --wipesignatures y -L 2G -n log vghost;
 lvcreate -v --wipesignatures y -L 16G -n opt vghost;
 
 # System Partionen formatieren.
 mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L root /dev/vghost/root;
+mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L root /dev/vghost/home;
 mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L log /dev/vghost/log;
 mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L opt /dev/vghost/opt;
 
@@ -129,5 +134,6 @@ mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L opt /dev/vghost/opt;
 
 # Prüfung nach n mounts
 tune2fs -c 30 /dev/vghost/root;
+tune2fs -c 30 /dev/vghost/home;
 tune2fs -c 30 /dev/vghost/log;
 tune2fs -c 30 /dev/vghost/opt;

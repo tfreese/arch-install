@@ -76,6 +76,7 @@ pacman --noconfirm --needed -S flashplugin;
 # Utils
 pacman --noconfirm --needed -S brasero; # CD-Brenner
 pacman --noconfirm --needed -S gimp;
+pacman --noconfirm --needed -S keepass;
 #pacman --noconfirm --needed -S pigz; # parallel gzip
 pacman --noconfirm --needed -S unrar;
 pacman --noconfirm --needed -S unzip;
