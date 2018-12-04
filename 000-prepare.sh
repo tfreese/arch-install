@@ -13,8 +13,20 @@
 set -euo pipefail
 # –x für debug
 
+# Download ISO
+http://ftp-stud.hs-esslingen.de/pub/Mirrors/archlinux/iso/latest/archlinux-*-x86_64.iso
+http://ftp-stud.hs-esslingen.de/pub/Mirrors/archlinux/iso/latest/md5sums.txt
+http://ftp-stud.hs-esslingen.de/pub/Mirrors/archlinux/iso/latest/sha1sums.txt
+
+# validate Checksums
+md5sum archlinux-*-x86_64.iso;
+sha1sum archlinux-*-x86_64.iso
+
+# Prepare USB-Stick
+dd bs=4M if=archlinux-*-x86_64.iso of=/dev/sdX status=progress && sync;
+
 # Deutsches Tastatur-Layout: de-latin1/de-latin1-nodeadkeys
-loadkeys;
+loadkeys de-latin1;
 
 bash;
 

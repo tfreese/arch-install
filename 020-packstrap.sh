@@ -32,8 +32,8 @@ mount /dev/vghost/log /mnt/var/log;
 mkdir /mnt/opt;
 mount /dev/vghost/opt /mnt/opt;
 
-pacstrap /mnt base;
-#pacstrap /mnt base base-devel;
+#pacstrap /mnt base;
+pacstrap /mnt base base-devel;
 
 genfstab -U -p /mnt >> /mnt/etc/fstab;
 
