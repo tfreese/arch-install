@@ -33,7 +33,7 @@ mkdir /mnt/opt;
 mount /dev/vghost/opt /mnt/opt;
 
 #pacstrap /mnt base;
-pacstrap /mnt base base-devel;
+pacstrap /mnt base base-devel efibootmgr;
 
 genfstab -U -p /mnt >> /mnt/etc/fstab;
 
@@ -42,5 +42,6 @@ echo "Swap-Prio: DEVICE     none  swap   defaults,pri=1   0 0" >> /mnt/etc/fstab
 echo "#Bei SSD fstab Eintrag ändern in" >> /mnt/etc/fstab;
 echo "#/dev/sda4	/	ext4	rw,defaults,noatime,nodiratime,discard	0	1" >> /mnt/etc/fstab;
 echo "#NICHT /dev/sda4	/	ext4	rw,relatime,data=ordered	0	1" >> /mnt/etc/fstab;
+echo "#HDD rw,relatime,stripe=32" >> /mnt/etc/fstab;
 
 arch-chroot /mnt;

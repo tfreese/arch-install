@@ -51,42 +51,42 @@ ls /sys/firmware/efi;
 # Devices ausgeben
 lsblk;
 
-parted -a optimal /dev/sda mkpart ESP fat32 2048s 512MB; # efiboot
-parted -a optimal /dev/sda mkpart primary 512MB 16GB;    # swap/raid
-parted -a optimal /dev/sda mkpart primary 16G 4TB;       # root/raid
-
-parted /dev/sda print;
-
-parted /dev/sda set 1 esp on;
-parted /dev/sda set 2 raid on;
-# parted /dev/sda set 2 swap on;
-parted /dev/sda set 3 raid on;
-
-parted /dev/sda name 1 efiboot;
-parted /dev/sda name 2 swap;
-parted /dev/sda name 3 raid;
-
-parted /dev/sda print;
-
-parted /dev/sda align-check opt 1;
-parted /dev/sda align-check opt 2;
-parted /dev/sda align-check opt 3;
-
-# Partitions-Tabellen kopieren ZIEL <- QUELLE
-sgdisk -R /dev/sdb /dev/sda;
-sgdisk -R /dev/sdc /dev/sda;
-
-## UUIDS neu vergeben
-sgdisk -G /dev/sdb;
-sgdisk -G /dev/sdc;
+parted -a optimal /dev/sdb mkpart ESP fat32 2048s 512MB; # efiboot
+parted -a optimal /dev/sdb mkpart primary 512MB 32GB;    # swap/raid
+parted -a optimal /dev/sdb mkpart primary 32G 4TB;       # root/raid
 
 parted /dev/sdb print;
+
+parted /dev/sdb set 1 esp on;
+parted /dev/sdb set 2 raid on;
+# parted /dev/sdb set 2 swap on;
+parted /dev/sdb set 3 raid on;
+
+parted /dev/sdb name 1 efiboot;
+parted /dev/sdb name 2 swap;
+parted /dev/sdb name 3 raid;
+
+parted /dev/sdb print;
+
+parted /dev/sdb align-check opt 1;
+parted /dev/sdb align-check opt 2;
+parted /dev/sdb align-check opt 3;
+
+# Partitions-Tabellen kopieren ZIEL <- QUELLE
+sgdisk -R /dev/sdc /dev/sdb;
+sgdisk -R /dev/sdd /dev/sdb;
+
+## UUIDS neu vergeben
+sgdisk -G /dev/sdc;
+sgdisk -G /dev/sdd;
+
 parted /dev/sdc print;
+parted /dev/sdd print;
 
 # Raids erstellen
-mdadm --create --verbose /dev/md0 --metadata 1.0    --raid-devices=3 --level=1 /dev/sd[abc]1;
-mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1 /dev/sd[abc]2;
-mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 /dev/sd[abc]3;
+mdadm --create --verbose /dev/md0 --metadata 1.0    --raid-devices=3 --level=1 /dev/sd[bcd]1;
+mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1 /dev/sd[bcd]2;
+mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 /dev/sd[bcd]3;
 #--force --assume-clean
 
 # EFI Partion formatieren (FAT32)

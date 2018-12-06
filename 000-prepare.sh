@@ -33,6 +33,11 @@ bash;
 # Packages vom USB-Stick aktualisieren
 pacman -Sy;
 
+# Zugriff für Remote-Installation: ssh root@IP
+systemctl start sshd;
+passwd root;
+ip -4 addr;
+
 # pacman -S git;
 # git clone https://github.com/tfreese/arch-install.git;
 # chmod +x arch-install/*.sh;

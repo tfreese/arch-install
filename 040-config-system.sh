@@ -57,4 +57,4 @@ locale-gen;
 systemctl enable dhcpcd;
 
 # Raid speichern
-mdadm --detail --scan >> /etc/mdadm/mdadm.conf;
+mdadm --detail --scan >> /etc/mdadm.conf;

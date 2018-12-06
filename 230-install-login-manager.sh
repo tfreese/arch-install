@@ -27,6 +27,10 @@ pacman --noconfirm --needed -S archlinux-themes-slim;
 systemctl enable slim;
 systemctl start slim; # Startet den Desktop
 
+# /etc/slim.conf
+# /usr/share/slim/themes
+# Preview: slim -p /usr/share/slim/themes/tommy/
+
 
 #############################################################################################################
 #GDM = GNOME !!!
