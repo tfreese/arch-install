@@ -24,10 +24,6 @@ mount /dev/md0 /mnt/boot;
 mkdir -p /mnt/home;
 mount /dev/vghost/home /mnt/home;
 
-# Log-Partition
-mkdir -p /mnt/var/log;
-mount /dev/vghost/log /mnt/var/log;
-
 # Opt-Partition
 mkdir /mnt/opt;
 mount /dev/vghost/opt /mnt/opt;

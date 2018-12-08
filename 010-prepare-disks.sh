@@ -112,15 +112,13 @@ parted /dev/md2 set 1 lvm on;
 pvcreate -v --dataalignment 64k /dev/md2;
 vgcreate -v --dataalignment 64k vghost /dev/md2;
 
-lvcreate -v --wipesignatures y -L 32G -n root vghost;
+lvcreate -v --wipesignatures y -L 64G -n root vghost;
 lvcreate -v --wipesignatures y -L 64G -n home vghost;
-lvcreate -v --wipesignatures y -L 2G -n log vghost;
 lvcreate -v --wipesignatures y -L 16G -n opt vghost;
 
 # System Partionen formatieren.
 mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L root /dev/vghost/root;
 mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L root /dev/vghost/home;
-mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L log /dev/vghost/log;
 mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L opt /dev/vghost/opt;
 
 # Anpassen für Raid-Optionen
@@ -135,5 +133,4 @@ mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L opt /dev/vghost/opt;
 # Prüfung nach n mounts
 tune2fs -c 30 /dev/vghost/root;
 tune2fs -c 30 /dev/vghost/home;
-tune2fs -c 30 /dev/vghost/log;
 tune2fs -c 30 /dev/vghost/opt;
