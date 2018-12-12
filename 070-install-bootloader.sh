@@ -29,6 +29,13 @@ ls /sys/firmware/efi;
 mkdir -p /boot/EFI/systemd;
 mkdir -p /boot/EFI/BOOT;
 
+# bootctl ist im systemd Package enthalten
+bootctl install;
+# Bei Raid wird 'bootctl install' nicht funktionieren, daher manuell installieren.
+efibootmgr --create --disk /dev/sdb --part 1 --label ArchLinux\ 1 --loader \\EFI\\systemd\\systemd-bootx64.efi;
+efibootmgr --create --disk /dev/sdc --part 1 --label ArchLinux\ 2 --loader \\EFI\\systemd\\systemd-bootx64.efi;
+efibootmgr --create --disk /dev/sdd --part 1 --label ArchLinux\ 3 --loader \\EFI\\systemd\\systemd-bootx64.efi;
+
 bootctl update;
 # Kopiert /usr/lib/systemd/boot/efi/systemd-bootx64.efi nach
 # - /boot/EFI/systemd/systemd-bootx64.efi
@@ -36,13 +43,6 @@ bootctl update;
 # Bei Raid wird 'bootctl update' nicht funktionieren, daher manuell installieren.
 cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/systemd/systemd-bootx64.efi;
 cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/BOOT/BOOTX64.EFI;
-
-# bootctl ist im systemd Package enthalten
-bootctl install;
-# Bei Raid wird 'bootctl install' nicht funktionieren, daher manuell installieren.
-efibootmgr --create --disk /dev/sdb --part 1 --label ArchLinux\ 1 --loader \\EFI\\systemd\\systemd-bootx64.efi;
-efibootmgr --create --disk /dev/sdc --part 1 --label ArchLinux\ 2 --loader \\EFI\\systemd\\systemd-bootx64.efi;
-efibootmgr --create --disk /dev/sdd --part 1 --label ArchLinux\ 3 --loader \\EFI\\systemd\\systemd-bootx64.efi;
 
 # Bei einem Update von systemd-boot müssen die neuen *.efi Dateien wieder nach /boot kopiert werden.
 # Manuell:

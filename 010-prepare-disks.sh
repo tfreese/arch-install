@@ -49,7 +49,7 @@ bootctl status;
 ls /sys/firmware/efi;
 
 # Devices ausgeben
-lsblk;
+lsblk -o NAME,LABEL,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL,UUID;
 
 parted -a optimal /dev/sdb mkpart ESP fat32 2048s 512MB; # efiboot
 parted -a optimal /dev/sdb mkpart primary 512MB 32GB;    # swap/raid
