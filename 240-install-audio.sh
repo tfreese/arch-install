@@ -38,9 +38,9 @@ pacman --noconfirm --needed -S pulseaudio-alsa;
 
 pacman --noconfirm --needed -S gstreamer;
 pacman --noconfirm --needed -S gst-libav;
-pacman --noconfirm --needed -S gst-plugins-good;
 pacman --noconfirm --needed -S gst-plugins-bad;
 pacman --noconfirm --needed -S gst-plugins-base;
+pacman --noconfirm --needed -S gst-plugins-good;
 pacman --noconfirm --needed -S gst-plugins-ugly;
 
 
@@ -75,3 +75,4 @@ pacman --noconfirm --needed -S mp3gain;
 #pacman --noconfirm --needed -S mplayer;
 pacman --noconfirm --needed -S vorbis-tools;
 pacman --noconfirm --needed -S vorbisgain;
+pacman --noconfirm --needed -S wavegain;

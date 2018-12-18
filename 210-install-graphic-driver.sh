@@ -26,7 +26,7 @@ pacman -S xf86-video-vesa;
 # Proprietärer Treiber: http://www.nvidia.com/object/unix.html
 #pacman –Ss | grep nvidia;
 #pacman -S nvidia;
-pacman -S nvidia-415.18-4;
+pacman -S nvidia; # 415.23-2
 
 #Für Hardware-Decoding (VDPAU):
 pacman -S libva-vdpau-driver;

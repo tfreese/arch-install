@@ -25,14 +25,15 @@ pacman --noconfirm --needed -S cinnamon;
 pacman --noconfirm --needed -S nemo;
 pacman --noconfirm --needed -S faenza-icon-theme;
 pacman --noconfirm --needed -S numix-gtk-theme;
-pacman --noconfirm --needed -S gnome-keyring;
-pacman --noconfirm --needed -S libgnome-keyring;
+pacman --noconfirm --needed -S gnome-keyring libgnome-keyring;
 pacman --noconfirm --needed -S gnome-screenshot;
 
 #yaourt cinnamon-sound-effects
 #yaourt mint-sounds
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc;
+
+# Andere Zeilen mit "twm, xclock, xterm und exec" auskommentieren.
 echo "exec cinnamon-session" >> ~/.xinitrc;
 
 
