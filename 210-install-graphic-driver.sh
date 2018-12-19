@@ -20,16 +20,17 @@ set -euo pipefail
 
 
 # all drivers
-pacman -S xf86-video-vesa;
+pacman --noconfirm --needed -S xf86-video-vesa;
 #pacman -S xorg-drivers;
 
 # Proprietärer Treiber: http://www.nvidia.com/object/unix.html
 #pacman –Ss | grep nvidia;
 #pacman -S nvidia;
-pacman -S nvidia; # 415.23-2
+pacman --noconfirm --needed -S nvidia; # 415.23-2
 
 #Für Hardware-Decoding (VDPAU):
-pacman -S libva-vdpau-driver;
+pacman --noconfirm --needed -S libva-vdpau-driver;
+pacman --noconfirm --needed -S xorg-xrandr:
 
 #pacman --noconfirm --needed -S xf86-video-nv;
 #pacman --noconfirm --needed -S nvidia;

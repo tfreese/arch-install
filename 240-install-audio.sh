@@ -68,7 +68,7 @@ pacman --noconfirm --needed -S xvidcore;
 # Tools
 pacman --noconfirm --needed -S ddrescue;
 pacman --noconfirm --needed -S dvdbackup; # Zum Kopieren von DVDs
-#pacman --noconfirm --needed -S jasper;
+pacman --noconfirm --needed -S flacgain;
 pacman --noconfirm --needed -S lame;
 #pacman --noconfirm --needed -S mediainfo mediainfo-gui;
 pacman --noconfirm --needed -S mp3gain;

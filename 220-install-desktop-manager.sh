@@ -43,6 +43,8 @@ pacman --noconfirm --needed -S mate;
 pacman --noconfirm --needed -S mate-extra;
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc;
+
+# Andere Zeilen mit "twm, xclock, xterm und exec" auskommentieren.
 echo "exec mate-session" >> ~/.xinitrc;
 
 
@@ -52,6 +54,8 @@ pacman --noconfirm --needed -S gnome;
 pacman --noconfirm --needed -S gnome-extra;
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc;
+
+# Andere Zeilen mit "twm, xclock, xterm und exec" auskommentieren.
 echo "exec gnome-session" >> ~/.xinitrc;
 
 
@@ -62,6 +66,8 @@ pacman --noconfirm --needed -S xfce4-goodies;
 pacman --noconfirm --needed -S human-icon-theme;
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc;
+
+# Andere Zeilen mit "twm, xclock, xterm und exec" auskommentieren.
 echo "exec startxfce4" >> ~/.xinitrc;
 
 
@@ -70,4 +76,6 @@ echo "exec startxfce4" >> ~/.xinitrc;
 pacman --noconfirm --needed -S lxde;
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc;
+
+# Andere Zeilen mit "twm, xclock, xterm und exec" auskommentieren.
 echo "exec startlxde" >> ~/.xinitrc;

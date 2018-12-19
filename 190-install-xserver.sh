@@ -18,7 +18,7 @@ pacman --noconfirm --needed -S xorg-server;
 pacman --noconfirm --needed -S xorg-xinit;
 #pacman --noconfirm --needed -S xorg-utils;
 #pacman --noconfirm --needed -S xorg-server-utils;
-pacman --noconfirm --needed -S xorg-twm;
+#pacman --noconfirm --needed -S xorg-twm;
 pacman --noconfirm --needed -S xorg-xclock;
 pacman --noconfirm --needed -S xterm;
 pacman --noconfirm --needed -S ttf-dejavu;;
