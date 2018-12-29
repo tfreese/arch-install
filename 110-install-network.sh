@@ -22,6 +22,7 @@ systemctl status dhcpcd;
 
 pacman --noconfirm --needed -S iw;
 pacman --noconfirm --needed -S net-tools;
+pacman --noconfirm --needed -S ethtool; # cat /sys/class/net/eth0/speed
 
 
 #############################################################################################################
