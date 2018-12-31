@@ -16,7 +16,7 @@ set -euo pipefail
 # System-Partition mounten
 mount /dev/vghost/root /mnt;
 
-# Boot-Partition mounten: EFI / GRUP2
+# Boot-Partition mounten: UEFI / GRUP2 / SYSLINUX
 mkdir /mnt/boot;
 mount /dev/md0 /mnt/boot;
 

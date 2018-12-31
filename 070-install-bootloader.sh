@@ -16,15 +16,19 @@ set -euo pipefail
 pacman --noconfirm --needed -S efibootmgr;
 
 #############################################################################################################
-# UEFI Boot
-#
 # Prüfen, ob BIOS im UEFI Mode
 efivar -l;
 efibootmgr -v;
 bootctl status;
 
-# Verzeichniss muss vorhanden sein
+# Verzeichnis muss vorhanden sein
 ls /sys/firmware/efi;
+
+# Devices ausgeben
+lsblk -o NAME,LABEL,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL,UUID;
+
+#############################################################################################################
+# UEFI
 
 mkdir -p /boot/EFI/systemd;
 mkdir -p /boot/EFI/BOOT;
@@ -32,9 +36,9 @@ mkdir -p /boot/EFI/BOOT;
 # bootctl ist im systemd Package enthalten
 bootctl install;
 # Bei Raid wird 'bootctl install' nicht funktionieren, daher manuell installieren.
-efibootmgr --create --disk /dev/sdb --part 1 --label ArchLinux\ 1 --loader \\EFI\\systemd\\systemd-bootx64.efi;
-efibootmgr --create --disk /dev/sdc --part 1 --label ArchLinux\ 2 --loader \\EFI\\systemd\\systemd-bootx64.efi;
-efibootmgr --create --disk /dev/sdd --part 1 --label ArchLinux\ 3 --loader \\EFI\\systemd\\systemd-bootx64.efi;
+efibootmgr --create --disk /dev/sda --part 1 --label ArchLinux\ 1 --loader \\EFI\\systemd\\systemd-bootx64.efi;
+efibootmgr --create --disk /dev/sdb --part 1 --label ArchLinux\ 2 --loader \\EFI\\systemd\\systemd-bootx64.efi;
+efibootmgr --create --disk /dev/sdc --part 1 --label ArchLinux\ 3 --loader \\EFI\\systemd\\systemd-bootx64.efi;
 
 bootctl update;
 # Kopiert /usr/lib/systemd/boot/efi/systemd-bootx64.efi nach
@@ -44,9 +48,8 @@ bootctl update;
 cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/systemd/systemd-bootx64.efi;
 cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/BOOT/BOOTX64.EFI;
 
-# Bei einem Update von systemd-boot müssen die neuen *.efi Dateien wieder nach /boot kopiert werden.
-# Manuell:
-# bootctl update;
+# Bei einem Update von systemd-boot müssen die neuen *.efi Dateien wieder nach /boot/EFI kopiert werden.
+# Manuell mit bootctl update;
 # oder
 # automatisch per pacman-Hook:
 cat << EOF > /etc/pacman.d/hooks/systemd-boot.hook
@@ -58,7 +61,9 @@ Target = systemd
 [Action]
 Description = Updating systemd-boot
 When = PostTransaction
-Exec = /usr/bin/bootctl update
+# Exec = /usr/bin/bootctl update
+Exec = /usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/systemd/systemd-bootx64.efi;
+Exec = /usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/BOOT/BOOTX64.EFI;
 EOF
 
 mkdir -p /boot/loader/entries;
@@ -92,9 +97,9 @@ EOF
 exit;
 reboot;
 
+
 #############################################################################################################
 # GRUB2 (Legacy Boot)
-DEVICE="/dev/sdb";
 
 pacman --noconfirm --needed -S grub os-prober;
 
@@ -102,10 +107,27 @@ pacman --noconfirm --needed -S grub os-prober;
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT=""/' /etc/default/grub;
 
 grub-mkconfig -o /boot/grub/grub.cfg;
-grub-install --target=i386-pc --recheck "$DEVICE";
+grub-install --target=i386-pc --recheck /dev/sda;
+grub-install --target=i386-pc --recheck /dev/sdb;
+grub-install --target=i386-pc --recheck /dev/sdc;
 
 exit;
 reboot;
+
+
+#############################################################################################################
+# SYSLINUX (Legacy Boot)
+
+pacman --noconfirm --needed -S syslinux;
+
+# -i (install the files)
+# -a (mark the partition active with the boot flag)
+# -m (install the MBR boot code)
+syslinux-install_update -i -a -m;
+
+# Edit
+nano /boot/syslinux/syslinux.cfg;
+
 
 #############################################################################################################
 
