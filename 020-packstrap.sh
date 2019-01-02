@@ -29,7 +29,7 @@ mkdir /mnt/opt;
 mount /dev/vghost/opt /mnt/opt;
 
 #pacstrap /mnt base;
-pacstrap /mnt base base-devel efibootmgr;
+pacstrap /mnt base base-devel efibootmgr dosfstools;
 
 genfstab -U -p /mnt >> /mnt/etc/fstab;
 

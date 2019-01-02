@@ -26,25 +26,25 @@ ls /sys/firmware/efi;
 lsblk -o NAME,LABEL,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL,UUID;
 
 #############################################################################################################
+# Filesystem bereinigen
+mdadm --zero-superblock /dev/sda[123];
+wipefs --all --force /dev/sda[123];
+
 # Partitionen löschen
 parted /dev/sda rm 3;
 parted /dev/sda rm 2;
 parted /dev/sda rm 1;
 
-# Filesystem bereinigen
-mdadm --zero-superblock /dev/sda;
-wipefs --all --force /dev/sda;
-
 # Partitionen anlegen
 parted /dev/sda mklabel gpt;
 
 parted -a optimal /dev/sda mkpart primary 2048s 512MB; # boot / raid
-parted -a optimal /dev/sda mkpart primary 250GB 32GB;  # swap / raid
+parted -a optimal /dev/sda mkpart primary 512MB 32GB;  # swap / raid
 parted -a optimal /dev/sda mkpart primary 32G 4TB;     # root / raid
 
-parted /dev/sdb set 2 raid on;
-# parted /dev/sdb set 2 swap on;
-parted /dev/sdb set 3 raid on;
+parted /dev/sda set 2 raid on;
+# parted /dev/sda set 2 swap on;
+parted /dev/sda set 3 raid on;
 
 
 #############################################################################################################
@@ -59,7 +59,7 @@ parted /dev/sda set 1 bios_grub on;
 
 #############################################################################################################
 # SYSLINUX Boot-Flag
-parted /dev/sda set 1 bios_grub on;
+parted /dev/sda set 1 boot on;
 
 
 #############################################################################################################
@@ -85,9 +85,9 @@ parted /dev/sdb print;
 parted /dev/sdc print;
 
 # Raids erstellen
-mdadm --create --verbose /dev/md0 --metadata 1.0    --raid-devices=3 --level=1 /dev/sd[abc]1;
-mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1 /dev/sd[abc]2;
-mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 /dev/sd[abc]3;
+mdadm --create --verbose /dev/md0 --bitmap=internal --metadata 1.0 --raid-devices=3 --level=1 /dev/sd[abc]1;
+mdadm --create --verbose /dev/md1 --bitmap=internal                --raid-devices=3 --level=1 /dev/sd[abc]2;
+mdadm --create --verbose /dev/md2 --bitmap=internal                --raid-devices=3 --level=5 --chunk=64 /dev/sd[abc]3;
 #--force --assume-clean
 
 # BOOT Partion formatieren (FAT32): benötigt dosfstools

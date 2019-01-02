@@ -127,6 +127,10 @@ syslinux-install_update -i -a -m;
 
 # Edit
 nano /boot/syslinux/syslinux.cfg;
+# APPEND root=/dev/vgvm/root rw
+
+exit;
+reboot;
 
 
 #############################################################################################################
