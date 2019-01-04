@@ -106,6 +106,7 @@ pacman --noconfirm --needed -S grub os-prober;
 #sed -i_"$TIME" 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/' /etc/default/grub;
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT=""/' /etc/default/grub;
 
+mkdir /boot/grub;
 grub-mkconfig -o /boot/grub/grub.cfg;
 grub-install --target=i386-pc --recheck /dev/sda;
 grub-install --target=i386-pc --recheck /dev/sdb;

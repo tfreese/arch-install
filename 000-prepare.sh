@@ -34,6 +34,7 @@ bash;
 pacman -Sy;
 
 # Zugriff für Remote-Installation: ssh root@IP
+# VortualBox: Netzwerk-Typ muss auf "Netzwerkbrücke" stehen
 systemctl start sshd;
 passwd root;
 ip -4 addr;

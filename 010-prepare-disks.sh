@@ -27,43 +27,38 @@ lsblk -o NAME,LABEL,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL,UUID;
 
 #############################################################################################################
 # Filesystem bereinigen
-mdadm --zero-superblock /dev/sda[123];
 wipefs --all --force /dev/sda[123];
+mdadm --zero-superblock /dev/sda[123];
 
 # Partitionen löschen
 parted /dev/sda rm 3;
 parted /dev/sda rm 2;
 parted /dev/sda rm 1;
 
+# partprobe
+
 # Partitionen anlegen
 parted /dev/sda mklabel gpt;
 
-parted -a optimal /dev/sda mkpart primary 2048s 512MB; # boot / raid
-parted -a optimal /dev/sda mkpart primary 512MB 32GB;  # swap / raid
-parted -a optimal /dev/sda mkpart primary 32G 4TB;     # root / raid
+# Boot-Partitionen
+parted -a optimal /dev/sda mkpart primary   2048s 2MB;   # grub boot / raid
+parted -a optimal /dev/sda mkpart primary   2048s 512MB; # syslinux boot / raid
+parted -a optimal /dev/sda mkpart ESP fat32 2048s 512MB; # uefi boot / raid
 
+# Raid-Partitionen
+parted -a optimal /dev/sda mkpart primary   512MB 32GB;  # swap / raid
+parted -a optimal /dev/sda mkpart primary   32G   4TB;   # root / raid
+
+parted /dev/sda set 1 bios_grub on; # GRUB2 Boot-Flag
+parted /dev/sda set 1 boot on;      # SYSLINUX Boot-Flag
+parted /dev/sda set 1 esp on;       # UEFI Boot-Flag
 parted /dev/sda set 2 raid on;
 # parted /dev/sda set 2 swap on;
 parted /dev/sda set 3 raid on;
 
-
 #############################################################################################################
-# UEFI Boot-Flag
-parted /dev/sda set 1 esp on;
-
-
-#############################################################################################################
-# GRUB2 Boot-Flag
-parted /dev/sda set 1 bios_grub on;
-
-
-#############################################################################################################
-# SYSLINUX Boot-Flag
-parted /dev/sda set 1 boot on;
-
-
-#############################################################################################################
-parted /dev/sda name 1 boot;
+parted /dev/sda name 1 legacy_boot;
+parted /dev/sda name 1 uefi_boot;
 parted /dev/sda name 2 swap;
 parted /dev/sda name 3 raid;
 
@@ -85,9 +80,9 @@ parted /dev/sdb print;
 parted /dev/sdc print;
 
 # Raids erstellen
-mdadm --create --verbose /dev/md0 --bitmap=internal --metadata 1.0 --raid-devices=3 --level=1 /dev/sd[abc]1;
-mdadm --create --verbose /dev/md1 --bitmap=internal                --raid-devices=3 --level=1 /dev/sd[abc]2;
-mdadm --create --verbose /dev/md2 --bitmap=internal                --raid-devices=3 --level=5 --chunk=64 /dev/sd[abc]3;
+mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1 --metadata 1.0 /dev/sd[abc]1;
+mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1                /dev/sd[abc]2;
+mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64     /dev/sd[abc]3;
 #--force --assume-clean
 
 # BOOT Partion formatieren (FAT32): benötigt dosfstools
@@ -108,7 +103,7 @@ swapon -p 1 /dev/sdc2;
 #echo "DEVICE     none  swap   defaults,pri=1   0 0" >> /mnt/etc/fstab;
 
 # LVM erstellen
-parted /dev/md2 set 1 lvm on;
+# parted /dev/md2 set 1 lvm on;
 
 pvcreate -v --dataalignment 64k /dev/md2;
 vgcreate -v --dataalignment 64k vghost /dev/md2;
@@ -119,7 +114,7 @@ lvcreate -v --wipesignatures y -L 16G -n opt vghost;
 
 # System Partionen formatieren.
 mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L root /dev/vghost/root;
-mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L root /dev/vghost/home;
+mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L home /dev/vghost/home;
 mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L opt  /dev/vghost/opt;
 
 # Anpassen für Raid-Optionen
