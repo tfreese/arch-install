@@ -58,7 +58,7 @@ parted /dev/sda set 3 raid on;
 
 #############################################################################################################
 parted /dev/sda name 1 legacy_boot;
-parted /dev/sda name 1 uefi_boot;
+parted /dev/sda name 1 efi_boot;
 parted /dev/sda name 2 swap;
 parted /dev/sda name 3 raid;
 
@@ -119,6 +119,9 @@ mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L opt  /dev/vghost/opt;
 
 # Anpassen für Raid-Optionen
 # tune2fs -E stride=16,stripe-width=32 /dev/xxx;
+#
+# Beispiel in /ets/fstab:
+# /dev/vghost/root	/	ext4 rw,relatime,stripe=32	0	1
 #
 # http://busybox.net/~aldot/mkfs_stride.html
 # block size (file system block size) = 4096
