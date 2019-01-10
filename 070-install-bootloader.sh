@@ -62,9 +62,21 @@ Target = systemd
 Description = Updating systemd-boot
 When = PostTransaction
 # Exec = /usr/bin/bootctl update
-Exec = /usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/systemd/systemd-bootx64.efi;
-Exec = /usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/BOOT/BOOTX64.EFI;
+Exec = /etc/pacman.d/hooks/systemd-boot.sh
+# Exec = /usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/systemd/systemd-bootx64.efi;
+# Exec = /usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/BOOT/BOOTX64.EFI;
 EOF
+
+cat << EOF > /etc/pacman.d/hooks/systemd-boot.sh
+#!/bin/bash
+
+/usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/systemd/systemd-bootx64.efi;
+/usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/BOOT/BOOTX64.EFI;
+EOF
+
+chmod 700 /etc/pacman.d/hooks/systemd-boot.hook;
+chmod 700 /etc/pacman.d/hooks/systemd-boot.sh;
+
 
 mkdir -p /boot/loader/entries;
 
