@@ -75,7 +75,7 @@ pacman --noconfirm --needed -S xfce4-terminal;
 pacman --noconfirm --needed -S firefox;
 pacman --noconfirm --needed -S firefox-i18n-de;
 pacman --noconfirm --needed -S flashplugin;
-
+pacman --noconfirm --needed -S qbittorrent;
 
 #############################################################################################################
 # Utils
