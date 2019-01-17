@@ -1,10 +1,7 @@
 TODO:
 
 # Notes:
-# dd if=/dev/zero of=/dev/sda3 bs=1M count=10
-# wipefs -a -t zfs -n /dev/sda3
-# dd bs=4M if=/path/to/archlinux.iso of=/dev/sdx && sync
-#
+
 # WLAN-SETUP:
 # ip link set dev wlan0 up
 # iwlist wlan0 scan
@@ -27,51 +24,6 @@ TODO:
 # parted /dev/sdb print;
 # parted /dev/sdc print;
 #
-
-/etc/skel/.bashrc
-PS1 entfernen
-
-/etc/profile
-alias df='df -hT'
-alias devices='sudo lsblk -o NAME,LABEL,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL,UUID'
-alias hs='history | grep $1'
-alias l='ls -hal --group-directories-first --color=auto'
-alias log-rsnapshot='sudo tail -100 /var/log/rsnapshot'
-alias log-firewall='journalctl -k | grep iptables'
-
-#export HISTCONTROL=ignoredups
-export HISTCONTROL=erasedups
-export HISTSIZE=5000
-export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S> "
-
-# Farben beim ls Befehl.
-LS_COLORS='di=36:fi=0:ln=32:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=33:*.rpm=90'
-export LS_COLORS
-
-# you are root, make the prompt red
-if [ $(id -u) -eq 0 ];
-then
-    PS1='\[\033[01;31m\]\u@\h\[\033[00m\] \t \[\033[01;36m\]\w \$\[\033[00m\] '
-else
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\] \t \[\033[01;36m\]\w \$\[\033[00m\] '
-fi
-
-# Copy Funktion mit rsync (nur lokal)
-function sync-dir()
-{
-  if [ $# -ne 2 ]; then
-      echo "Usage: /PATH/SOURCE /PATH/DEST"
-      return 1
-  fi
-
-  # Abschliessendes / entfernen, wenn vorhanden.
-  SRC=${1%/}
-  DEST=${2%/}
-
-  mkdir -p "$DEST"
-
-  nice -n 19 ionice -c3 rsync -avh --partial --delete-before --force --progress --stats --exclude=lost+found/ "$SRC"/ "$DEST"/
-}
 
 pacman -S nginx php-fpm
 #/etc/nginx.conf

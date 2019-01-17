@@ -59,12 +59,10 @@ Operation = Upgrade
 Target = systemd
 
 [Action]
-Description = Updating systemd-boot
+Description = Updating systemd-boot: copy systemd-bootx64.efi
 When = PostTransaction
 # Exec = /usr/bin/bootctl update
 Exec = /etc/pacman.d/hooks/systemd-boot.sh
-# Exec = /usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/systemd/systemd-bootx64.efi;
-# Exec = /usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/BOOT/BOOTX64.EFI;
 EOF
 
 cat << EOF > /etc/pacman.d/hooks/systemd-boot.sh
@@ -91,10 +89,10 @@ title ArchLinux
 linux /vmlinuz-linux
 initrd /initramfs-linux.img
 options root=/dev/vghost/root rw
-# options root=/dev/md1 rw
-# options root=PARTUUID=<PARTUUID aus blkid> rw
-# options root=LABEL=... rw
-# options root=UUID=... rw
+# options root=/dev/md1 rw                      resume=/dev/... SWAP
+# options root=PARTUUID=<PARTUUID aus blkid> rw resume=/dev/... SWAP
+# options root=LABEL=... rw                     resume=/dev/... SWAP
+# options root=UUID=... rw                      resume=/dev/... SWAP
 EOF
 
 # cp /boot/loader/entries/archlinux.conf /boot/loader/entries/archlinux-fallback.conf;
@@ -133,6 +131,8 @@ reboot;
 
 pacman --noconfirm --needed -S syslinux;
 
+mkdir /boot/syslinux;
+
 # -i (install the files)
 # -a (mark the partition active with the boot flag)
 # -m (install the MBR boot code)
@@ -141,6 +141,12 @@ syslinux-install_update -i -a -m;
 # Edit
 nano /boot/syslinux/syslinux.cfg;
 # APPEND root=/dev/vgvm/root rw
+
+# Manuelle Installation ohne syslinux-install_update
+cp /usr/lib/syslinux/bios/*.c32 /boot/syslinux/;
+extlinux --install /boot/syslinux; # Install Bootloader
+dd bs=440 count=1 conv=notrunc if=/usr/lib/syslinux/bios/mbr.bin of=/dev/sda; # Install MBR
+
 
 exit;
 reboot;

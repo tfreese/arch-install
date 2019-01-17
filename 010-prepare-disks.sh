@@ -46,8 +46,8 @@ parted -a optimal /dev/sda mkpart primary   2048s 512MB; # syslinux boot / raid
 parted -a optimal /dev/sda mkpart ESP fat32 2048s 512MB; # uefi boot / raid
 
 # Raid-Partitionen
-parted -a optimal /dev/sda mkpart primary   512MB 32GB;  # swap / raid
-parted -a optimal /dev/sda mkpart primary   32G   4TB;   # root / raid
+parted -a optimal /dev/sda mkpart primary   512MB 16GB;  # swap / raid
+parted -a optimal /dev/sda mkpart primary   16G   4TB;   # root / raid
 
 parted /dev/sda set 1 bios_grub on; # GRUB2 Boot-Flag
 parted /dev/sda set 1 boot on;      # SYSLINUX Boot-Flag
@@ -57,8 +57,7 @@ parted /dev/sda set 2 raid on;
 parted /dev/sda set 3 raid on;
 
 #############################################################################################################
-parted /dev/sda name 1 legacy_boot;
-parted /dev/sda name 1 efi_boot;
+parted /dev/sda name 1 boot;
 parted /dev/sda name 2 swap;
 parted /dev/sda name 3 raid;
 
@@ -108,9 +107,9 @@ swapon -p 1 /dev/sdc2;
 pvcreate -v --dataalignment 64k /dev/md2;
 vgcreate -v --dataalignment 64k vghost /dev/md2;
 
-lvcreate -v --wipesignatures y -L 64G -n root vghost;
-lvcreate -v --wipesignatures y -L 64G -n home vghost;
-lvcreate -v --wipesignatures y -L 16G -n opt vghost;
+lvcreate -v --wipesignatures y -L 128G -n root vghost;
+lvcreate -v --wipesignatures y -L 128G -n home vghost;
+lvcreate -v --wipesignatures y -L 32G -n opt vghost;
 
 # System Partionen formatieren.
 mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L root /dev/vghost/root;

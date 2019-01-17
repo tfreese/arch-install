@@ -13,10 +13,11 @@
 set -euo pipefail
 # –x für debug
 
+pacman --noconfirm --needed -S openssh;
+
+
 LOCAL_IP="192.168.250.2";
 ALLOW_USERS="linuxer";
-
-pacman --noconfirm --needed -S openssh;
 
 sed -i_"$TIME" 's/#Port 22/Port 22/' /etc/ssh/sshd_config;
 sed -i '/#ListenAddress ::/a'"#ListenAddress $LOCAL_IP" /etc/ssh/sshd_config;

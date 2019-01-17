@@ -24,8 +24,6 @@ pacman --noconfirm --needed -S parted;
 pacman --noconfirm --needed -S gptfdisk;
 pacman --noconfirm --needed -S dosfstools; # vfat Treiber
 pacman --noconfirm --needed -S ntfs-3g; # ntfs Treiber
-pacman --noconfirm --needed -S rrdtool;
-pacman --noconfirm --needed -S bc; # Bash Arithmetik
 
 
 HOSTNAME="host";

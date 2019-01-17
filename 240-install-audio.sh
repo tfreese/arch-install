@@ -59,6 +59,7 @@ pacman --noconfirm --needed -S libtheora;
 pacman --noconfirm --needed -S libfdk-aac;
 pacman --noconfirm --needed -S libvorbis;
 pacman --noconfirm --needed -S libxv;
+pacman --noconfirm --needed -S mpg123;
 pacman --noconfirm --needed -S wavpack;
 pacman --noconfirm --needed -S x264;
 pacman --noconfirm --needed -S x265;
@@ -66,6 +67,8 @@ pacman --noconfirm --needed -S xvidcore;
 
 
 # Tools
+pacman --noconfirm --needed -S cd-discid;
+pacman --noconfirm --needed -S cdparanoia;
 pacman --noconfirm --needed -S ddrescue;
 pacman --noconfirm --needed -S dvdbackup; # Zum Kopieren von DVDs
 pacman --noconfirm --needed -S flacgain;

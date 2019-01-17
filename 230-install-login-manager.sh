@@ -29,7 +29,7 @@ systemctl start slim; # Startet den Desktop
 
 # /etc/slim.conf
 # /usr/share/slim/themes
-# Preview: slim -p /usr/share/slim/themes/tommy/
+# Preview: slim -p /usr/share/slim/themes/.../
 
 
 #############################################################################################################
