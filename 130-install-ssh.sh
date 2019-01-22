@@ -21,6 +21,8 @@ ALLOW_USERS="linuxer";
 
 sed -i_"$TIME" 's/#Port 22/Port 22/' /etc/ssh/sshd_config;
 sed -i '/#ListenAddress ::/a'"#ListenAddress $LOCAL_IP" /etc/ssh/sshd_config;
+sed -i 's/#AllowAgentForwarding no/AllowAgentForwardingg no/' /etc/ssh/sshd_config;
+sed -i 's/#AllowTcpForwarding no/AllowTcpForwarding no/' /etc/ssh/sshd_config;
 sed -i 's/#X11Forwarding no/X11Forwarding no/' /etc/ssh/sshd_config;
 sed -i 's/#Protocol 2/Protocol 2/' /etc/ssh/sshd_config;
 sed -i 's/#ClientAliveInterval 0/#ClientAliveInterval 300/' /etc/ssh/sshd_config;

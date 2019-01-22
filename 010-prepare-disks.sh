@@ -47,7 +47,7 @@ parted -a optimal /dev/sda mkpart ESP fat32 2048s 512MB; # uefi boot / raid
 
 # Raid-Partitionen
 parted -a optimal /dev/sda mkpart primary   512MB 16GB;  # swap / raid
-parted -a optimal /dev/sda mkpart primary   16G   4TB;   # root / raid
+parted -a optimal /dev/sda mkpart primary   16G   4000G; # root / raid
 
 parted /dev/sda set 1 bios_grub on; # GRUB2 Boot-Flag
 parted /dev/sda set 1 boot on;      # SYSLINUX Boot-Flag
@@ -79,10 +79,10 @@ parted /dev/sdb print;
 parted /dev/sdc print;
 
 # Raids erstellen
-mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1 --metadata 1.0 /dev/sd[abc]1;
-mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1                /dev/sd[abc]2;
-mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64     /dev/sd[abc]3;
-#--force --assume-clean
+mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1 --metadata 1.0 --name=<hostname>:<array_name> /dev/sd[abc]1;
+mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1                --name=<hostname>:<array_name> /dev/sd[abc]2;
+mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 --assume-clean --name=<hostname>:<array_name> /dev/sd[abc]3;
+#--force
 
 # BOOT Partion formatieren (FAT32): benötigt dosfstools
 mkfs.vfat -F 32 /dev/md0;
@@ -108,13 +108,9 @@ pvcreate -v --dataalignment 64k /dev/md2;
 vgcreate -v --dataalignment 64k vghost /dev/md2;
 
 lvcreate -v --wipesignatures y -L 128G -n root vghost;
-lvcreate -v --wipesignatures y -L 128G -n home vghost;
-lvcreate -v --wipesignatures y -L 32G -n opt vghost;
 
 # System Partionen formatieren.
 mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L root /dev/vghost/root;
-mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L home /dev/vghost/home;
-mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L opt  /dev/vghost/opt;
 
 # Anpassen für Raid-Optionen
 # tune2fs -E stride=16,stripe-width=32 /dev/xxx;
@@ -130,5 +126,3 @@ mkfs.ext4 -v -m 0 -b 4096 -E stride=16,stripe-width=32 -L opt  /dev/vghost/opt;
 
 # Prüfung nach n mounts
 tune2fs -c 30 /dev/vghost/root;
-tune2fs -c 30 /dev/vghost/home;
-tune2fs -c 30 /dev/vghost/opt;

@@ -34,10 +34,8 @@ pacman --noconfirm --needed -S pandoc; # Konverter für Markdown
 #############################################################################################################
 # Entwicklung
 pacman --noconfirm --needed -S docker-compose;
-pacman --noconfirm --needed -S jdk-openjdk 11;
-pacman --noconfirm --needed -S jre-openjdk 11;
-pacman --noconfirm --needed -S jre-openjdk-headless 11;
-pacman --noconfirm --needed -S openjdk-doc 11;
+pacman --noconfirm --needed -S jdk-openjdk jre-openjdk  jre-openjdk-headless openjdk-doc;
+pacman --noconfirm --needed -S git;
 pacman --noconfirm --needed -S gradle;
 pacman --noconfirm --needed -S maven;
 
@@ -86,10 +84,11 @@ pacman --noconfirm --needed -S hddtemp;
 pacman --noconfirm --needed -S jq; # JSON processor
 pacman --noconfirm --needed -S lm_sensors; # sensors-detect
 pacman --noconfirm --needed -S samba smbclient;
-pacman --noconfirm --needed -S smartmontools;
+pacman --noconfirm --needed -S smartmontools; # update-smart-drivedb
 pacman --noconfirm --needed -S sshfs;
 pacman --noconfirm --needed -S reflector pacman-contrib; # Test Arch-Mirrors
-pacman --noconfirm --needed -S rrdtool rsnapshot;
+pacman --noconfirm --needed -S rsync rsnapshot;
+pacman --noconfirm --needed -S rrdtool;
 pacman --noconfirm --needed -S virtualbox;
 pacman --noconfirm --needed -S xfce4-terminal;
 
@@ -98,6 +97,7 @@ pacman --noconfirm --needed -S xfce4-terminal;
 pacman --noconfirm --needed -S firefox;
 pacman --noconfirm --needed -S firefox-i18n-de;
 pacman --noconfirm --needed -S flashplugin;
+pacman --noconfirm --needed -S lynx;
 pacman --noconfirm --needed -S nginx;
 pacman --noconfirm --needed -S php;
 pacman --noconfirm --needed -S qbittorrent;

@@ -22,7 +22,7 @@ sed -i_"$TIME" 's/udp6/#udp6/' /etc/netconfig;
 sed -i 's/tcp6/#tcp6/' /etc/netconfig;
 
 # Config sysctl
-cat << EOF > /etc/sysctl.d/99-sysctl.conf
+cat << EOF > /etc/sysctl.d/10-sysctl.conf
 vm.swappiness=5
 
 dev.raid.speed_limit_min = 50000

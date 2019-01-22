@@ -27,6 +27,7 @@ pacman --noconfirm --needed -S xf86-video-vesa;
 #pacman –Ss | grep nvidia;
 #pacman -S nvidia;
 pacman --noconfirm --needed -S nvidia; # 415.25-6
+# Anschliessend nach dem GUI-Start 'sudo nvidia-xconfig' ausführen.
 
 #Für Hardware-Decoding (VDPAU):
 pacman --noconfirm --needed -S libva-vdpau-driver;

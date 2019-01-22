@@ -47,6 +47,28 @@ EOF
 
 #############################################################################################################
 # LAN
+
+# Variante über systemd:
+cat << EOF > /etc/systemd/network/40-eth0.network
+[Match]
+Name=eth0
+
+[Network]
+#DHCP=yes/no/ipv4/ipv6
+Address=192.168.250.102/24
+Gateway=192.168.250.1
+DNS=8.8.8.8
+DNS=8.8.4.4
+
+[DHCP]
+#UseRoutes=false
+EOF
+
+systemctl enable systemd-networkd;
+systemctl start systemd-networkd;
+systemctl status systemd-networkd;
+
+# Als eigener Service:
 if [ ! -d /etc/conf.d ]; then
 	mkdir -p /etc/conf.d
 fi
