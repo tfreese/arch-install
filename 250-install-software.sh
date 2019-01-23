@@ -33,8 +33,10 @@ pacman --noconfirm --needed -S pandoc; # Konverter für Markdown
 
 #############################################################################################################
 # Entwicklung
+# archlinux-java --help
 pacman --noconfirm --needed -S docker-compose;
-pacman --noconfirm --needed -S jdk-openjdk jre-openjdk  jre-openjdk-headless openjdk-doc;
+pacman --noconfirm --needed -S jdk8-openjdk openjdk8-doc
+pacman --noconfirm --needed -S jdk-openjdk openjdk-doc;
 pacman --noconfirm --needed -S git;
 pacman --noconfirm --needed -S gradle;
 pacman --noconfirm --needed -S maven;
@@ -89,7 +91,7 @@ pacman --noconfirm --needed -S sshfs;
 pacman --noconfirm --needed -S reflector pacman-contrib; # Test Arch-Mirrors
 pacman --noconfirm --needed -S rsync rsnapshot;
 pacman --noconfirm --needed -S rrdtool;
-pacman --noconfirm --needed -S virtualbox;
+pacman --noconfirm --needed -S virtualbox virtualbox-guest-utils virtualbox-guest-modules-arch;
 pacman --noconfirm --needed -S xfce4-terminal;
 
 #############################################################################################################

@@ -18,23 +18,21 @@ set -euo pipefail
 #echo "select the right driver based on the following output:";
 #lspci -k | grep VGA;
 
-
-# all drivers
-pacman --noconfirm --needed -S xf86-video-vesa;
-#pacman -S xorg-drivers;
-
 # Proprietärer Treiber: http://www.nvidia.com/object/unix.html
 #pacman –Ss | grep nvidia;
-#pacman -S nvidia;
+
 pacman --noconfirm --needed -S nvidia; # 415.25-6
+pacman --noconfirm --needed -S nvidia-utils;
+pacman --noconfirm --needed -S nvidia-settings;
 # Anschliessend nach dem GUI-Start 'sudo nvidia-xconfig' ausführen.
 
 #Für Hardware-Decoding (VDPAU):
 pacman --noconfirm --needed -S libva-vdpau-driver;
 pacman --noconfirm --needed -S xorg-xrandr:
 
+# all drivers
+pacman --noconfirm --needed -S xf86-video-vesa;
+#pacman -S xorg-drivers;
 #pacman --noconfirm --needed -S xf86-video-nv;
-#pacman --noconfirm --needed -S nvidia;
-pacman --noconfirm --needed -S nvidia-utils;
 #pacman --noconfirm --needed -S nvidia-libgl;
 #pacman --noconfirm --needed -S opencl-nvidia;

@@ -20,7 +20,7 @@ mount /dev/vghost/root /mnt;
 mkdir /mnt/boot;
 mount /dev/md0 /mnt/boot;
 
-pacstrap /mnt base base-devel efibootmgr dosfstools;
+pacstrap /mnt base base-devel linux-headers efibootmgr dosfstools;
 
 genfstab -p /mnt >> /mnt/etc/fstab;
 

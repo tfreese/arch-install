@@ -13,6 +13,11 @@
 set -euo pipefail
 # –x für debug
 
+# Firmware Bug: TSC_DEADLINE, behebt microcode Warnung beim Booten
+# /boot/intel-ucode.img
+# dmesg | grep microcode
+pacman --noconfirm --needed -S intel-ucode;
+
 pacman --noconfirm --needed -S efibootmgr;
 
 #############################################################################################################
@@ -62,10 +67,10 @@ Target = systemd
 Description = Updating systemd-boot: copy systemd-bootx64.efi
 When = PostTransaction
 # Exec = /usr/bin/bootctl update
-Exec = /etc/pacman.d/hooks/systemd-boot.sh
+Exec = /etc/pacman.d/hooks/systemd-boot-hook.sh
 EOF
 
-cat << EOF > /etc/pacman.d/hooks/systemd-boot.sh
+cat << EOF > /etc/pacman.d/hooks/systemd-boot-hook.sh
 #!/bin/bash
 
 /usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/systemd/systemd-bootx64.efi;
@@ -87,6 +92,7 @@ EOF
 cat << EOF > /boot/loader/entries/archlinux.conf
 title ArchLinux
 linux /vmlinuz-linux
+initrd /intel-ucode.img
 initrd /initramfs-linux.img
 options root=/dev/vghost/root rw
 # options root=/dev/md1 rw                      resume=/dev/... SWAP
@@ -100,6 +106,7 @@ EOF
 cat << EOF > /boot/loader/entries/archlinux-fallback.conf
 title ArchLinux-Fallback
 linux /vmlinuz-linux
+initrd /intel-ucode.img
 initrd /initramfs-linux-fallback.img
 options root=/dev/vghost/root rw
 EOF

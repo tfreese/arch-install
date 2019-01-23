@@ -19,7 +19,6 @@ pacman --noconfirm --needed -S bash-completion;
 pacman --noconfirm --needed -S mdadm;
 pacman --noconfirm --needed -S lvm2;
 
-pacman --noconfirm --needed -S intel-ucode; #Firmware Bug: TSC_DEADLINE, behebt microcode Warnung beim Booten
 pacman --noconfirm --needed -S parted;
 pacman --noconfirm --needed -S gptfdisk;
 pacman --noconfirm --needed -S dosfstools; # vfat Treiber
