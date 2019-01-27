@@ -116,24 +116,6 @@ reboot;
 
 
 #############################################################################################################
-# GRUB2 (Legacy Boot)
-
-pacman --noconfirm --needed -S grub os-prober;
-
-#sed -i_"$TIME" 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/' /etc/default/grub;
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT=""/' /etc/default/grub;
-
-mkdir /boot/grub;
-grub-mkconfig -o /boot/grub/grub.cfg;
-grub-install --target=i386-pc --recheck /dev/sda;
-grub-install --target=i386-pc --recheck /dev/sdb;
-grub-install --target=i386-pc --recheck /dev/sdc;
-
-exit;
-reboot;
-
-
-#############################################################################################################
 # SYSLINUX (Legacy Boot)
 
 pacman --noconfirm --needed -S syslinux;
@@ -147,6 +129,7 @@ syslinux-install_update -i -a -m;
 
 # Edit
 nano /boot/syslinux/syslinux.cfg;
+# INITRD ../intel-ucode.img,../initramfs-linux.img
 # APPEND root=/dev/vgvm/root rw
 
 # Manuelle Installation ohne syslinux-install_update
@@ -154,6 +137,23 @@ cp /usr/lib/syslinux/bios/*.c32 /boot/syslinux/;
 extlinux --install /boot/syslinux; # Install Bootloader
 dd bs=440 count=1 conv=notrunc if=/usr/lib/syslinux/bios/mbr.bin of=/dev/sda; # Install MBR
 
+exit;
+reboot;
+
+
+#############################################################################################################
+# GRUB2 (Legacy Boot)
+
+pacman --noconfirm --needed -S grub os-prober;
+
+#sed -i_"$TIME" 's/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/' /etc/default/grub;
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT=""/' /etc/default/grub;
+
+mkdir /boot/grub;
+grub-mkconfig -o /boot/grub/grub.cfg;
+grub-install --target=i386-pc --recheck /dev/sda;
+grub-install --target=i386-pc --recheck /dev/sdb;
+grub-install --target=i386-pc --recheck /dev/sdc;
 
 exit;
 reboot;

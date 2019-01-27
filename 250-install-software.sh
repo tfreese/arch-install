@@ -88,10 +88,11 @@ pacman --noconfirm --needed -S lm_sensors; # sensors-detect
 pacman --noconfirm --needed -S samba smbclient;
 pacman --noconfirm --needed -S smartmontools; # update-smart-drivedb
 pacman --noconfirm --needed -S sshfs;
+pacman --noconfirm --needed -S tmux;
 pacman --noconfirm --needed -S reflector pacman-contrib; # Test Arch-Mirrors
 pacman --noconfirm --needed -S rsync rsnapshot;
 pacman --noconfirm --needed -S rrdtool;
-pacman --noconfirm --needed -S virtualbox virtualbox-guest-utils virtualbox-guest-modules-arch;
+pacman --noconfirm --needed -S virtualbox virtualbox-host-modules-arch; # In VM die virtualbox-host-* Packete installieren.
 pacman --noconfirm --needed -S xfce4-terminal;
 
 #############################################################################################################

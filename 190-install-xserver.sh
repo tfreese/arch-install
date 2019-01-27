@@ -16,6 +16,7 @@ set -euo pipefail
 
 pacman --noconfirm --needed -S xorg-server;
 pacman --noconfirm --needed -S xorg-xinit;
+pacman --noconfirm --needed -S xorg-xrandr;
 #pacman --noconfirm --needed -S xorg-utils;
 #pacman --noconfirm --needed -S xorg-server-utils;
 #pacman --noconfirm --needed -S xorg-twm;
