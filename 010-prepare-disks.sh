@@ -30,6 +30,9 @@ lsblk -o NAME,LABEL,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL,UUID;
 wipefs --all --force /dev/sda[123];
 mdadm --zero-superblock /dev/sda[123];
 
+# MBR + Partitions-Tabelle + Signatur löschen
+dd if=/dev/zero of=/dev/sdX bs=512 count=1;
+
 # Partitionen löschen
 parted /dev/sda rm 3;
 parted /dev/sda rm 2;
