@@ -39,13 +39,13 @@ mkdir -p /boot/EFI/systemd;
 mkdir -p /boot/EFI/BOOT;
 
 # bootctl ist im systemd Package enthalten
-bootctl install;
+bootctl [--path=/boot] install;
 # Bei Raid wird 'bootctl install' nicht funktionieren, daher manuell installieren.
 efibootmgr --create --disk /dev/sda --part 1 --label ArchLinux\ 1 --loader \\EFI\\systemd\\systemd-bootx64.efi;
 efibootmgr --create --disk /dev/sdb --part 1 --label ArchLinux\ 2 --loader \\EFI\\systemd\\systemd-bootx64.efi;
 efibootmgr --create --disk /dev/sdc --part 1 --label ArchLinux\ 3 --loader \\EFI\\systemd\\systemd-bootx64.efi;
 
-bootctl update;
+bootctl [--path=/boot] update;
 # Kopiert /usr/lib/systemd/boot/efi/systemd-bootx64.efi nach
 # - /boot/EFI/systemd/systemd-bootx64.efi
 # - /boot/EFI/BOOT/BOOTX64.EFI
@@ -87,6 +87,10 @@ cat << EOF > /boot/loader/loader.conf
 default archlinux
 timout 5
 editor 0
+console-mode max
+# 0 = 80x25
+# 1 = 80x50
+
 EOF
 
 cat << EOF > /boot/loader/entries/archlinux.conf
@@ -109,6 +113,16 @@ linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux-fallback.img
 options root=/dev/vghost/root rw
+EOF
+
+
+# systemd-boot sucht automatisch nach dem Eintrag 'EFI/Microsoft/Boot/Bootmgfw.efi' und erstellt einen Menü-Eintrag.
+# Das geht natürlich nicht, wenn die WIN-EFI Partition auf einer anderen Platte liegt.
+# DIESER EINTRAG FUNKTINIERT NICHT !
+cat << EOF > /boot/loader/entries/windows.conf
+title Windows
+efi EFI/Microsoft/Boot/bootmgfw.efi
+options root=PARTUUID=6214-962 rw
 EOF
 
 exit;
