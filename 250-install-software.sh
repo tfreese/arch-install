@@ -63,6 +63,7 @@ pacman --noconfirm --needed -S ttf-ubuntu-font-family;
 pacman --noconfirm --needed -S cdrdao;
 pacman --noconfirm --needed -S dvd+rw-tools;
 pacman --noconfirm --needed -S gimp;
+pacman --noconfirm --needed -S gthumb;
 pacman --noconfirm --needed -S handbrake;
 pacman --noconfirm --needed -S picard; # MusicBrainz Tagger
 pacman --noconfirm --needed -S vlc;
@@ -88,6 +89,7 @@ pacman --noconfirm --needed -S lm_sensors; # sensors-detect
 pacman --noconfirm --needed -S samba smbclient;
 pacman --noconfirm --needed -S smartmontools; # update-smart-drivedb
 pacman --noconfirm --needed -S sshfs;
+pacman --noconfirm --needed -S tree;
 pacman --noconfirm --needed -S tmux;
 pacman --noconfirm --needed -S reflector pacman-contrib; # Test Arch-Mirrors
 pacman --noconfirm --needed -S rsync rsnapshot;

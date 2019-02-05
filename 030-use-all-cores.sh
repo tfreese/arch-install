@@ -13,6 +13,8 @@
 set -euo pipefail
 # –x für debug
 
+pacman --noconfirm --needed -S pigz; # parallel gzip
+
 # /tmp muss dann mit 'noexec' gemountet werden zur Sicherheit.
 # Dies Kollidiert dann aber mit einigen anderen Anwendungen.
 # sed -i 's/#BUILDDIR=/tmp/makepkg/BUILDDIR=/tmp/makepkg/g' /etc/makepkg.conf
