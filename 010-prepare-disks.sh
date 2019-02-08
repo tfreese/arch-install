@@ -82,9 +82,9 @@ parted /dev/sdb print;
 parted /dev/sdc print;
 
 # Raids erstellen
-mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1 --metadata 1.0 --name=<hostname>:<array_name> /dev/sd[abc]1;
-mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1                --name=<hostname>:<array_name> /dev/sd[abc]2;
-mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 --assume-clean --name=<hostname>:<array_name> /dev/sd[abc]3;
+mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1 --metadata 1.0 --name=host:noot /dev/sd[abc]1;
+mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1                --name=host:swap /dev/sd[abc]2;
+mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 --assume-clean --name=host:raid /dev/sd[abc]3;
 #--force
 
 # BOOT Partion formatieren (FAT32): benötigt dosfstools

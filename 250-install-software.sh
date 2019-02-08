@@ -104,7 +104,7 @@ pacman --noconfirm --needed -S firefox-i18n-de;
 pacman --noconfirm --needed -S flashplugin;
 pacman --noconfirm --needed -S lynx;
 pacman --noconfirm --needed -S nginx;
-pacman --noconfirm --needed -S php;
+pacman --noconfirm --needed -S php-fpm;
 pacman --noconfirm --needed -S qbittorrent;
 
 #############################################################################################################

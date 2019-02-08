@@ -35,6 +35,11 @@ net.ipv6.conf.eth0.disable_ipv6 = 1
 net.ipv6.conf.wlan0.disable_ipv6 = 1
 EOF
 
+# Caching deaktivieren
+cat << EOF > /etc/udev/rules.d/50-hdparm.rules
+ACTION=="add|change", KERNEL=="sd[b-z]", ATTR{queue/rotational}=="1", RUN+="/usr/bin/hdparm -W0 /dev/%k"
+EOF
+
 # Verhindern das Konsole nach dem Booten geleert wird.
 mkdir /etc/systemd/system/getty@.service.d;
 

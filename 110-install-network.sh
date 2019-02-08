@@ -62,6 +62,10 @@ DNS=8.8.4.4
 
 [DHCP]
 #UseRoutes=false
+RouteMetric=10
+
+[Link]
+#MTUBytes=1500
 EOF
 
 systemctl enable systemd-networkd;
