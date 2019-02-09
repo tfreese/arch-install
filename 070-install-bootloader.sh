@@ -57,6 +57,8 @@ cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/BOOT/BOOTX64.EFI;
 # Manuell mit bootctl update;
 # oder
 # automatisch per pacman-Hook:
+mkdir /etc/pacman.d/hooks;
+
 cat << EOF > /etc/pacman.d/hooks/systemd-boot.hook
 [Trigger]
 Type = Package
@@ -78,7 +80,7 @@ cat << EOF > /etc/pacman.d/hooks/systemd-boot-hook.sh
 EOF
 
 chmod 700 /etc/pacman.d/hooks/systemd-boot.hook;
-chmod 700 /etc/pacman.d/hooks/systemd-boot.sh;
+chmod 700 /etc/pacman.d/hooks/systemd-boot-hook.sh;
 
 
 mkdir -p /boot/loader/entries;
