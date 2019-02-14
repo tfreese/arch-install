@@ -35,8 +35,8 @@ pacman --noconfirm --needed -S pandoc; # Konverter für Markdown
 # Entwicklung
 # archlinux-java --help
 pacman --noconfirm --needed -S docker-compose;
-pacman --noconfirm --needed -S jdk8-openjdk openjdk8-doc
-pacman --noconfirm --needed -S jdk-openjdk openjdk-doc;
+pacman --noconfirm --needed -S jdk8-openjdk openjdk8-src
+pacman --noconfirm --needed -S jdk-openjdk openjdk-src;
 pacman --noconfirm --needed -S git;
 pacman --noconfirm --needed -S gradle;
 pacman --noconfirm --needed -S maven;
