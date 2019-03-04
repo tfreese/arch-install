@@ -73,6 +73,8 @@ pacman --noconfirm --needed -S vlc;
 # Office
 pacman --noconfirm --needed -S evolution; # Outlook-Clone
 pacman --noconfirm --needed -S libreoffice; # Office-Clone
+pacman --noconfirm --needed -S evince; # PDF-Viewer
+pacman --noconfirm --needed -S qpdfview; # PDF-Viewer
 
 
 #############################################################################################################
@@ -99,6 +101,7 @@ pacman --noconfirm --needed -S xfce4-terminal;
 
 #############################################################################################################
 # Web
+pacman --noconfirm --needed -S chromium;
 pacman --noconfirm --needed -S firefox;
 pacman --noconfirm --needed -S firefox-i18n-de;
 pacman --noconfirm --needed -S flashplugin;
