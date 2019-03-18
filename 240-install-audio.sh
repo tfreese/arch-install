@@ -74,7 +74,9 @@ pacman --noconfirm --needed -S dvdbackup; # Zum Kopieren von DVDs
 pacman --noconfirm --needed -S flacgain;
 pacman --noconfirm --needed -S lame;
 #pacman --noconfirm --needed -S mediainfo mediainfo-gui;
-pacman --noconfirm --needed -S mp3gain;
+# mp3gain (aur)
+pacman --noconfirm --needed -S mp3splt;
+# mp3val (aur)
 #pacman --noconfirm --needed -S mplayer;
 pacman --noconfirm --needed -S vorbis-tools;
 pacman --noconfirm --needed -S vorbisgain;
