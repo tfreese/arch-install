@@ -2,7 +2,8 @@
 #
 # Thomas Freese
 #
-# ArchLinux Installation Script: Install the Software
+# ArchLinux Installation Script: Install the Software.
+# https://aur.archlinux.org
 #
 #############################################################################################################
 #

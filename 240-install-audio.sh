@@ -2,7 +2,8 @@
 #
 # Thomas Freese
 #
-# ArchLinux Installation Script: Install the Audio software
+# ArchLinux Installation Script: Install the Audio software.
+# https://aur.archlinux.org
 #
 #############################################################################################################
 #
@@ -71,7 +72,7 @@ pacman --noconfirm --needed -S cd-discid;
 pacman --noconfirm --needed -S cdparanoia;
 pacman --noconfirm --needed -S ddrescue;
 pacman --noconfirm --needed -S dvdbackup; # Zum Kopieren von DVDs
-pacman --noconfirm --needed -S flacgain;
+# flacgain (aur)
 pacman --noconfirm --needed -S lame;
 #pacman --noconfirm --needed -S mediainfo mediainfo-gui;
 # mp3gain (aur)
