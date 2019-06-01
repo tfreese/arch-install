@@ -35,7 +35,7 @@ pacman --noconfirm --needed -S pandoc; # Konverter für Markdown
 #############################################################################################################
 # Entwicklung
 # archlinux-java --help
-pacman --noconfirm --needed -S docker-compose;
+pacman --noconfirm --needed -S docker docker-compose;
 pacman --noconfirm --needed -S jdk8-openjdk openjdk8-src
 pacman --noconfirm --needed -S jdk-openjdk openjdk-src;
 pacman --noconfirm --needed -S git;
@@ -103,8 +103,7 @@ pacman --noconfirm --needed -S xfce4-terminal;
 #############################################################################################################
 # Web
 pacman --noconfirm --needed -S chromium;
-pacman --noconfirm --needed -S firefox;
-pacman --noconfirm --needed -S firefox-i18n-de;
+pacman --noconfirm --needed -S firefox firefox-i18n-de;
 pacman --noconfirm --needed -S flashplugin;
 pacman --noconfirm --needed -S lynx;
 pacman --noconfirm --needed -S nginx;
