@@ -33,7 +33,7 @@ systemctl start slim; # Startet den Desktop
 
 
 #############################################################################################################
-#GDM = GNOME !!!
+# GDM = GNOME !!!
 pacman --noconfirm --needed -S gdm;
 
 systemctl enable gdm;
