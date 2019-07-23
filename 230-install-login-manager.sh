@@ -31,6 +31,14 @@ systemctl start slim; # Startet den Desktop
 # /usr/share/slim/themes
 # Preview: slim -p /usr/share/slim/themes/.../
 
+#############################################################################################################
+# LXDM (für LXDE)
+pacman --noconfirm --needed -S lxdm;
+
+systemctl enable lxdm;
+systemctl start lxdm; # Startet den Desktop
+
+# /etc/lxdm/lxdm.conf
 
 #############################################################################################################
 # GDM = GNOME !!!

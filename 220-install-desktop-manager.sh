@@ -73,9 +73,12 @@ echo "exec startxfce4" >> ~/.xinitrc;
 
 #############################################################################################################
 # LXDE
-pacman --noconfirm --needed -S lxde;
+pacman --noconfirm --needed -S lxde [gamin dbus hal];
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc;
 
 # Andere Zeilen mit "twm, xclock, xterm und exec" auskommentieren.
 echo "exec startlxde" >> ~/.xinitrc;
+
+# Nun muss hal noch bei den Daemons in der /etc/rc.conf eingetragen werden:
+# DAEMONS=(... hal ...)

@@ -38,3 +38,6 @@ pacman --noconfirm --needed -S mesa-demos; # glxinfo, glxgears
 #pacman --noconfirm --needed -S xf86-video-nv;
 #pacman --noconfirm --needed -S nvidia-libgl;
 #pacman --noconfirm --needed -S opencl-nvidia;
+
+# Für alte Hardware:
+pacman --noconfirm --needed -S mesa xf86-video-fbdev xf86-video-vesa;
