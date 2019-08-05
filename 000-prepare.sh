@@ -13,6 +13,9 @@
 set -euo pipefail
 # –x für debug
 
+# WLAN
+wifi-menu;
+
 # Download ISO
 http://ftp-stud.hs-esslingen.de/pub/Mirrors/archlinux/iso/latest/archlinux-*-x86_64.iso
 http://ftp-stud.hs-esslingen.de/pub/Mirrors/archlinux/iso/latest/md5sums.txt
