@@ -22,7 +22,7 @@ Minty
 
 #############################################################################################################
 # Editors
-pacman --noconfirm --needed -S atom;
+#pacman --noconfirm --needed -S atom electron4;
 pacman --noconfirm --needed -S geany;
 pacman --noconfirm --needed -S gedit;
 
