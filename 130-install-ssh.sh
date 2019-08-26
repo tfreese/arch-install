@@ -34,6 +34,14 @@ echo ""  >> /etc/ssh/sshd_config;
 echo "AllowUsers $ALLOW_USERS" >> /etc/ssh/sshd_config;
 
 
+# Falls das Netzwerk etwas länger braucht um aktiv zu sein (WLAN);
+mkdir /etc/systemd/system/sshd.service.d;
+
+cat << EOF > /etc/systemd/system/sshd.service.d/network-online.conf
+[Unit]
+After=network-online.target
+EOF
+
 systemctl enable sshd;
 systemctl start sshd;
 systemctl status sshd;

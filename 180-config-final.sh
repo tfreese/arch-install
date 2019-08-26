@@ -23,7 +23,7 @@ sed -i 's/tcp6/#tcp6/' /etc/netconfig;
 
 # Config sysctl
 cat << EOF > /etc/sysctl.d/10-sysctl.conf
-vm.swappiness=5
+vm.swappiness=10
 
 dev.raid.speed_limit_min = 50000
 dev.raid.speed_limit_max = 200000
@@ -36,6 +36,8 @@ net.ipv6.conf.wlan0.disable_ipv6 = 1
 EOF
 
 # Caching deaktivieren
+pacman --noconfirm --needed -S hdparm;
+
 cat << EOF > /etc/udev/rules.d/50-hdparm.rules
 ACTION=="add|change", KERNEL=="sd[b-z]", ATTR{queue/rotational}=="1", RUN+="/usr/bin/hdparm -W0 /dev/%k"
 EOF

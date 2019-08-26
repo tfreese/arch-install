@@ -18,6 +18,7 @@ pacman --noconfirm --needed -S rsnapshot;
 
 cat << EOF > /etc/cron.daily/rsnapshot
 #!/bin/sh
+
 #nice -n 19 ionice -c3 rsnapshot daily
 ##nice -n 19 ionice -c2 -n7 rsnapshot daily
 EOF
@@ -25,12 +26,14 @@ chmod 744 /etc/cron.daily/rsnapshot;
 
 cat << EOF > /etc/cron.weekly/rsnapshot
 #!/bin/sh
+
 #nice -n 19 ionice -c3 rsnapshot weekly
 EOF
 chmod 744 /etc/cron.weekly/rsnapshot;
 
 cat << EOF > /etc/cron.monthly/rsnapshot
 #!/bin/sh
+
 #nice -n 19 ionice -c3 rsnapshot monthly
 EOF
 chmod 744 /etc/cron.monthly/rsnapshot;

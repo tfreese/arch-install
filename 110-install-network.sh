@@ -13,16 +13,29 @@
 set -euo pipefail
 # –x für debug
 
+pacman --noconfirm --needed -S iw;
+pacman --noconfirm --needed -S net-tools;
+pacman --noconfirm --needed -S ethtool; # cat /sys/class/net/eth0/speed
 
+#############################################################################################################
 # DHCP deaktivieren
 systemctl stop dhcpcd;
 systemctl disable dhcpcd;
 systemctl status dhcpcd;
 
+#############################################################################################################
+# Falls resolve verwendet werden soll.
+# echo "domain fritz.box" > /etc/resolv.conf;
+# echo "nameserver 192.168.250.1" >> /etc/resolv.conf;
 
-pacman --noconfirm --needed -S iw;
-pacman --noconfirm --needed -S net-tools;
-pacman --noconfirm --needed -S ethtool; # cat /sys/class/net/eth0/speed
+nano /etc/systemd/resolved.conf;
+
+mv /etc/resolv.conf /etc/resolv.conf.bak;
+ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf;
+
+systemctl enable systemd-resolved.service;
+systemctl start systemd-resolved.service;
+systemctl status systemd-resolved.service;
 
 
 #############################################################################################################
@@ -46,6 +59,17 @@ Name=eth0
 EOF
 
 #############################################################################################################
+# Fallback
+
+cat << EOF > /etc/systemd/network/99-dhcp.network
+[Match]
+Name=e*
+
+[Network]
+DHCP=yes
+EOF
+
+#############################################################################################################
 # LAN
 
 # Variante über systemd:
@@ -57,8 +81,9 @@ Name=eth0
 #DHCP=yes/no/ipv4/ipv6
 Address=192.168.250.102/24
 Gateway=192.168.250.1
-DNS=8.8.8.8
-DNS=8.8.4.4
+DNS=192.168.250.1
+#DNS=8.8.8.8
+#DNS=8.8.4.4
 
 [DHCP]
 #UseRoutes=false
@@ -72,7 +97,8 @@ systemctl enable systemd-networkd;
 systemctl start systemd-networkd;
 systemctl status systemd-networkd;
 
-# Als eigener Service:
+#############################################################################################################
+# Eigener Netzwerk-Service
 if [ ! -d /etc/conf.d ]; then
 	mkdir -p /etc/conf.d
 fi
@@ -166,6 +192,13 @@ ap_scan=1
 #	#group=TKIP CCMP
 #	#proto=RSN
 #	psk=ENCODED PASSWORD
+#	priority=1
+#}
+#
+#network={
+#	ssid=$WLAN_SSID2
+#	psk=ENCODED PASSWORD
+#	priority=2
 #}
 EOF
 

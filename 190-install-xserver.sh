@@ -22,7 +22,7 @@ pacman --noconfirm --needed -S xorg-xrandr;
 #pacman --noconfirm --needed -S xorg-twm;
 pacman --noconfirm --needed -S xorg-xclock;
 pacman --noconfirm --needed -S xterm;
-pacman --noconfirm --needed -S ttf-dejavu;;
+pacman --noconfirm --needed -S ttf-dejavu;
 
 # For Laptops with Touchfield
-#pacman --noconfirm --needed -S xf86-input-synaptics;
+pacman --noconfirm --needed -S xf86-input-synaptics;

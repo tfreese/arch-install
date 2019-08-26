@@ -27,12 +27,17 @@ pacman --noconfirm --needed -S ntfs-3g; # ntfs Treiber
 
 HOSTNAME="host";
 DOMAIN="fritz.box";
-NAMESERVER="192.168.1.1";
+NAMESERVER="192.168.250.1";
 
 #loadkeys de-latin1;
 echo "$HOSTNAME" > /etc/hostname;
 echo "domain $DOMAIN" > /etc/resolv.conf;
 echo "nameserver $NAMESERVER" >> /etc/resolv.conf;
+
+# Bei Verwendung von systemd-resolved.service:
+# /etc/systemd/resolved.conf anpassen
+# mv /etc/resolv.conf /etc/resolv.conf.bak # Create a backup
+# ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 
 echo "LANG=de_DE.UTF-8" > /etc/locale.conf;
 echo "LC_COLLATE=C" >> /etc/locale.conf;

@@ -28,10 +28,9 @@ EOF
 cat << EOF > /etc/systemd/system/iptables.service
 [Unit]
 Description=iptables Packet Filtering Framework
-#Wants=network-pre.target
-#Before=network-pre.target
-Wants=network.target
-After=network.target
+Wants=network-online.target
+After=network-online.target
+# network-online.target kann sich einige Sekunden verzögern
 
 [Service]
 Type=oneshot
