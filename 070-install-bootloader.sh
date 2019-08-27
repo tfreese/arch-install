@@ -100,11 +100,12 @@ title ArchLinux
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux.img
-options root=/dev/vghost/root rw
-# options root=/dev/md1 rw                      resume=/dev/... SWAP
+options root=/dev/vg0/root rw
+# options root=/dev/mdx rw                      resume=/dev/... SWAP
 # options root=PARTUUID=<PARTUUID aus blkid> rw resume=/dev/... SWAP
 # options root=LABEL=... rw                     resume=/dev/... SWAP
 # options root=UUID=... rw                      resume=/dev/... SWAP
+# options cryptdevice=/dev/mdx:vg0 root=/dev/vg0/root rw resume=/dev/... SWAP
 EOF
 
 # cp /boot/loader/entries/archlinux.conf /boot/loader/entries/archlinux-fallback.conf;
@@ -114,7 +115,7 @@ title ArchLinux-Fallback
 linux /vmlinuz-linux
 initrd /intel-ucode.img
 initrd /initramfs-linux-fallback.img
-options root=/dev/vghost/root rw
+options root=/dev/vg0/root rw
 EOF
 
 
@@ -146,12 +147,13 @@ syslinux-install_update -i -a -m;
 # Edit
 nano /boot/syslinux/syslinux.cfg;
 # INITRD ../intel-ucode.img,../initramfs-linux.img
-# APPEND root=/dev/vgvm/root rw
+# APPEND root=/dev/vg0/root rw
+# APPEND cryptdevice=/dev/sda2:vg0 root=/dev/vg0/root rw
 
 # Manuelle Installation ohne syslinux-install_update
 cp /usr/lib/syslinux/bios/*.c32 /boot/syslinux/;
 extlinux --install /boot/syslinux; # Install Bootloader
-dd bs=440 count=1 conv=notrunc if=/usr/lib/syslinux/bios/mbr.bin of=/dev/sda; # Install MBR
+dd if=/usr/lib/syslinux/bios/mbr.bin of=/dev/sda bs=440 count=1 conv=notrunc status=progress; # Install MBR
 
 exit;
 reboot;

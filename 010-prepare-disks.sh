@@ -87,6 +87,15 @@ mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1  
 mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 --assume-clean --name=host:raid /dev/sd[abc]3;
 #--force
 
+# Verschlüsselung
+cryptsetup benchmark;
+
+dd if=/dev/urandom of=/dev/md2 bs=4096 status=progress;
+cryptsetup luksFormat --verbose --verify-passphrase --key-size 512 --hash sha512 --use-random --cipher aes-xts-plain64 /dev/md2;
+cryptsetup luksOpen /dev/md2 crypt_lvm;
+pvcreate -v --dataalignment 64k /dev/mapper/crypt_lvm;
+vgcreate -v --dataalignment 64k vghost /dev/mapper/crypt_lvm;
+
 # BOOT Partion formatieren (FAT32): benötigt dosfstools
 mkfs.vfat -F 32 /dev/md0;
 
