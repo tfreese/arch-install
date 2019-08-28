@@ -67,14 +67,14 @@ pacman --noconfirm --needed -S dvd+rw-tools;
 pacman --noconfirm --needed -S gimp;
 pacman --noconfirm --needed -S gthumb;
 pacman --noconfirm --needed -S handbrake;
-pacman --noconfirm --needed -S picard; # MusicBrainz Tagger
+pacman --noconfirm --needed -S picard;
 pacman --noconfirm --needed -S vlc;
 
 
 #############################################################################################################
 # Office
-pacman --noconfirm --needed -S evolution; # Outlook-Clone
-pacman --noconfirm --needed -S libreoffice; # Office-Clone
+pacman --noconfirm --needed -S evolution;
+pacman --noconfirm --needed -S libreoffice;
 pacman --noconfirm --needed -S evince; # PDF-Viewer
 pacman --noconfirm --needed -S qpdfview; # PDF-Viewer
 

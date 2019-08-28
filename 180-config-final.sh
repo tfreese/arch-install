@@ -35,7 +35,7 @@ net.ipv6.conf.eth0.disable_ipv6 = 1
 net.ipv6.conf.wlan0.disable_ipv6 = 1
 EOF
 
-# Caching deaktivieren
+# Festplaten-Caching deaktivieren (nur bei Raid)
 pacman --noconfirm --needed -S hdparm;
 
 cat << EOF > /etc/udev/rules.d/50-hdparm.rules

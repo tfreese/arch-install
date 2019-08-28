@@ -56,6 +56,10 @@ MACAddress=38:d5:47:e1:3d:a6
 [Link]
 Description=Ethernet 0 Adapter
 Name=eth0
+#MTUBytes=1452
+#BitsPerSecond=1G
+Duplex=full
+#WakeOnLan=off/magic
 EOF
 
 #############################################################################################################
@@ -63,7 +67,7 @@ EOF
 
 cat << EOF > /etc/systemd/network/99-dhcp.network
 [Match]
-Name=e*
+Name=enp*
 
 [Network]
 DHCP=yes
@@ -90,7 +94,7 @@ DNS=192.168.250.1
 RouteMetric=10
 
 [Link]
-#MTUBytes=1500
+#MTUBytes=1452
 EOF
 
 systemctl enable systemd-networkd;
@@ -136,7 +140,7 @@ EnvironmentFile=/etc/conf.d/network-%i
 #ExecStart=/sbin/ip route del default dev wlan0
 #ExecStart=/sbin/ip route del ${network}/${netmask} via 0.0.0.0 dev wlan0
 
-ExecStart=/sbin/ip link set dev %i mtu 1500 up
+ExecStart=/sbin/ip link set dev %i mtu 1452 up
 ExecStart=/sbin/ip addr add ${address}/${netmask} broadcast ${broadcast} dev %i
 ExecStart=/sbin/ip route add default via ${gateway} dev %i metric ${metric}
 

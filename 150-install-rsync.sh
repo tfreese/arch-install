@@ -40,23 +40,17 @@ read only = true
 hosts allow = localhost, $NETWORK/24
 hosts deny = *
 
-#[etc]
-#    comment = /etc
-#    path = /etc/
-#    uid = root
-#    gid = root
+[etc]
+    comment = /etc
+    path = /etc/
+    uid = root
+    gid = root
 
-#[home]
-#    comment = /home
-#    path = /home/
-#    uid = root
-#    gid = root
-
-#[home-linuxer]
-#    comment = /home/linuxer
-#    path = /home/linuxer
-#    uid = linuxer
-#    gid = linuxer
+[home]
+    comment = /home
+    path = /home/
+    uid = root
+    gid = root
 EOF
 
 cat << EOF > /etc/logrotate.d/rsyncd

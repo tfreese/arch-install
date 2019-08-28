@@ -105,7 +105,7 @@ options root=/dev/vg0/root rw
 # options root=PARTUUID=<PARTUUID aus blkid> rw resume=/dev/... SWAP
 # options root=LABEL=... rw                     resume=/dev/... SWAP
 # options root=UUID=... rw                      resume=/dev/... SWAP
-# options cryptdevice=/dev/mdx:vg0 root=/dev/vg0/root rw resume=/dev/... SWAP
+# options cryptdevice=/dev/mdx:crypt_lvm root=/dev/vg0/root rw resume=/dev/... SWAP
 EOF
 
 # cp /boot/loader/entries/archlinux.conf /boot/loader/entries/archlinux-fallback.conf;
@@ -148,7 +148,7 @@ syslinux-install_update -i -a -m;
 nano /boot/syslinux/syslinux.cfg;
 # INITRD ../intel-ucode.img,../initramfs-linux.img
 # APPEND root=/dev/vg0/root rw
-# APPEND cryptdevice=/dev/sda2:vg0 root=/dev/vg0/root rw
+# APPEND cryptdevice=/dev/sda2:crypt_lvm root=/dev/vg0/root rw
 
 # Manuelle Installation ohne syslinux-install_update
 cp /usr/lib/syslinux/bios/*.c32 /boot/syslinux/;

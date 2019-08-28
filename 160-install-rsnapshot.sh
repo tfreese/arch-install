@@ -56,7 +56,7 @@ sed -i 's/retain	beta	7/retain	daily	30/' /etc/rsnapshot.conf;
 sed -i 's/retain	gamma	4/retain	weekly	52/' /etc/rsnapshot.conf;
 sed -i 's/#retain	delta	3/retain	monthly	12/' /etc/rsnapshot.conf;
 sed -i 's/#verbose 2/verbose 2/' /etc/rsnapshot.conf;
-sed -i 's/#loglevel 2/loglevel 2/' /etc/rsnapshot.conf;
+sed -i 's/#loglevel 3/loglevel 2/' /etc/rsnapshot.conf;
 sed -i 's/#logfile	\/var\/log\/rsnapshot/logfile	\/var\/log\/rsnapshot/' /etc/rsnapshot.conf;
 sed -i 's/#rsync_short_args	-a/rsync_short_args	-a/' /etc/rsnapshot.conf;
 sed -i 's/#rsync_long_args	--delete --numeric-ids --relative --delete-excluded/rsync_long_args	--numeric-ids --force/' /etc/rsnapshot.conf;
