@@ -42,10 +42,3 @@ systemctl start sshd;
 passwd root;
 ip -4 addr;
 
-# pacman -S git;
-# git clone https://github.com/tfreese/arch-install.git;
-# chmod +x arch-install/*.sh;
-# nano arch-install/archi-install.conf;
-#
-# read -rp "Press any key to pacstrap";
-# TIME=$(date '+%Y%m%d_%H%M%S')

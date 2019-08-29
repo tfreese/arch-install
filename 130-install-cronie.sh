@@ -34,8 +34,8 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 #*		*		*		*		*			root	/srv/http/monitor/all-update.sh
 #*/2	*		*		*		*			root	/srv/http/monitor/all-graph.sh hour
 #*/30	*		*		*		*			root	/srv/http/monitor/all-graph.sh day
-#0		*/2	*		*		*			root	/srv/http/monitor/all-graph.sh week
-#35   *   *   *   *     root	nice -n 19 ionice -c3 rsnapshot hourly
+#0		*/2	*			*		*			root	/srv/http/monitor/all-graph.sh week
+#35		*		*		*		*			root	nice -n 19 ionice -c3 rsnapshot hourly
 EOF
 
 nano /etc/crontab;

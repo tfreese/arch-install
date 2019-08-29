@@ -20,12 +20,33 @@ set -euo pipefail
 
 
 #############################################################################################################
+# LightDM
+pacman --noconfirm --needed -S lightdm lightdm-gtk-greeter;
+pacman --noconfirm --needed -S xorg-server-xephyr;
+
+systemctl enable lightdm;
+systemctl start lightdm;
+
+# /etc/lightdm/lightdm.conf
+allow-guest=false
+ 
+[Seat:*]
+greeter-session=lightdm-gtk-greeter
+
+# /etc/lightdm/lightdm.gtk-greeter.conf
+[greeter]
+active-monitor=0
+background=/usr/share/backgrounds/xfce/CleanBlue.jpg
+
+# lightdm --test-mode –debug [-c /etc/lightdm/lightdm.conf]
+
+#############################################################################################################
 # SLIM
 pacman --noconfirm --needed -S slim;
 pacman --noconfirm --needed -S archlinux-themes-slim;
 
 systemctl enable slim;
-systemctl start slim; # Startet den Desktop
+systemctl start slim;
 
 # /etc/slim.conf
 # /usr/share/slim/themes
@@ -36,7 +57,7 @@ systemctl start slim; # Startet den Desktop
 pacman --noconfirm --needed -S lxdm;
 
 systemctl enable lxdm;
-systemctl start lxdm; # Startet den Desktop
+systemctl start lxdm;
 
 # /etc/lxdm/lxdm.conf
 
@@ -45,7 +66,7 @@ systemctl start lxdm; # Startet den Desktop
 pacman --noconfirm --needed -S gdm;
 
 systemctl enable gdm;
-systemctl start gdm; # Startet den Desktop
+systemctl start gdm;
 
 
 #############################################################################################################

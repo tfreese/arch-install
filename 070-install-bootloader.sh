@@ -18,8 +18,6 @@ set -euo pipefail
 # dmesg | grep microcode
 pacman --noconfirm --needed -S intel-ucode;
 
-pacman --noconfirm --needed -S efibootmgr;
-
 #############################################################################################################
 # Prüfen, ob BIOS im UEFI Mode
 efivar -l;
@@ -34,6 +32,8 @@ lsblk -o NAME,LABEL,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL,UUID;
 
 #############################################################################################################
 # UEFI
+
+pacman --noconfirm --needed -S efibootmgr;
 
 mkdir -p /boot/EFI/systemd;
 mkdir -p /boot/EFI/BOOT;

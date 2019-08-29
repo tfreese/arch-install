@@ -25,13 +25,13 @@ EOF
 
 ################################################################################
 genpasswd() {
-local l=$1
+local length=$1
  [ "$l" == "" ] && l = 20
- tr -dc A-Za-z0-9_. < /dev/urandom | head -c ${l} | xargs
+ tr -dc A-Za-z0-9_. < /dev/urandom | head -c ${length} | xargs
 
 #cat /dev/urandom | tr -dc 'a-zA-Z0-9_.' | fold -w 10 | head -n 1
 #openssl rand -hex 12
-#openssl rand -hex 12
+#openssl rand -base64 12
 
 #Iterate String:
 #foo=string

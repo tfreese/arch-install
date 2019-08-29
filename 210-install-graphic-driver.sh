@@ -21,7 +21,7 @@ set -euo pipefail
 # Proprietärer Treiber: http://www.nvidia.com/object/unix.html
 #pacman –Ss | grep nvidia;
 
-pacman --noconfirm --needed -S nvidia; # 415.25-6
+pacman --noconfirm --needed -S nvidia;
 pacman --noconfirm --needed -S nvidia-utils;
 pacman --noconfirm --needed -S nvidia-settings;
 # Anschliessend nach dem GUI-Start 'sudo nvidia-xconfig' ausführen.
@@ -29,7 +29,11 @@ pacman --noconfirm --needed -S nvidia-settings;
 #Für Hardware-Decoding (VDPAU):
 pacman --noconfirm --needed -S libva-vdpau-driver;
 
-pacman --noconfirm --needed -S mesa-demos; # glxinfo, glxgears
+# glxinfo, glxgears
+pacman --noconfirm --needed -S mesa-demos;
+
+# Für alte Hardware:
+pacman --noconfirm --needed -S mesa xf86-video-fbdev xf86-video-vesa xorg-drivers;
 
 # all drivers
 #pacman --noconfirm --needed -S xf86-video-vesa;
@@ -37,6 +41,3 @@ pacman --noconfirm --needed -S mesa-demos; # glxinfo, glxgears
 #pacman --noconfirm --needed -S xf86-video-nv;
 #pacman --noconfirm --needed -S nvidia-libgl;
 #pacman --noconfirm --needed -S opencl-nvidia;
-
-# Für alte Hardware:
-pacman --noconfirm --needed -S mesa xf86-video-fbdev xf86-video-vesa xorg-drivers;

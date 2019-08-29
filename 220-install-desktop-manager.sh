@@ -62,9 +62,9 @@ echo "exec gnome-session" >> ~/.xinitrc;
 #############################################################################################################
 # XFCE
 pacman --noconfirm --needed -S xfce4;
-pacman --noconfirm --needed -S xfce4-goodies; # Programme und Plugins
-pacman --noconfirm --needed -S human-icon-theme; # Standard Icons
-pacman --noconfirm --needed -S pavucontrol; # Audio-Applet
+pacman --noconfirm --needed -S xfce4-goodies;
+pacman --noconfirm --needed -S human-icon-theme;
+pacman --noconfirm --needed -S pavucontrol;
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc;
 

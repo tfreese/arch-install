@@ -21,18 +21,14 @@ pacman --noconfirm --needed -S lvm2;
 
 pacman --noconfirm --needed -S parted;
 pacman --noconfirm --needed -S gptfdisk;
-pacman --noconfirm --needed -S dosfstools; # vfat Treiber
-pacman --noconfirm --needed -S ntfs-3g; # ntfs Treiber
+pacman --noconfirm --needed -S dosfstools;
+pacman --noconfirm --needed -S ntfs-3g;
 
-
-HOSTNAME="host";
-DOMAIN="fritz.box";
-NAMESERVER="192.168.250.1";
 
 #loadkeys de-latin1;
-echo "$HOSTNAME" > /etc/hostname;
-echo "domain $DOMAIN" > /etc/resolv.conf;
-echo "nameserver $NAMESERVER" >> /etc/resolv.conf;
+echo "HOST" > /etc/hostname;
+echo "domain fritz.box" > /etc/resolv.conf;
+echo "nameserver 192.168.250.1" >> /etc/resolv.conf;
 
 # Bei Verwendung von systemd-resolved.service:
 # /etc/systemd/resolved.conf anpassen

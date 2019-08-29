@@ -14,7 +14,9 @@ set -euo pipefail
 # –x für debug
 
 
+#############################################################################################################
 # timesyncd: Ist schon Teil von systemd
+
 if [ -d /etc/systemd/timesyncd.conf ]; then
 	cp /etc/systemd/timesyncd.conf /etc/systemd/timesyncd.conf_"$TIME";
 fi
@@ -31,6 +33,7 @@ systemctl status systemd-timesyncd.service;
 
 #############################################################################################################
 # ODER NTP
+
 pacman --noconfirm --needed -S ntp;
 
 sed -i_"$TIME" 's/0.arch.pool.ntp.org/ptbtime1.ptb.de/' /etc/ntp.conf;
