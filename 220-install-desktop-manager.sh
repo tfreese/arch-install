@@ -65,6 +65,13 @@ pacman --noconfirm --needed -S xfce4;
 pacman --noconfirm --needed -S xfce4-goodies;
 pacman --noconfirm --needed -S human-icon-theme;
 pacman --noconfirm --needed -S pavucontrol;
+pacman --noconfirm --needed -S xarchiver;
+
+# Anwendungen – Einstellungen – Sitzung und Startverhalten
+# Fortgeschritten / Erweitert
+# Kompatibilität: "Dienste für GNOME beim Starten laden"
+# GUI (Seahorse): Anwendungen – Zubehör -> Passwörter und Verschlüsselung
+pacman --noconfirm --needed -S gnome-keyring seahorse;
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc;
 
