@@ -13,8 +13,21 @@
 set -euo pipefail
 # –x für debug
 
-# WLAN
+# WLAN-SETUP:
 wifi-menu;
+
+#ip link set dev wlan0 up;
+#iwlist wlan0 scan;
+
+# control password: nano /etc/netctl/wlan0-SSID
+#netctl restart wlan0-SSID;
+#iw dev wlan0 link;
+#wpa_supplicant -B -i wlan0 -D nl80211,wext -c<(wpa_passphrase MYSSID "passphrase");
+
+#cp /etc/netctl/examples/wireless-wpa-static /etc/netctl/;
+#nano /etc/netctl/wireless-wpa-static;
+#netctl restart wireless-wpa-static;
+
 
 # Download ISO
 http://ftp-stud.hs-esslingen.de/pub/Mirrors/archlinux/iso/latest/archlinux-*-x86_64.iso

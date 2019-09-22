@@ -2,29 +2,6 @@ TODO:
 
 # Notes:
 
-# WLAN-SETUP:
-# ip link set dev wlan0 up
-# iwlist wlan0 scan
-#
-# wifi-menu
-# control password: nano /etc/netctl/wlan0-SSID
-# netctl restart wlan0-SSID
-#
-# iw dev wlan0 link
-# wpa_supplicant -B -i wlan0 -D nl80211,wext -c<(wpa_passphrase MYSSID "passphrase")
-#
-# cp /etc/netctl/examples/wireless-wpa-static /etc/netctl/
-# nano /etc/netctl/wireless-wpa-static
-# netctl restart wireless-wpa-static
-# copy layout on other disk
-#
-# pacman --noconfirm -S gptfdisk;
-# sgdisk -R /dev/sdb /dev/sda;
-# sgdisk -R /dev/sdc /dev/sda;
-# parted /dev/sdb print;
-# parted /dev/sdc print;
-#
-
 pacman -S nginx php-fpm
 #/etc/nginx.conf
 #user http http;
