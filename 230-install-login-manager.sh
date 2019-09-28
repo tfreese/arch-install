@@ -32,11 +32,13 @@ allow-guest=false
  
 [Seat:*]
 greeter-session=lightdm-gtk-greeter
+allow-guest=false
 
-# /etc/lightdm/lightdm.gtk-greeter.conf
+# /etc/lightdm/lightdm-gtk-greeter.conf
 [greeter]
 active-monitor=0
-background=/usr/share/backgrounds/xfce/CleanBlue.jpg
+# background=/usr/share/backgrounds/xfce/CleanBlue.jpg			# xface
+# background=/usr/share/backgrounds/gnome/adwaita-night.jpg		# cinnamon
 
 # lightdm --test-mode –debug [-c /etc/lightdm/lightdm.conf]
 

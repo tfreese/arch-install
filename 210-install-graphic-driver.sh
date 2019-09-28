@@ -38,6 +38,7 @@ pacman --noconfirm --needed -S mesa xf86-video-fbdev xf86-video-vesa xorg-driver
 # all drivers
 #pacman --noconfirm --needed -S xf86-video-vesa;
 #pacman --noconfirm --needed -S xorg-drivers;
+#pacman --noconfirm --needed -S xorg-xrandr;
 #pacman --noconfirm --needed -S xf86-video-nv;
 #pacman --noconfirm --needed -S nvidia-libgl;
 #pacman --noconfirm --needed -S opencl-nvidia;

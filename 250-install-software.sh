@@ -67,6 +67,7 @@ pacman --noconfirm --needed -S dvd+rw-tools;
 pacman --noconfirm --needed -S gimp;
 pacman --noconfirm --needed -S gthumb;
 pacman --noconfirm --needed -S handbrake;
+pacman --noconfirm --needed -S kodi;
 pacman --noconfirm --needed -S picard;
 pacman --noconfirm --needed -S vlc;
 
