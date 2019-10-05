@@ -100,7 +100,7 @@ pacman --noconfirm --needed -S reflector pacman-contrib; # Test Arch-Mirrors
 pacman --noconfirm --needed -S rsync rsnapshot;
 pacman --noconfirm --needed -S rrdtool;
 pacman --noconfirm --needed -S virtualbox virtualbox-host-modules-arch; # In VM die virtualbox-host-* Packete installieren.
-pacman --noconfirm --needed -S xfce4-terminal;
+pacman --noconfirm --needed -S xfce4-terminal; # --maximize
 
 #############################################################################################################
 # Web

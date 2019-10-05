@@ -26,6 +26,11 @@ pacman --noconfirm --needed -S nvidia-utils;
 pacman --noconfirm --needed -S nvidia-settings;
 # Anschliessend nach dem GUI-Start 'sudo nvidia-xconfig' ausführen.
 
+# Einstellungen per Console
+# xrandr --output DVI-D-0 --mode 1920x1080 --rate 144;
+# xrandr --output DVI-D-0 --mode 1920x1080 --rate 144 --primary --output HDMI-0 --mode 1360x768 --rate 60;
+pacman --noconfirm --needed -S xorg-xrandr;
+
 #Für Hardware-Decoding (VDPAU):
 pacman --noconfirm --needed -S libva-vdpau-driver;
 
@@ -38,7 +43,8 @@ pacman --noconfirm --needed -S mesa xf86-video-fbdev xf86-video-vesa xorg-driver
 # all drivers
 #pacman --noconfirm --needed -S xf86-video-vesa;
 #pacman --noconfirm --needed -S xorg-drivers;
-#pacman --noconfirm --needed -S xorg-xrandr;
 #pacman --noconfirm --needed -S xf86-video-nv;
 #pacman --noconfirm --needed -S nvidia-libgl;
 #pacman --noconfirm --needed -S opencl-nvidia;
+
+
