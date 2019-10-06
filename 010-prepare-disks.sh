@@ -82,8 +82,8 @@ parted /dev/sdb print;
 parted /dev/sdc print;
 
 # Raids erstellen
-mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1 --metadata 1.0 --name=host:noot /dev/sd[abc]1;
-mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1                --name=host:swap /dev/sd[abc]2;
+mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1 --metadata 1.0            --name=host:noot /dev/sd[abc]1;
+mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1                           --name=host:swap /dev/sd[abc]2;
 mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 --assume-clean --name=host:raid /dev/sd[abc]3;
 #--force
 
@@ -119,7 +119,7 @@ swapon -p 1 /dev/sdc2;
 pvcreate -v --dataalignment 64k /dev/md2;
 vgcreate -v --dataalignment 64k vghost /dev/md2;
 
-lvcreate -v --wipesignatures y -L 128G -n root vghost;
+lvcreate -v --wipesignatures y -L 32G -n root vghost;
 
 # System Partionen formatieren.
 mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L root /dev/vghost/root;
