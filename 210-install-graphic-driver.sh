@@ -27,8 +27,8 @@ pacman --noconfirm --needed -S nvidia-settings;
 # Anschliessend nach dem GUI-Start 'sudo nvidia-xconfig' ausführen.
 
 # Einstellungen per Console
-# xrandr --output DVI-D-0 --mode 1920x1080 --rate 144;
-# xrandr --output DVI-D-0 --mode 1920x1080 --rate 144 --primary --output HDMI-0 --mode 1360x768 --rate 60;
+# xrandr --output DP-2 --mode 2560x1440 --rate 144;
+# xrandr --output DP-2 --mode 2560x1440 --rate 144 --primary --output DVI-D-0 --mode 1920x1080 --rate 144;
 pacman --noconfirm --needed -S xorg-xrandr;
 
 #Für Hardware-Decoding (VDPAU):
