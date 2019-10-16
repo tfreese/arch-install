@@ -28,7 +28,7 @@ pacman --noconfirm --needed -S nvidia-settings;
 
 # Einstellungen per Console
 # xrandr --output DP-2 --mode 2560x1440 --rate 144;
-# xrandr --output DP-2 --mode 2560x1440 --rate 144 --primary --output DVI-D-0 --mode 1920x1080 --rate 144;
+# xrandr --output DP-2 --mode 2560x1440 --rate 144 --primary --output DP-0 --mode 1920x1080 --rate 144;
 pacman --noconfirm --needed -S xorg-xrandr;
 
 #Für Hardware-Decoding (VDPAU):
