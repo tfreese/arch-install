@@ -64,7 +64,7 @@ parted /dev/sda name 1 boot;
 parted /dev/sda name 2 swap;
 parted /dev/sda name 3 raid;
 
-parted /dev/sda print;
+parted /dev/sda print free;
 
 parted /dev/sda align-check opt 1;
 parted /dev/sda align-check opt 2;
@@ -78,8 +78,8 @@ sgdisk -R /dev/sdc /dev/sda;
 sgdisk -G /dev/sdb;
 sgdisk -G /dev/sdc;
 
-parted /dev/sdb print;
-parted /dev/sdc print;
+parted /dev/sdb print free;
+parted /dev/sdc print free;
 
 # Raids erstellen
 mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1 --metadata 1.0            --name=host:noot /dev/sd[abc]1;
