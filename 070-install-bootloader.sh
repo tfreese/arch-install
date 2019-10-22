@@ -149,6 +149,7 @@ nano /boot/syslinux/syslinux.cfg;
 # INITRD ../intel-ucode.img,../initramfs-linux.img
 # APPEND root=/dev/vg0/root rw
 # APPEND cryptdevice=/dev/sda2:crypt_lvm root=/dev/vg0/root rw
+# APPEND root=/dev/sda3 rw rootflags=subvol=root
 
 # Manuelle Installation ohne syslinux-install_update
 cp /usr/lib/syslinux/bios/*.c32 /boot/syslinux/;

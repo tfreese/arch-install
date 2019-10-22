@@ -13,7 +13,6 @@
 set -euo pipefail
 # –x für debug
 
-
 pacman --noconfirm --needed -S sudo;
 pacman --noconfirm --needed -S bash-completion;
 pacman --noconfirm --needed -S mdadm;
@@ -52,6 +51,7 @@ sed -i_"$TIME" 's/^#de_DE/de_DE/g' /etc/locale.gen;
 
 locale-gen;
 
+pacman --noconfirm --needed -S dhcpcd;
 systemctl enable dhcpcd;
 
 # Raid speichern

@@ -113,6 +113,14 @@ swapon -p 1 /dev/sdb2;
 swapon -p 1 /dev/sdc2;
 #echo "DEVICE     none  swap   defaults,pri=1   0 0" >> /mnt/etc/fstab;
 
+# btrfs
+mkfs.btrfs -L NAME -d raid1 -m raid1 /dev/sda3 /dev/sdb3;
+mkdir /pool;
+mount /dev/sda3 /pool;
+cd /pool;
+btrfs subvolume create root;
+btrfs subvolume create home;
+
 # LVM erstellen
 # parted /dev/md2 set 1 lvm on;
 
