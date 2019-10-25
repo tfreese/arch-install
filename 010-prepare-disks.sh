@@ -27,8 +27,8 @@ lsblk -o NAME,LABEL,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL,UUID;
 
 #############################################################################################################
 # Filesystem bereinigen
-wipefs --all --force /dev/sda[123];
 mdadm --zero-superblock /dev/sda[123];
+wipefs --all --force /dev/sda[123];
 
 # MBR + Partitions-Tabelle + Signatur löschen
 dd if=/dev/zero of=/dev/sdX bs=512 count=1;
@@ -44,17 +44,18 @@ parted /dev/sda rm 1;
 parted /dev/sda mklabel gpt;
 
 # Boot-Partitionen
-parted -a optimal /dev/sda mkpart primary   2048s 2MB;   # grub boot / raid
-parted -a optimal /dev/sda mkpart primary   2048s 512MB; # syslinux boot / raid
-parted -a optimal /dev/sda mkpart ESP fat32 2048s 512MB; # uefi boot / raid
+parted -a optimal /dev/sda mkpart primary   2048s 2M;   # grub boot / raid1
+parted -a optimal /dev/sda mkpart primary   2048s 512M; # syslinux boot / raid1
+parted -a optimal /dev/sda mkpart ESP fat32 2048s 512M; # uefi boot / raid1
 
 # Raid-Partitionen
-parted -a optimal /dev/sda mkpart primary   512MB 16GB;  # swap / raid
-parted -a optimal /dev/sda mkpart primary   16G   4000G; # root / raid
+parted -a optimal /dev/sda mkpart primary   512MB 16G;   # swap / raid1
+parted -a optimal /dev/sda mkpart primary   16G   500G;  # lvm / raid1
+parted -a optimal /dev/sda mkpart primary   500G  4000G; # btrfs
 
 parted /dev/sda set 1 bios_grub on; # GRUB2 Boot-Flag
-parted /dev/sda set 1 boot on;      # SYSLINUX Boot-Flag
-parted /dev/sda set 1 esp on;       # UEFI Boot-Flag
+parted /dev/sda set 1 boot      on; # SYSLINUX Boot-Flag
+parted /dev/sda set 1 esp       on; # UEFI Boot-Flag
 parted /dev/sda set 2 raid on;
 # parted /dev/sda set 2 swap on;
 parted /dev/sda set 3 raid on;
@@ -62,13 +63,15 @@ parted /dev/sda set 3 raid on;
 #############################################################################################################
 parted /dev/sda name 1 boot;
 parted /dev/sda name 2 swap;
-parted /dev/sda name 3 raid;
+parted /dev/sda name 3 system;
+parted /dev/sda name 4 data;
 
 parted /dev/sda print free;
 
 parted /dev/sda align-check opt 1;
 parted /dev/sda align-check opt 2;
 parted /dev/sda align-check opt 3;
+parted /dev/sda align-check opt 4;
 
 # Partitions-Tabellen kopieren ZIEL <- QUELLE
 sgdisk -R /dev/sdb /dev/sda;

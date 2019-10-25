@@ -26,8 +26,6 @@ pacman --noconfirm --needed -S ntfs-3g;
 
 #loadkeys de-latin1;
 echo "HOST" > /etc/hostname;
-echo "domain fritz.box" > /etc/resolv.conf;
-echo "nameserver 192.168.250.1" >> /etc/resolv.conf;
 
 # Bei Verwendung von systemd-resolved.service:
 # /etc/systemd/resolved.conf anpassen

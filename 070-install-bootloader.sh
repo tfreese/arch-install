@@ -146,10 +146,11 @@ syslinux-install_update -i -a -m;
 
 # Edit
 nano /boot/syslinux/syslinux.cfg;
-# INITRD ../intel-ucode.img,../initramfs-linux.img
 # APPEND root=/dev/vg0/root rw
 # APPEND cryptdevice=/dev/sda2:crypt_lvm root=/dev/vg0/root rw
 # APPEND root=/dev/sda3 rw rootflags=subvol=root
+# INITRD ../intel-ucode.img
+# INITRD ../initramfs-linux.img
 
 # Manuelle Installation ohne syslinux-install_update
 cp /usr/lib/syslinux/bios/*.c32 /boot/syslinux/;
@@ -180,6 +181,10 @@ reboot;
 
 #############################################################################################################
 
+# vim
+# Ausgabe von Befehl einfügen: :r!unix_command
+# Zeile löschen: dd
+
 efimootmgr:
 -c; --create	= create new variable bootnum and add to bootorder
 -d; --disk		= (defaults to /dev/sda) containing loader
@@ -189,11 +194,11 @@ efimootmgr:
 -u; --unicode	= handle extra args as UCS-2 (default is ASCII)
 -v; --verbose	= print additional information
 
-# gptfdisk
+# Boot-Eintrag löschen
+sudo efibootmgr;
+	-> Boot0002* ArchLinux 3
+efibootmgr -b 0002 -B ;
 
-# vim
-# Ausgabe von Befehl einfügen: :r!unix_command
-# Zeile löschen: dd
 
 
 efibootmgr -c -d /dev/sda -p 1 -L Arch\ Linux\ 1 -l \\EFI\\gummiboot\\gummibootx64.efi

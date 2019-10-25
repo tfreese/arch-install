@@ -31,7 +31,6 @@ systemctl status dhcpcd;
 # Falls resolve verwendet werden soll, nur für DHCP relevant.
 # echo "domain fritz.box" > /etc/resolv.conf;
 # echo "nameserver 192.168.250.1" >> /etc/resolv.conf;
-
 nano /etc/systemd/resolved.conf;
 DNS=192.168.250.1
 Domains=fritz.box
