@@ -28,8 +28,11 @@ cat << EOF > /etc/sysctl.d/10-sysctl.conf
 vm.swappiness=10
 # cat /proc/sys/vm/swappiness
 
+
+# Raid
 dev.raid.speed_limit_min = 50000
 dev.raid.speed_limit_max = 200000
+
 
 # TCP SYN Flood Protection
 net.ipv4.tcp_syncookies = 1
@@ -37,6 +40,8 @@ net.ipv4.tcp_max_syn_backlog = 2048
 net.ipv4.tcp_synack_retries = 3
 # cat /proc/sys/net/ipv4/tcp_...
 
+
+# IPv6 deaktivieren
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1

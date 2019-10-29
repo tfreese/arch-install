@@ -96,6 +96,7 @@ pacman --noconfirm --needed -S lm_sensors; # sensors-detect
 pacman --noconfirm --needed -S samba smbclient;
 pacman --noconfirm --needed -S smartmontools; # update-smart-drivedb
 pacman --noconfirm --needed -S sshfs;
+pacman --noconfirm --needed -S sysstat; # iostat -m 1 5
 pacman --noconfirm --needed -S tree;
 pacman --noconfirm --needed -S tmux;
 pacman --noconfirm --needed -S reflector pacman-contrib; # Test Arch-Mirrors
