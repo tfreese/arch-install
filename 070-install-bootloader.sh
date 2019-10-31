@@ -146,6 +146,7 @@ syslinux-install_update -i -a -m;
 
 # Edit
 nano /boot/syslinux/syslinux.cfg;
+# TIMEOUT 30 						# 3 Sekunden
 # APPEND root=/dev/vg0/root rw
 # APPEND cryptdevice=/dev/sda2:crypt_lvm root=/dev/vg0/root rw
 # APPEND root=/dev/sda3 rw rootflags=subvol=root

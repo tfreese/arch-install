@@ -44,13 +44,13 @@ parted /dev/sda rm 1;
 parted /dev/sda mklabel gpt;
 
 # Boot-Partitionen
-parted -a optimal /dev/sda mkpart primary   2048s 2M;   # grub boot / raid1
+parted -a optimal /dev/sda mkpart primary   2048s 2M;   # grub boot     / raid1
 parted -a optimal /dev/sda mkpart primary   2048s 512M; # syslinux boot / raid1
-parted -a optimal /dev/sda mkpart ESP fat32 2048s 512M; # uefi boot / raid1
+parted -a optimal /dev/sda mkpart ESP fat32 2048s 512M; # uefi boot     / raid1
 
 # Raid-Partitionen
-parted -a optimal /dev/sda mkpart primary   512MB 16G;   # swap / raid1
-parted -a optimal /dev/sda mkpart primary   16G   500G;  # lvm / raid1
+parted -a optimal /dev/sda mkpart primary   512M  16G;   # swap / raid1
+parted -a optimal /dev/sda mkpart primary   16G   500G;  # lvm  / raid1
 parted -a optimal /dev/sda mkpart primary   500G  4000G; # btrfs
 
 parted /dev/sda set 1 bios_grub on; # GRUB2 Boot-Flag

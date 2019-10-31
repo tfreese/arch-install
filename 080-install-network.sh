@@ -54,10 +54,10 @@ MACAddress=38:d5:47:e1:3d:a6
 [Link]
 Description=Ethernet 0 Adapter
 Name=eth0
-#MTUBytes=1452
-#BitsPerSecond=1G
+MTUBytes=1452
+BitsPerSecond=1G
 Duplex=full
-#WakeOnLan=off/magic
+WakeOnLan=off
 EOF
 
 # Alternativ über udev
