@@ -120,7 +120,7 @@ pacman --noconfirm --needed -S qbittorrent;
 #############################################################################################################
 # Utils
 pacman --noconfirm --needed -S brasero; # CD-Brenner
-pacman --noconfirm --needed -S keepass;
+pacman --noconfirm --needed -S keepass keepassxc;
 pacman --noconfirm --needed -S pigz; # parallel gzip
 pacman --noconfirm --needed -S unrar;
 pacman --noconfirm --needed -S unzip;
