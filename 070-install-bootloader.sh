@@ -186,7 +186,7 @@ reboot;
 # Ausgabe von Befehl einfügen: :r!unix_command
 # Zeile löschen: dd
 
-efimootmgr:
+efibootmgr:
 -c; --create	= create new variable bootnum and add to bootorder
 -d; --disk		= (defaults to /dev/sda) containing loader
 -p; --part		= (defaults to 1) containing loader
@@ -197,8 +197,8 @@ efimootmgr:
 
 # Boot-Eintrag löschen
 sudo efibootmgr;
-	-> Boot0002* ArchLinux 3
-efibootmgr -b 0002 -B ;
+	-> Boot0003* ArchLinux 3
+efibootmgr -b 0003 -B ;
 
 
 
