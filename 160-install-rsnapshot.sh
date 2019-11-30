@@ -20,7 +20,6 @@ cat << EOF > /etc/cron.daily/rsnapshot
 #!/bin/sh
 
 #nice -n 19 ionice -c3 rsnapshot daily
-##nice -n 19 ionice -c idle rsnapshot daily
 EOF
 chmod 744 /etc/cron.daily/rsnapshot;
 
