@@ -1,38 +1,5 @@
 TODO:
 
-# Notes:
 
-pacman -S nginx php-fpm
-#/etc/nginx.conf
-#user http http;
-#worker_processes  1;
 
-cat << EOF > "/etc/nginx/php.conf"
-location ~ \.php$ {
-        fastcgi_pass    unix:/var/run/php-fpm/php-fpm.sock;
-        root            /srv/http;
-        fastcgi_index   index.php;
-        include         fastcgi.conf;
-}
-EOF
 
-#/etc/php/php.ini, wird wohl nicht mehr benötigt
-#open_basedir = /srv/http/:/home/:/tmp/:/usr/share/pear/:/usr/share/webapps/
-
-#/etc/php/php-fpm.conf[.d]
-#pid = /run/php-fpm/php-fpm.pid
-#pm = dynamic
-#pm.max_children = 5
-#pm.start_servers = 1
-#pm.min_spare_servers = 1
-#pm.max_spare_servers = 5
-
-#/etc/php/php-fpm.d/www.conf
-#listen.mode = 0660
-
-systemctl start php-fpm.service
-systemctl start nginx.service
-
-#/etc/fstab
-#/home/tommy/monitor/    /srv/http/monitor/      none    bind    0 0
-#sudo mount --bind /home/tommy/monitor/ /srv/http/monitor/
