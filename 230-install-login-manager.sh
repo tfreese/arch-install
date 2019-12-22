@@ -39,6 +39,7 @@ allow-guest=false
 active-monitor=0
 # background=/usr/share/backgrounds/xfce/CleanBlue.jpg			# xface
 # background=/usr/share/backgrounds/gnome/adwaita-night.jpg		# cinnamon
+# background=/mnt/mediathek/bilder/wallpapers/nature/armenia_syunik_khustup_hayk_b-wallpaper-3554x1999.jpg
 
 # lightdm --test-mode –debug [-c /etc/lightdm/lightdm.conf]
 
