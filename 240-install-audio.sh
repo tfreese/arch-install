@@ -73,6 +73,7 @@ pacman --noconfirm --needed -S ddrescue;
 pacman --noconfirm --needed -S dvdbackup;
 pacman --noconfirm --needed -S lame;
 pacman --noconfirm --needed -S mp3splt;
+pacman --noconfirm --needed -S playerctl;
 pacman --noconfirm --needed -S vorbis-tools;
 pacman --noconfirm --needed -S vorbisgain;
 pacman --noconfirm --needed -S wavegain;
