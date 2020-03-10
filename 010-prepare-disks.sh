@@ -88,6 +88,7 @@ parted /dev/sdc print free;
 mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1 --metadata 1.0            --name=host:boot /dev/sd[abc]1;
 mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1                           --name=host:swap /dev/sd[abc]2;
 mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 --assume-clean --name=host:lvm  /dev/sd[abc]3;
+mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=1                           --name=host:data /dev/sd[abc]4;
 #--force
 
 # Verschlüsselung
