@@ -115,7 +115,8 @@ mkswap -f /dev/sdc2;
 swapon -p 1 /dev/sda2;
 swapon -p 1 /dev/sdb2;
 swapon -p 1 /dev/sdc2;
-#echo "DEVICE     none  swap   defaults,pri=1   0 0" >> /mnt/etc/fstab;
+#echo "SSD	none	swap	defaults,discard,nofail,pri=100		0 0" >> /mnt/etc/fstab;
+#echo "HDD	none	swap	defaults,nofail,pri=10				0 0" >> /mnt/etc/fstab;
 
 # btrfs
 mkfs.btrfs -L NAME -d raid1 -m raid1 /dev/sda3 /dev/sdb3;
