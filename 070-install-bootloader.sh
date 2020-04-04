@@ -89,6 +89,9 @@ cat << EOF > /boot/loader/loader.conf
 default archlinux
 timout 5
 editor 0
+auto-entries 1
+# Für Windows Menü-Eintrag
+
 console-mode max
 # 0 = 80x25
 # 1 = 80x50
@@ -120,12 +123,13 @@ EOF
 
 
 # systemd-boot sucht automatisch nach dem Eintrag 'EFI/Microsoft/Boot/Bootmgfw.efi' und erstellt einen Menü-Eintrag.
-# Das geht natürlich nicht, wenn die WIN-EFI Partition auf einer anderen Platte liegt.
-# DIESER EINTRAG FUNKTINIERT NICHT !
+# Daher müssen nur die Windows UEFI-Dateien (vfat-Partition) in die Boot-Partition kopiert werden.
+rsync -avh --progress /DEVICE/EFI/Microsoft/ /boot/EFI/Microsoft/;
+# oder manuell
 cat << EOF > /boot/loader/entries/windows.conf
 title Windows
-efi EFI/Microsoft/Boot/bootmgfw.efi
-options root=PARTUUID=6214-962 rw
+efi /EFI/Microsoft/Boot/bootmgfw.efi
+options root=PARTUUID=6214-9628 rw
 EOF
 
 exit;

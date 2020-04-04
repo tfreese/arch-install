@@ -88,17 +88,8 @@ parted /dev/sdc print free;
 mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1 --metadata 1.0            --name=host:boot /dev/sd[abc]1;
 mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1                           --name=host:swap /dev/sd[abc]2;
 mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 --assume-clean --name=host:lvm  /dev/sd[abc]3;
-mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=1                           --name=host:data /dev/sd[abc]4;
+mdadm --create --verbose /dev/md3 --bitmap=internal --raid-devices=3 --level=1                           --name=host:data /dev/sd[abc]4;
 #--force
-
-# Verschlüsselung
-cryptsetup benchmark;
-
-dd if=/dev/urandom of=/dev/md2 bs=4096 status=progress;
-cryptsetup luksFormat --verbose --verify-passphrase --key-size 512 --hash sha512 --use-random --cipher aes-xts-plain64 /dev/md2;
-cryptsetup luksOpen /dev/md2 crypt_lvm;
-pvcreate -v --dataalignment 64k /dev/mapper/crypt_lvm;
-vgcreate -v --dataalignment 64k vghost /dev/mapper/crypt_lvm;
 
 # BOOT Partion formatieren (FAT32): benötigt dosfstools
 mkfs.vfat -F 32 /dev/md0;
@@ -118,10 +109,23 @@ swapon -p 1 /dev/sdc2;
 #echo "SSD	none	swap	defaults,discard,nofail,pri=100		0 0" >> /mnt/etc/fstab;
 #echo "HDD	none	swap	defaults,nofail,pri=10				0 0" >> /mnt/etc/fstab;
 
+# Verschlüsselung
+cryptsetup benchmark;
+
+dd if=/dev/urandom of=/dev/md2 bs=4096 status=progress;
+cryptsetup luksFormat --verbose --verify-passphrase --key-size 512 --hash sha512 --use-random --cipher aes-xts-plain64 /dev/md2;
+cryptsetup luksOpen /dev/md2 crypt_lvm;
+pvcreate -v --dataalignment 64k /dev/mapper/crypt_lvm;
+vgcreate -v --dataalignment 64k vghost /dev/mapper/crypt_lvm;
+
 # btrfs
-mkfs.btrfs -L NAME -d raid1 -m raid1 /dev/sda3 /dev/sdb3;
+mkfs.btrfs -L NAME -d raid1 -m raid1 /dev/sda4 /dev/sdb4 /dev/sdc4;
+
+# Meta-Daten doppelt ablegen bei einer einzelnen Disk (nicht bei SSD verwenden!).
+mkfs.btrfs -L pool-NAME -m dup /dev/md3;
+
 mkdir /pool;
-mount /dev/sda3 /pool;
+mount /dev/md3 /pool;
 cd /pool;
 btrfs subvolume create root;
 btrfs subvolume create home;
