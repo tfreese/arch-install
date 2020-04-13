@@ -39,7 +39,8 @@ pacman --noconfirm --needed -S pandoc; # Konverter für Markdown
 # http://download.eclipse.org/releases/2019-09
 pacman --noconfirm --needed -S docker docker-compose;
 pacman --noconfirm --needed -S jdk-openjdk openjdk-src; # Aktuellste Version
-pacman --noconfirm --needed -S jdk11-openjdk openjdk11-src;
+#pacman --noconfirm --needed -S jdk17-openjdk openjdk17-src; # LTS
+pacman --noconfirm --needed -S jdk11-openjdk openjdk11-src; # LTS
 pacman --noconfirm --needed -S jdk8-openjdk openjdk8-src;
 pacman --noconfirm --needed -S git;
 pacman --noconfirm --needed -S gradle;
