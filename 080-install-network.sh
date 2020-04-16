@@ -67,20 +67,9 @@ SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="bc:05:43:02:c8:df", NAME="wlan0
 EOF
 
 #############################################################################################################
-# Fallback
-
-cat << EOF > /etc/systemd/network/99-dhcp.network
-[Match]
-Name=enp*
-
-[Network]
-DHCP=yes
-EOF
-
-#############################################################################################################
 # LAN
 
-cat << EOF > /etc/systemd/network/50-eth0.network
+cat << EOF > /etc/systemd/network/40-eth0.network
 [Match]
 Name=eth0
 
@@ -134,9 +123,24 @@ EOF
 
 wpa_passphrase "$WLAN_SSID" "$WLAN_PASSWORD" >> /etc/wpa_supplicant/wpa_supplicant-wlan0.conf;
 
+systemctl enable wpa_supplicant.service;
+systemctl start wpa_supplicant.service;
+systemctl status wpa_supplicant.service;
+
 systemctl enable wpa_supplicant@wlan0.service;
 systemctl start wpa_supplicant@wlan0.service;
 systemctl status wpa_supplicant@wlan0.service;
+
+#############################################################################################################
+# Fallback
+
+cat << EOF > /etc/systemd/network/99-dhcp.network
+[Match]
+Name=eth*
+
+[Network]
+DHCP=yes
+EOF
 
 #############################################################################################################
 # Eigener Netzwerk-Service
