@@ -104,35 +104,32 @@ ap_scan=1
 # scan_ssid=1" # only for "Hidden"-SSIDs
 # priority=n für Reihenfolge der Netzwerke
 
+network={
+	ssid=$WLAN_SSID2
+	psk=ENCODED PASSWORD
+	priority=1
+}
+
 #network={
 #	ssid=$WLAN_SSID
-#	#key_mgmt=WPA-PSK
-#	#pairwise=CCMP TKIP
-#	#group=TKIP CCMP
-#	#proto=RSN
-#	psk=ENCODED PASSWORD
-#	priority=1
-#}
-#
-#network={
-#	ssid=$WLAN_SSID2
 #	psk=ENCODED PASSWORD
 #	priority=2
+#	key_mgmt=WPA-PSK
+#	pairwise=CCMP TKIP
+#	group=TKIP CCMP
+#	proto=RSN
 #}
+
 EOF
 
 wpa_passphrase "$WLAN_SSID" "$WLAN_PASSWORD" >> /etc/wpa_supplicant/wpa_supplicant-wlan0.conf;
-
-systemctl enable wpa_supplicant.service;
-systemctl start wpa_supplicant.service;
-systemctl status wpa_supplicant.service;
 
 systemctl enable wpa_supplicant@wlan0.service;
 systemctl start wpa_supplicant@wlan0.service;
 systemctl status wpa_supplicant@wlan0.service;
 
 #############################################################################################################
-# Fallback
+# Fallback: DHCP für Ethernet
 
 cat << EOF > /etc/systemd/network/99-dhcp.network
 [Match]
