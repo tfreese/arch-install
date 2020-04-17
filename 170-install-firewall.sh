@@ -30,6 +30,7 @@ cat << EOF > /etc/systemd/system/iptables.service
 Description=iptables Packet Filtering Framework
 Wants=network-online.target
 After=network-online.target
+# network.target, network-pre.target
 # network-online.target kann sich einige Sekunden verzögern
 
 [Service]
