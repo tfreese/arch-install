@@ -105,14 +105,14 @@ ap_scan=1
 # priority=n für Reihenfolge der Netzwerke
 
 network={
-	ssid=$WLAN_SSID2
+	ssid=$WLAN_SSID
 	psk=ENCODED PASSWORD
 	priority=1
 }
 
 #network={
-#	ssid=$WLAN_SSID
-#	psk=ENCODED PASSWORD
+#	ssid=$WLAN_SSID 2
+#	psk=ENCODED PASSWORD 2
 #	priority=2
 #	key_mgmt=WPA-PSK
 #	pairwise=CCMP TKIP
