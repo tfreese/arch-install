@@ -49,13 +49,14 @@ EOF
 
 echo "#35	*		*		*		*			root	nice -n 19 ionice -c3 rsnapshot hourly" >> /etc/crontab;
 
-sed -i_"$TIME" 's/#no_create_root	1/no_create_root	1/' /etc/rsnapshot.conf;
+sed -i_"$TIME" 's/snapshot_root	/.snapshots//snapshot_root	/mnt/rsnapshot/' /etc/rsnapshot.conf;
+sed -i 's/#no_create_root	1/no_create_root	1/' /etc/rsnapshot.conf;
 sed -i 's/retain	alpha	6/retain	hourly	24/' /etc/rsnapshot.conf;
 sed -i 's/retain	beta	7/retain	daily	30/' /etc/rsnapshot.conf;
 sed -i 's/retain	gamma	4/retain	weekly	52/' /etc/rsnapshot.conf;
 sed -i 's/#retain	delta	3/retain	monthly	12/' /etc/rsnapshot.conf;
 sed -i 's/#verbose 2/verbose 2/' /etc/rsnapshot.conf;
-sed -i 's/#loglevel 3/loglevel 2/' /etc/rsnapshot.conf;
+sed -i 's/#loglevel 3/loglevel 3/' /etc/rsnapshot.conf;
 sed -i 's/#logfile	\/var\/log\/rsnapshot/logfile	\/var\/log\/rsnapshot/' /etc/rsnapshot.conf;
 sed -i 's/#rsync_short_args	-a/rsync_short_args	-a/' /etc/rsnapshot.conf;
 sed -i 's/#rsync_long_args	--delete --numeric-ids --relative --delete-excluded/rsync_long_args	--numeric-ids --force/' /etc/rsnapshot.conf;
@@ -66,5 +67,5 @@ sed -i 's/#link_dest	0/link_dest	1/' /etc/rsnapshot.conf;
 sed -i 's/#use_lazy_deletes	0/use_lazy_deletes	1/' /etc/rsnapshot.conf;
 
 touch /etc/rsyncExcludes.conf;
-mkdir -p /.snapshots
+mkdir -p /mnt/rsnapshot
 rsnapshot configtest;
