@@ -30,7 +30,8 @@ pacman --noconfirm --needed -S gedit;
 pacman --noconfirm --needed -S texlive-most; # LaTex
 pacman --noconfirm --needed -S texlive-lang;  # AddOn für nicht lateinische Sprachen
 pacman --noconfirm --needed -S texmaker; # LaTeX editor
-pacman --noconfirm --needed -S pandoc; # Konverter für Markdown
+pacman --noconfirm --needed -S pandoc; # Konverter für Dokumentformate, Markdown etc.
+pacman --noconfirm --needed -S asciidoctor; # Konverter für asciidoc
 
 
 #############################################################################################################
