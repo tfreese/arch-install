@@ -35,6 +35,7 @@ pacman --noconfirm --needed -S alsa-tools;
 pacman --noconfirm --needed -S alsa-utils;
 pacman --noconfirm --needed -S pulseaudio;
 pacman --noconfirm --needed -S pulseaudio-alsa;
+pacman --noconfirm --needed -S pulseaudio-equalizer;
 
 pacman --noconfirm --needed -S gstreamer;
 pacman --noconfirm --needed -S gst-libav;
