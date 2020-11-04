@@ -18,8 +18,8 @@ pacman --noconfirm --needed -S dosfstools; # vfat Treiber
 
 # MODULES=(ext4)
 #
-# HOOKS=(base udev autodetect modconf block mdadm keyboard keymap encrypt lvm2 filesystems fsck)
-# HOOKS=(base systemd autodetect modconf block mdadm_udev keyboard sd-vconsole sd-encrypt sd-lvm2 filesystems fsck)
+# HOOKS=(base udev autodetect modconf block mdadm keyboard keymap lvm2 filesystems fsck)
+# HOOKS=(base systemd autodetect modconf block mdadm_udev keyboard sd-vconsole sd-lvm2 filesystems fsck)
 #
 # LVM on LUKS
 # HOOKS=(base udev autodetect keyboard keymap modconf block mdadm encrypt lvm2 filesystems fsck)
