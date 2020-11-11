@@ -13,10 +13,15 @@
 set -euo pipefail
 # –x für debug
 
+# dmesg | grep microcode
+
+# INTEL
 # Firmware Bug: TSC_DEADLINE, behebt microcode Warnung beim Booten
 # /boot/intel-ucode.img
-# dmesg | grep microcode
 pacman --noconfirm --needed -S intel-ucode;
+
+# AMD
+pacman --noconfirm --needed -S amd-ucode;
 
 #############################################################################################################
 # Prüfen, ob BIOS im UEFI Mode
@@ -82,7 +87,7 @@ EOF
 chmod 700 /etc/pacman.d/hooks/systemd-boot.hook;
 chmod 700 /etc/pacman.d/hooks/systemd-boot-hook.sh;
 
-
+# BootLoader
 mkdir -p /boot/loader/entries;
 
 cat << EOF > /boot/loader/loader.conf
@@ -102,6 +107,7 @@ cat << EOF > /boot/loader/entries/archlinux.conf
 title ArchLinux
 linux /vmlinuz-linux
 initrd /intel-ucode.img
+#initrd /amd-ucode.img
 initrd /initramfs-linux.img
 options root=/dev/vg0/root rw
 # options root=/dev/mdx rw                      resume=/dev/... SWAP
@@ -117,6 +123,7 @@ cat << EOF > /boot/loader/entries/archlinux-fallback.conf
 title ArchLinux-Fallback
 linux /vmlinuz-linux
 initrd /intel-ucode.img
+#initrd /amd-ucode.img
 initrd /initramfs-linux-fallback.img
 options root=/dev/vg0/root rw
 EOF
