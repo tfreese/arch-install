@@ -95,6 +95,7 @@ pacman --noconfirm --needed -S hdparm;
 pacman --noconfirm --needed -S hddtemp;
 pacman --noconfirm --needed -S jq; # JSON processor
 pacman --noconfirm --needed -S lm_sensors; # sensors-detect
+pacman --noconfirm --needed -S lshw; # Hardware Infos: lshw -C memory
 pacman --noconfirm --needed -S nvme-cli; # Client zum Auslesen von M2 SSDs: nvme smart-log /dev/nvme0n1
 pacman --noconfirm --needed -S samba smbclient;
 pacman --noconfirm --needed -S smartmontools; # update-smart-drivedb
