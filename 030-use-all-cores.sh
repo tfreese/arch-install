@@ -22,6 +22,11 @@ pacman --noconfirm --needed -S pigz; # parallel gzip
 numberOfCores=$(grep -c ^processor /proc/cpuinfo);
 
 case $numberOfCores in
+	32)
+		sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j33"/g' /etc/makepkg.conf
+		sed -i 's/COMPRESSGZ=(gzip -c -f -n)/COMPRESSGZ=(pigz -p 32 -c -f -n)/g' /etc/makepkg.conf
+		sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -T 32 -c -z -)/g' /etc/makepkg.conf
+		;;
 	24)
 		sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j25"/g' /etc/makepkg.conf
 		sed -i 's/COMPRESSGZ=(gzip -c -f -n)/COMPRESSGZ=(pigz -p 24 -c -f -n)/g' /etc/makepkg.conf
