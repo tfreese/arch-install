@@ -38,7 +38,7 @@ case $numberOfCores in
 		sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -T 16 -c -z -)/g' /etc/makepkg.conf
 		;;
 	8)
-		sudo sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j9"/g' /etc/makepkg.conf
+		sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j9"/g' /etc/makepkg.conf
 		sed -i 's/COMPRESSGZ=(gzip -c -f -n)/COMPRESSGZ=(pigz -p 8 -c -f -n)/g' /etc/makepkg.conf
 		sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -T 8 -c -z -)/g' /etc/makepkg.conf
 		;;
