@@ -91,10 +91,11 @@ pacman --noconfirm --needed -S conky;
 pacman --noconfirm --needed -S gnome-calculator;
 pacman --noconfirm --needed -S gnome-system-monitor;
 #pacman --noconfirm --needed -S gnome-terminal;
+pacman --noconfirm --needed -S hardinfo; # Hardware Informationen
 pacman --noconfirm --needed -S hdparm;
 pacman --noconfirm --needed -S hddtemp;
 pacman --noconfirm --needed -S jq; # JSON processor
-pacman --noconfirm --needed -S lm_sensors; # sensors-detect
+pacman --noconfirm --needed -S lm_sensors psensor; # sensors-detect
 pacman --noconfirm --needed -S lshw; # Hardware Infos: lshw -C memory
 pacman --noconfirm --needed -S nvme-cli; # Client zum Auslesen von M2 SSDs: nvme smart-log /dev/nvme0n1
 pacman --noconfirm --needed -S samba smbclient;
