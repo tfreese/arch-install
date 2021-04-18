@@ -28,9 +28,8 @@ systemctl enable lightdm;
 systemctl start lightdm;
 
 # /etc/lightdm/lightdm.conf
-allow-guest=false
- 
 [Seat:*]
+greeter-allow-guest=false
 greeter-session=lightdm-gtk-greeter
 allow-guest=false
 

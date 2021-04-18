@@ -59,6 +59,7 @@ parted /dev/sda set 1 esp       on; # UEFI Boot-Flag
 parted /dev/sda set 2 raid on;
 # parted /dev/sda set 2 swap on;
 parted /dev/sda set 3 raid on;
+parted /dev/sda set 4 raid on;
 
 #############################################################################################################
 parted /dev/sda name 1 boot;
@@ -138,7 +139,10 @@ vgcreate -v --dataalignment 64k vghost /dev/md2;
 
 lvcreate -v --wipesignatures y -L 32G -n root vghost;
 
-# System Partionen formatieren.
+# System Partionen formatieren: Raid1, 2 Disks
+mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=16 -L root /dev/vghost/root;
+
+# System Partionen formatieren: Raid5, 3 Disks
 mkfs.ext4 -v -m 1 -b 4096 -E stride=16,stripe-width=32 -L root /dev/vghost/root;
 
 # Anpassen für Raid-Optionen

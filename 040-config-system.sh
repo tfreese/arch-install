@@ -17,6 +17,7 @@ pacman --noconfirm --needed -S sudo;
 pacman --noconfirm --needed -S bash-completion;
 pacman --noconfirm --needed -S mdadm;
 pacman --noconfirm --needed -S lvm2;
+pacman --noconfirm --needed -S logrotate;
 
 pacman --noconfirm --needed -S parted;
 pacman --noconfirm --needed -S gptfdisk;

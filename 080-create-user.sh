@@ -67,4 +67,4 @@ tommy ALL=(ALL) NOPASSWD: MAINTAIN, LVM
 EOF
 
 chmod 0440 /etc/sudoers.d/tommy;
-visudo -c [/etc/sudoers.d/tommy];
+visudo -c /etc/sudoers.d/tommy;
