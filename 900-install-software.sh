@@ -67,6 +67,7 @@ pacman --noconfirm --needed -S ttf-ubuntu-font-family;
 #############################################################################################################
 # Multimedia
 pacman --noconfirm --needed -S cdrdao;
+pacman --noconfirm --needed -S clementine;
 pacman --noconfirm --needed -S dvd+rw-tools;
 pacman --noconfirm --needed -S gimp;
 pacman --noconfirm --needed -S gthumb;
