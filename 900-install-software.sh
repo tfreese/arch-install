@@ -99,16 +99,17 @@ pacman --noconfirm --needed -S jq; # JSON processor
 pacman --noconfirm --needed -S lm_sensors psensor; # sensors-detect
 pacman --noconfirm --needed -S lshw; # Hardware Infos: lshw -C memory
 pacman --noconfirm --needed -S nvme-cli; # Client zum Auslesen von M2 SSDs: nvme smart-log /dev/nvme0n1
+pacman --noconfirm --needed -S pacman-contrib;
 pacman --noconfirm --needed -S samba smbclient;
 pacman --noconfirm --needed -S smartmontools; # update-smart-drivedb
 pacman --noconfirm --needed -S sshfs;
 pacman --noconfirm --needed -S sysstat; # iostat -m 1 5
 pacman --noconfirm --needed -S tree;
 pacman --noconfirm --needed -S tmux;
-pacman --noconfirm --needed -S reflector pacman-contrib; # Test Arch-Mirrors
+pacman --noconfirm --needed -S reflector; # Test Arch-Mirrors
 pacman --noconfirm --needed -S rsync rsnapshot;
 pacman --noconfirm --needed -S rrdtool;
-pacman --noconfirm --needed -S virtualbox virtualbox-host-modules-arch; # In VM die virtualbox-host-* Packete installieren.
+pacman --noconfirm --needed -S virtualbox virtualbox-host-modules-arch; # In der VM die virtualbox-guest-* Packete installieren.
 pacman --noconfirm --needed -S xfce4-terminal; # --maximize
 
 #############################################################################################################

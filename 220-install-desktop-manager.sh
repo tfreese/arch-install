@@ -28,8 +28,8 @@ pacman --noconfirm --needed -S numix-gtk-theme;
 pacman --noconfirm --needed -S gnome-keyring libgnome-keyring;
 pacman --noconfirm --needed -S gnome-screenshot;
 
-# AUR cinnamon-sound-effects
-# AUR mint-sounds
+# cinnamon-sound-effects@https://aur.archlinux.org/mint-artwork-cinnamon.git
+# mint-sounds@https://aur.archlinux.org/mint-artwork-common.git
 
 cp /etc/X11/xinit/xinitrc ~/.xinitrc;
 
