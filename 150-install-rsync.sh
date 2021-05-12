@@ -51,6 +51,13 @@ hosts deny = *
     path = /home/
     uid = root
     gid = root
+    
+[backup]
+    comment = /mnt/backup
+    path = /mnt/backup
+    uid = root
+    gid = root 
+    read only = no   
 EOF
 
 cat << EOF > /etc/logrotate.d/rsyncd
