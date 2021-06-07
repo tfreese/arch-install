@@ -109,6 +109,7 @@ pacman --noconfirm --needed -S tmux;
 pacman --noconfirm --needed -S reflector; # Test Arch-Mirrors
 pacman --noconfirm --needed -S rsync rsnapshot;
 pacman --noconfirm --needed -S rrdtool;
+pacman --noconfirm --needed -S usbutils;
 pacman --noconfirm --needed -S virtualbox virtualbox-host-modules-arch; # In der VM die virtualbox-guest-* Packete installieren.
 pacman --noconfirm --needed -S xfce4-terminal; # --maximize
 

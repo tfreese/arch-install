@@ -14,17 +14,21 @@ set -euo pipefail
 # –x für debug
 
 
+# Web-GUI: http://localhost:631/
 pacman --noconfirm --needed -S a2ps; # Verbesserter Support für Text-Dateien
-pacman --noconfirm --needed -S cups cups-pdf; # Drucker-API
+pacman --noconfirm --needed -S cups bluez-cups cups-pdf; # Drucker-API
 pacman --noconfirm --needed -S gtk3-print-backends; # Auflistung des Druckers in Druck-Dialogen
 #pacman --noconfirm --needed -S gutenprint; # Generischer Treiber
-pacman --noconfirm --needed -S hplip; # HP Linux Inkjet Treiber
 pacman --noconfirm --needed -S system-config-printer;
 
+pacman --noconfirm --needed -S hplip; # HP Linux Inkjet Treiber
+# Leider fehlt der Firmware-Treiber bei hplip, diesen aus dem aur-Repository manuell installieren.
+# https://aur.archlinux.org/hplip-plugin.git
 
-systemctl enable org.cups.cupsd.service;
-systemctl start org.cups.cupsd.service;
-systemctl status org.cups.cupsd.service;
+
+systemctl enable cups.service;
+systemctl start cups.service;
+systemctl status cups.service;
 
 
 # Falls Drucker nicht erkannt wird.
