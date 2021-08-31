@@ -44,7 +44,7 @@ systemctl status systemd-resolved.service;
 
 
 #############################################################################################################
-# Interfaces umbenennen (enp6s0 -> eth0)
+# Interfaces umbenennen (enp6s0 -> eth0): Predictable Network InterfaceNames
 # MAC-Adresse ermitteln: cat /sys/class/net/enp6s0/address;
 
 cat << EOF > /etc/systemd/network/10-enp6s0.link
@@ -53,7 +53,7 @@ MACAddress=38:d5:47:e1:3d:a6
 
 [Link]
 Description=Ethernet 0 Adapter
-Name=eth0
+#Name=eth0
 MTUBytes=1452
 BitsPerSecond=1G
 Duplex=full
