@@ -22,15 +22,21 @@ Minty
 
 
 #############################################################################################################
+# Extensions
+gKachel = gtiles
+
+
+#############################################################################################################
 # Editors
 #pacman --noconfirm --needed -S atom electron4;
-pacman --noconfirm --needed -S geany;
-pacman --noconfirm --needed -S gedit;
+pacman --noconfirm --needed -S notepadqq;
+#pacman --noconfirm --needed -S geany;
+#pacman --noconfirm --needed -S gedit;
 
 pacman --noconfirm --needed -S texlive-most; # LaTex
 pacman --noconfirm --needed -S texlive-lang;  # AddOn für nicht lateinische Sprachen
 pacman --noconfirm --needed -S texmaker; # LaTeX editor
-pacman --noconfirm --needed -S pandoc; # Konverter für Dokumentformate, Markdown etc. ACHTUNG haskell-Package wird auch installiert !
+#pacman --noconfirm --needed -S pandoc; # Konverter für Dokumentformate, Markdown etc. ACHTUNG haskell-Package wird auch installiert !
 pacman --noconfirm --needed -S asciidoctor; # Konverter für asciidoc
 
 
@@ -40,7 +46,7 @@ pacman --noconfirm --needed -S asciidoctor; # Konverter für asciidoc
 # http://download.eclipse.org/releases/2019-09
 pacman --noconfirm --needed -S docker docker-compose;
 pacman --noconfirm --needed -S jdk-openjdk openjdk-src; # Aktuellste Version
-#pacman --noconfirm --needed -S jdk17-openjdk openjdk17-src; # LTS
+pacman --noconfirm --needed -S jdk17-openjdk openjdk17-src; # LTS
 pacman --noconfirm --needed -S jdk11-openjdk openjdk11-src; # LTS
 pacman --noconfirm --needed -S jdk8-openjdk openjdk8-src; # LTS
 pacman --noconfirm --needed -S git;
