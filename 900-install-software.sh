@@ -79,6 +79,8 @@ pacman --noconfirm --needed -S gimp;
 pacman --noconfirm --needed -S gthumb;
 pacman --noconfirm --needed -S handbrake;
 pacman --noconfirm --needed -S kodi;
+pacman --noconfirm --needed -S kodi-audioencoder-flac kodi-audioencoder-lame kodi-audioencoder-vorbis kodi-audioencoder-wav;
+pacman --noconfirm --needed -S mediaelch;
 pacman --noconfirm --needed -S picard;
 pacman --noconfirm --needed -S vlc;
 
