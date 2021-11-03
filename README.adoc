@@ -1,9 +1,9 @@
-# Installation-Scripts for archlinux.
-# **<font color="red">Use at your own risk !</font>**
+= Installation-Scripts for archlinux.
 
-<!-- <font color="red"> <span style="color:red">-->
+[big red yellow-background]*Use at your own risk !*
 
-### Links
+
+== Links
 Name | URL
 -----|-----
 arcolinuxd | https://github.com/arcolinuxd/arco-cinnamon
