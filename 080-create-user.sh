@@ -23,7 +23,9 @@ useradd  --gid "$GROUP_ID" --groups audio,disk,games,network,optical,rfkill,user
 #gpasswd -a "$USER_NAME" wheel
 #usermod -a -G disk $USER
 
-# Systemuser  : useradd --system --no-create-home --shell=/bin/false USER
+# Systemuser  : useradd --system --no-create-home --shell=/usr/bin/nologin USER
+# Gruppe heisst dann wie der User.
+#
 # User sperren: usermod -L USER
 
 # Passwort ändern
