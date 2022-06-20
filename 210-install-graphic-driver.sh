@@ -41,8 +41,8 @@ pacman --noconfirm --needed -S xf86-video-amdgpu;
 pacman --noconfirm --needed -S vulkan-radeon;
 
 # Einstellungen per Console
-# xrandr --output DP-2 --mode 2560x1440 --rate 144;
-# xrandr --output DP-2 --mode 2560x1440 --rate 144 --primary --output DP-0 --mode 1920x1080 --rate 144;
+# xrandr --output DP-4 --mode 2560x1440 --rate 144;
+# xrandr --output DP-4 --mode 2560x1440 --rate 144 --primary --output DP-0 --mode 2560x1440 --rate 144 --right-of DP-4
 pacman --noconfirm --needed -S xorg-xrandr;
 
 # Für alte Hardware:
