@@ -47,6 +47,14 @@ net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 net.ipv6.conf.eth0.disable_ipv6 = 1
 net.ipv6.conf.wlan0.disable_ipv6 = 1
+
+# USB Buffer
+vm.dirty_ratio = 1
+vm.dirty_bytes = 0
+vm.dirty_background_ratio = 1
+vm.dirty_background_bytes = 0
+# usbcore.usbfs_memory_mb = 16
+
 EOF
 
 # Reload
