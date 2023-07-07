@@ -73,7 +73,6 @@ pacman --noconfirm --needed -S ttf-ubuntu-font-family;
 #############################################################################################################
 # Multimedia
 pacman --noconfirm --needed -S cdrdao;
-pacman --noconfirm --needed -S clementine;
 pacman --noconfirm --needed -S dvd+rw-tools;
 pacman --noconfirm --needed -S gimp;
 pacman --noconfirm --needed -S gthumb;
@@ -82,6 +81,7 @@ pacman --noconfirm --needed -S kodi;
 pacman --noconfirm --needed -S kodi-audioencoder-flac kodi-audioencoder-lame kodi-audioencoder-vorbis kodi-audioencoder-wav;
 pacman --noconfirm --needed -S mediaelch;
 pacman --noconfirm --needed -S picard;
+pacman --noconfirm --needed -S strawberry;
 pacman --noconfirm --needed -S vlc;
 
 
