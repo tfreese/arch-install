@@ -144,3 +144,9 @@ pacman --noconfirm --needed -S pigz; # parallel gzip
 pacman --noconfirm --needed -S unrar;
 pacman --noconfirm --needed -S unzip;
 #pacman --noconfirm --needed -S xfburn;
+
+#############################################################################################################
+# Games
+pacman --noconfirm --needed -S steam steam-native-runtime;
+pacman --noconfirm --needed -S lutris;
+pacman --noconfirm --needed -S proton;
