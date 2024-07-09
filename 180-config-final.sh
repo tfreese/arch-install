@@ -45,8 +45,8 @@ net.ipv4.tcp_synack_retries = 3
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
-net.ipv6.conf.eth0.disable_ipv6 = 1
-net.ipv6.conf.wlan0.disable_ipv6 = 1
+net.ipv6.conf.enp5s0.disable_ipv6 = 1
+net.ipv6.conf.enp6s0.disable_ipv6 = 1
 
 # USB Buffer
 # cat /proc/vmstat | egrep "dirty|writeback"
