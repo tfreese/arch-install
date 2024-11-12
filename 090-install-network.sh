@@ -86,7 +86,10 @@ DNS=192.168.250.1
 RouteMetric=10
 
 [Link]
-#MTUBytes=1452
+MTUBytes=1452
+BitsPerSecond=1G
+Duplex=full
+WakeOnLan=off
 EOF
 
 systemctl enable systemd-networkd;
