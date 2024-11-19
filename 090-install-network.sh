@@ -27,6 +27,9 @@ systemctl stop dhcpcd;
 systemctl disable dhcpcd;
 systemctl status dhcpcd;
 
+# Netzwerk Adresse vergeben.
+dhcpcd -b wlp5s0;
+
 #############################################################################################################
 # Falls resolve verwendet werden soll, nur für DHCP relevant.
 # echo "domain fritz.box" > /etc/resolv.conf;
@@ -68,18 +71,16 @@ EOF
 
 #############################################################################################################
 # LAN
-
-cat << EOF > /etc/systemd/network/40-eth0.network
+cat << EOF > /etc/systemd/network/40-enp6s0.network
 [Match]
 Name=eth0
 
 [Network]
 #DHCP=yes/no/ipv4/ipv6
-Address=192.168.250.102/24
+DHCP=no
+Address=192.168.250.100/24
 Gateway=192.168.250.1
 DNS=192.168.250.1
-#DNS=8.8.8.8
-#DNS=8.8.4.4
 
 [DHCP]
 #UseRoutes=false
@@ -90,6 +91,27 @@ MTUBytes=1452
 BitsPerSecond=1G
 Duplex=full
 WakeOnLan=off
+RequiredForOnline=routable
+EOF
+
+# WLAN
+cat << EOF > /etc/systemd/network/40-wlp5s0.network
+[Match]
+Name=wlp5s0
+
+[Network]
+#DHCP=yes
+Gateway=192.168.250.1
+Address=192.168.250.103/24
+DNS=192.168.250.1
+IgnoreCarrierLoss=3s
+
+[DHCP]
+RouteMetric=30
+
+[Link]
+RequiredForOnline=routable
+Duplex=full
 EOF
 
 systemctl enable systemd-networkd;
@@ -99,7 +121,7 @@ systemctl status systemd-networkd;
 #############################################################################################################
 # WLAN
 
-cat << EOF > /etc/wpa_supplicant/wpa_supplicant-wlan0.conf
+cat << EOF > /etc/wpa_supplicant/wpa_supplicant-wlp5s0.conf
 ctrl_interface=/var/run/wpa_supplicant
 update_config=1
 fast_reauth=1
@@ -108,14 +130,14 @@ ap_scan=1
 # priority=n für Reihenfolge der Netzwerke
 
 network={
-	ssid=$WLAN_SSID
-	psk=ENCODED PASSWORD
+	ssid="$WLAN_SSID"
+	psk="ENCODED PASSWORD"
 	priority=1
 }
 
 #network={
-#	ssid=$WLAN_SSID 2
-#	psk=ENCODED PASSWORD 2
+#	ssid="$WLAN_SSID 2"
+#	psk="ENCODED PASSWORD 2"
 #	priority=2
 #	key_mgmt=WPA-PSK
 #	pairwise=CCMP TKIP
@@ -125,11 +147,11 @@ network={
 
 EOF
 
-wpa_passphrase "$WLAN_SSID" "$WLAN_PASSWORD" >> /etc/wpa_supplicant/wpa_supplicant-wlan0.conf;
+wpa_passphrase "$WLAN_SSID" "$WLAN_PASSWORD" >> /etc/wpa_supplicant/wpa_supplicant-wlp5s0.conf;
 
-systemctl enable wpa_supplicant@wlan0.service;
-systemctl start wpa_supplicant@wlan0.service;
-systemctl status wpa_supplicant@wlan0.service;
+systemctl enable wpa_supplicant@wlp5s0.service;
+systemctl start wpa_supplicant@wlp5s0.service;
+systemctl status wpa_supplicant@wlp5s0.service;
 
 #############################################################################################################
 # Fallback: DHCP für Ethernet
