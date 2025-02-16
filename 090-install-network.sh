@@ -20,7 +20,7 @@ pacman --noconfirm --needed -S wpa_supplicant;
 pacman --noconfirm --needed -S wireless_tools;
 
 pacman --noconfirm --needed -S modemmanager;
-pacman --noconfirm --needed -S networkmanager networkmanager-openconnect networkmanager-openvpn;
+pacman --noconfirm --needed -S networkmanager networkmanager-openconnect networkmanager-openvpn nm-connection-editor network-manager-applet;
 
 # cat /sys/class/net/eth0/speed
 

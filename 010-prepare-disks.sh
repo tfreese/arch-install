@@ -65,7 +65,7 @@ parted /dev/sda set 4 raid on;
 parted /dev/sda name 1 boot;
 parted /dev/sda name 2 swap;
 parted /dev/sda name 3 lvm;
-parted /dev/sda name 4 data;
+parted /dev/sda name 4 root;
 
 parted /dev/sda print free;
 
@@ -89,7 +89,7 @@ parted /dev/sdc print free;
 mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1 --metadata 1.0            --name=host:boot /dev/sd[abc]1;
 mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=1                           --name=host:swap /dev/sd[abc]2;
 mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=5 --chunk=64 --assume-clean --name=host:lvm  /dev/sd[abc]3;
-mdadm --create --verbose /dev/md3 --bitmap=internal --raid-devices=3 --level=1 [--size=kb]               --name=host:data /dev/sd[abc]4;
+mdadm --create --verbose /dev/md3 --bitmap=internal --raid-devices=3 --level=1 [--size=kb]               --name=host:root /dev/sd[abc]4;
 #--force
 
 # BOOT Partion formatieren (FAT32): benötigt dosfstools
