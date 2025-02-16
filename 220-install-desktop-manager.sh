@@ -21,7 +21,7 @@ set -euo pipefail
 
 #############################################################################################################
 # Cinnamon
-pacman --noconfirm --needed -S cinnamon;
+pacman --noconfirm --needed -S cinnamon cinnamon-translations;
 pacman --noconfirm --needed -S nemo nemo-fileroller;
 pacman --noconfirm --needed -S faenza-icon-theme;
 pacman --noconfirm --needed -S numix-gtk-theme;

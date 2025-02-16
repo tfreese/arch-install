@@ -94,8 +94,8 @@ cat << EOF > /boot/loader/loader.conf
 default archlinux
 timout 5
 editor 0
-auto-entries 1
-# Für Windows Menü-Eintrag
+auto-entries 0
+# Für Windows Menü-Eintrag bei Dual-Boot.
 
 console-mode max
 # 0 = 80x25
@@ -106,8 +106,8 @@ EOF
 cat << EOF > /boot/loader/entries/archlinux.conf
 title ArchLinux
 linux /vmlinuz-linux
-initrd /intel-ucode.img
-#initrd /amd-ucode.img
+#initrd /intel-ucode.img
+initrd /amd-ucode.img
 initrd /initramfs-linux.img
 options root=/dev/vg0/root rw
 # options root=/dev/mdx rw                      resume=/dev/... SWAP
@@ -122,13 +122,14 @@ EOF
 cat << EOF > /boot/loader/entries/archlinux-fallback.conf
 title ArchLinux-Fallback
 linux /vmlinuz-linux
-initrd /intel-ucode.img
-#initrd /amd-ucode.img
+#initrd /intel-ucode.img
+initrd /amd-ucode.img
 initrd /initramfs-linux-fallback.img
 options root=/dev/vg0/root rw
 EOF
 
 
+# Nur bei Dual-Boot.
 # systemd-boot sucht automatisch nach dem Eintrag 'EFI/Microsoft/Boot/Bootmgfw.efi' und erstellt einen Menü-Eintrag.
 # Daher müssen nur die Windows UEFI-Dateien (vfat-Partition) in die Boot-Partition kopiert werden.
 rsync -avh --progress /DEVICE/EFI/Microsoft/ /boot/EFI/Microsoft/;

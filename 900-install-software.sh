@@ -130,6 +130,7 @@ pacman --noconfirm --needed -S xfce4-terminal; # --maximize
 pacman --noconfirm --needed -S firefox firefox-i18n-de;
 pacman --noconfirm --needed -S chromium;
 pacman --noconfirm --needed -S flashplugin;
+pacman --noconfirm --needed -S torbrowser-launcher;
 # google-chrome (aur)
 pacman --noconfirm --needed -S lynx;
 pacman --noconfirm --needed -S nginx;

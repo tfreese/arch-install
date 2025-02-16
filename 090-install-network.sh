@@ -19,6 +19,9 @@ pacman --noconfirm --needed -S ethtool;
 pacman --noconfirm --needed -S wpa_supplicant;
 pacman --noconfirm --needed -S wireless_tools;
 
+pacman --noconfirm --needed -S modemmanager;
+pacman --noconfirm --needed -S networkmanager networkmanager-openconnect networkmanager-openvpn;
+
 # cat /sys/class/net/eth0/speed
 
 #############################################################################################################
