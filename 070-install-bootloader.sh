@@ -87,7 +87,8 @@ EOF
 chmod 700 /etc/pacman.d/hooks/systemd-boot.hook;
 chmod 700 /etc/pacman.d/hooks/systemd-boot-hook.sh;
 
-# BootLoader
+#############################################################################################################
+# UEFI BootLoader
 mkdir -p /boot/loader/entries;
 
 cat << EOF > /boot/loader/loader.conf

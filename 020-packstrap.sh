@@ -13,11 +13,13 @@
 set -euo pipefail
 # –x für debug
 
-# System-Partition mounten
+# System-Partition mounten:
 # LVM
 mount /dev/vghost/root /mnt;
+
 # btrfs
 mount -o subvol=root /dev/sda3 /mnt;
+
 mkdir /mnt/home;
 mount -o subvol=home /dev/sda3 /mnt/home;
 
@@ -26,7 +28,7 @@ mount -o subvol=home /dev/sda3 /mnt/home;
 mkdir /mnt/boot;
 mount /dev/md0 /mnt/boot;
 
-pacstrap /mnt base base-devel linux linux-headers linux-firmware nano pigz efibootmgr dosfstools btrfs-progs;
+pacstrap /mnt base base-devel linux linux-headers linux-firmware nano;
 
 genfstab -p /mnt >> /mnt/etc/fstab;
 
