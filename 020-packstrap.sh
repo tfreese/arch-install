@@ -28,7 +28,7 @@ mount -o subvol=home /dev/sda3 /mnt/home;
 mkdir /mnt/boot;
 mount /dev/md0 /mnt/boot;
 
-pacstrap /mnt base base-devel linux linux-headers linux-firmware nano;
+pacstrap /mnt base base-devel linux linux-headers linux-firmware nano btrfs-progs lvm2;
 
 genfstab -p /mnt >> /mnt/etc/fstab;
 

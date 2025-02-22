@@ -19,26 +19,22 @@ set -euo pipefail
 #lspci -k | grep VGA;
 
 # DRI Treiber für 3D Beschleunigung
-pacman --noconfirm --needed -S mesa;
-pacman --noconfirm --needed -S mesa-vdpau;
+pacman --noconfirm --needed -S mesa mesa-vdpau;
 # glxinfo, glxgears
 pacman --noconfirm --needed -S mesa-demos;
 
 #Für Hardware-Decoding (VDPAU):
-pacman --noconfirm --needed -S libva-vdpau-driver;
+pacman --noconfirm --needed -S libva-utils libva-vdpau-driver;
 
 # Proprietärer Treiber: http://www.nvidia.com/object/unix.html
 #pacman –Ss | grep nvidia;
 
 # NVIDIA
-pacman --noconfirm --needed -S nvidia;
-pacman --noconfirm --needed -S nvidia-utils;
-pacman --noconfirm --needed -S nvidia-settings;
+pacman --noconfirm --needed -S nvidia nvidia-utils nvidia-settings;
 # Anschliessend nach dem GUI-Start 'sudo nvidia-xconfig' ausführen.
 
 # RADEON
-pacman --noconfirm --needed -S xf86-video-amdgpu;
-pacman --noconfirm --needed -S vulkan-radeon;
+pacman --noconfirm --needed -S xf86-video-amdgpu vulkan-radeon;
 
 # Einstellungen per Console
 # xrandr --output DP-4 --mode 2560x1440 --rate 144;

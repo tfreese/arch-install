@@ -27,44 +27,16 @@ cat /etc/asound.conf;
 #}
 
 #############################################################################################################
-pacman --noconfirm --needed -S alsa-firmware;
-pacman --noconfirm --needed -S alsa-lib;
-pacman --noconfirm --needed -S alsa-oss;
-pacman --noconfirm --needed -S alsa-plugins;
-pacman --noconfirm --needed -S alsa-tools;
-pacman --noconfirm --needed -S alsa-utils;
-pacman --noconfirm --needed -S pulseaudio;
-pacman --noconfirm --needed -S pulseaudio-alsa;
-pacman --noconfirm --needed -S pulseaudio-equalizer;
+pacman --noconfirm --needed -S alsa-firmware alsa-lib alsa-oss alsa-plugins alsa-tools alsa-utils;
+pacman --noconfirm --needed -S pulseaudio pulseaudio-alsa pulseaudio-equalizer;
 
-pacman --noconfirm --needed -S gstreamer;
-pacman --noconfirm --needed -S gst-libav;
-pacman --noconfirm --needed -S gst-plugins-bad;
-pacman --noconfirm --needed -S gst-plugins-base;
-pacman --noconfirm --needed -S gst-plugins-good;
-pacman --noconfirm --needed -S gst-plugins-ugly;
+pacman --noconfirm --needed -S gstreamer gst-libav gst-plugins-bad gst-plugins-base gst-plugins-good gst-plugins-ugly;
 
 
 # Codecs
-pacman --noconfirm --needed -S a52dec;
-pacman --noconfirm --needed -S faac;
-pacman --noconfirm --needed -S faad2;
-pacman --noconfirm --needed -S ffms2;
-pacman --noconfirm --needed -S flac;
-pacman --noconfirm --needed -S libdca;
-pacman --noconfirm --needed -S libdv;
-pacman --noconfirm --needed -S libdvdcss;
-pacman --noconfirm --needed -S libmad;
-pacman --noconfirm --needed -S libmpeg2;
-pacman --noconfirm --needed -S libtheora;
-pacman --noconfirm --needed -S libfdk-aac;
-pacman --noconfirm --needed -S libvorbis;
-pacman --noconfirm --needed -S libxv;
-pacman --noconfirm --needed -S mpg123;
-pacman --noconfirm --needed -S wavpack;
-pacman --noconfirm --needed -S x264;
-pacman --noconfirm --needed -S x265;
-pacman --noconfirm --needed -S xvidcore;
+pacman --noconfirm --needed -S a52dec faac faad2 ffms2 flac;
+pacman --noconfirm --needed -S libdca libdv libdvdcss libmad libmpeg2 libtheora libfdk-aac libvorbis libxv;
+pacman --noconfirm --needed -S mpg123 wavpack x264 x265 xvidcore;
 
 
 # Tools

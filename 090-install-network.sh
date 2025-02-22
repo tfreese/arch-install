@@ -21,6 +21,9 @@ pacman --noconfirm --needed -S wireless_tools;
 
 pacman --noconfirm --needed -S modemmanager;
 pacman --noconfirm --needed -S networkmanager networkmanager-openconnect networkmanager-openvpn nm-connection-editor network-manager-applet;
+systemctl enable NetworkManager.service;
+systemctl start NetworkManager.service;
+systemctl status NetworkManager.service;
 
 # cat /sys/class/net/eth0/speed
 

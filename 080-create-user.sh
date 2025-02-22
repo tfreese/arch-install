@@ -42,7 +42,7 @@ chown -R "$USER_NAME":"$GROUP_NAME" "/home/$USER_NAME";
 # wheel UserGroup für sudo berechtigen
 #sed -i_"$TIME" 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers;
 
-echo "## (the '#' here does not indicate a comment)" >> /etc/sudoers;
+echo "## (the '#' here does not indicate a comment!)" >> /etc/sudoers;
 echo "#includedir /etc/sudoers.d" >> /etc/sudoers;
 
 cat << EOF > /etc/sudoers.d/tommy

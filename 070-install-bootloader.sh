@@ -111,11 +111,11 @@ linux /vmlinuz-linux
 initrd /amd-ucode.img
 initrd /initramfs-linux.img
 options root=/dev/vg0/root rw
-# options root=/dev/mdx rw                      resume=/dev/... SWAP
-# options root=PARTUUID=<PARTUUID aus blkid> rw resume=/dev/... SWAP
-# options root=LABEL=... rw                     resume=/dev/... SWAP
-# options root=UUID=... rw                      resume=/dev/... SWAP
-# options cryptdevice=/dev/mdx:crypt_lvm root=/dev/vg0/root rw resume=/dev/... SWAP
+# options root=/dev/mdx                                                    rw   [resume=/dev/... SWAP]
+# options root=PARTUUID=<PARTUUID aus blkid> 
+# options root=UUID=... 
+# options root=                                   rootflags=subvol=root
+# options cryptdevice=/dev/mdx:crypt_lvm root=/dev/vg0/root
 EOF
 
 # cp /boot/loader/entries/archlinux.conf /boot/loader/entries/archlinux-fallback.conf;
