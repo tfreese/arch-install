@@ -19,7 +19,7 @@ USER_ID="1000":
 USER_NAME="linuxer";
 
 groupadd --gid "$GROUP_ID" "$GROUP_NAME";
-useradd  --gid "$GROUP_ID" --groups audio,disk,games,input,network,optical,rfkill,users,video,wheel --uid "$USER_ID" --create-home --home-dir "/home/$USER_NAME" --shell /bin/bash "$USER_NAME";
+useradd  --gid "$GROUP_ID" --groups audio,disk,games,network,optical,rfkill,users,video,wheel --uid "$USER_ID" --create-home --home-dir "/home/$USER_NAME" --shell /bin/bash "$USER_NAME";
 #gpasswd -a "$USER_NAME" wheel
 #usermod -a -G disk $USER
 
