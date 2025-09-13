@@ -1,0 +1,31 @@
+# Normalize line endings to LF.
+*                       text eol=lf
+
+# Unix shell scripts must have LF.
+*.{sh,[sS][hH]}         text eol=lf
+gradlew                 text eol=lf
+mvnw                    text eol=lf
+
+# Windows batch files must have CRLF.
+*.{bat,[bB][aA][tT]}    text eol=crlf
+*.{cmd,[cC][mM][dD]}    text eol=crlf
+
+# Ensure that line endings for multipart files in spring-web are not modified.
+*.multipart             -text
+
+# binary is a macro for '-text -diff'
+*.aif                   binary
+*.au                    binary
+*.flac                  binary
+*.gif                   binary
+*.jar                   binary
+*.jpeg                  binary
+*.jpg                   binary
+*.m4a                   binary
+*.m4b                   binary
+*.mp3                   binary
+*.pgg                   binary
+*.png                   binary
+*.svg                   text
+*.wav                   binary
+*.wma                   binary
