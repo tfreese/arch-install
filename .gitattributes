@@ -19,11 +19,13 @@ mvnw                    text eol=lf
 *.flac                  binary
 *.gif                   binary
 *.jar                   binary
+*.jks                   binary
 *.jpeg                  binary
 *.jpg                   binary
 *.m4a                   binary
 *.m4b                   binary
 *.mp3                   binary
+*.p12                   binary
 *.pgg                   binary
 *.png                   binary
 *.svg                   text
