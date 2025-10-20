@@ -19,11 +19,127 @@ pacman --noconfirm --needed -S ethtool;
 pacman --noconfirm --needed -S wpa_supplicant;
 pacman --noconfirm --needed -S wireless_tools;
 
+#############################################################################################################
+# NetworkManager - https://wiki.archlinux.org/title/NetworkManager
 pacman --noconfirm --needed -S modemmanager;
-pacman --noconfirm --needed -S networkmanager networkmanager-openconnect networkmanager-openvpn nm-connection-editor network-manager-applet;
-systemctl enable NetworkManager.service;
+pacman --noconfirm --needed -S networkmanager nm-connection-editor network-manager-applet networkmanager-openconnect networkmanager-openvpn;
+
+# nmcli general;
+# nmcli device;
+# nmcli connection;
+# nmcli networking on/off;
+# nmcli radio wifi on/off;
+# nmcli connection up/down ethernet-DEVICE;
+# nmcli device connect/disconnect ethernet-DEVICE;
+# nmcli device show DEVICE;
+# VAR=C nmcli -t device show DEVICE;
+#
+# nmcli connection add type ethernet ifname DEVICE;
+# -> /etc/NetworkManager/system-connections/ethernet-DEVICE
+# Filename must match with the ID in the file.
+
+# Edit /etc/NetworkManager/system-connections/ethernet-DEVICE for static IP.
+# [ipv4]
+# address1=192.0.2.42/32
+# dns=192.0.2.222;10.0.0.1;
+# dns-search=
+# method=manual
+
+# Or by nmcli:
+# nmcli connection edit ethernet-eth0
+
+# nmcli> goto ipv4
+# nmcli ipv4> set method manual
+# nmcli ipv4> set addresses 10.0.0.42/10
+# nmcli ipv4> set addresses 192.0.2.42/32
+# nmcli ipv4> set gateway  10.0.0.1
+# nmcli ipv4> set dns 192.0.2.222
+# nmcli ipv4> set dns 10.0.0.1
+# nmcli ipv4> save
+# nmcli ipv4> quit
+
+# WLAN
+# nmcli connection add ifname wlan0 type wifi ssid SSID:
+# nmcli connection edit wifi-wlan0;
+# nmcli> goto wifi
+# nmcli 802-11-wireless> set mode infrastructure
+# nmcli 802-11-wireless> back
+# nmcli> goto wifi-sec
+# nmcli 802-11-wireless-security> set key-mgmt wpa-psk
+# nmcli 802-11-wireless-security> set psk SECRET
+# nmcli 802-11-wireless-security> save
+# nmcli 802-11-wireless-security> quit
+
+systemctl stop systemd-networkd.service;
+systemctl stop systemd-resolved.service;
+systemctl disable systemd-networkd.service;
+systemctl disable systemd-resolved.service;
+
+# Disable /etc/systemd/resolved.conf
+
 systemctl start NetworkManager.service;
 systemctl status NetworkManager.service;
+systemctl enable NetworkManager.service;
+
+# Dispatcher-Script in /etc/NetworkManager/dispatcher.d/
+cat << EOF > /etc/NetworkManager/dispatcher.d/10-iptables
+#! /bin/bash
+
+INTERFACE=$1
+ACTION=$2
+
+#if [ -x /usr/bin/logger ]; then
+#        LOGGER="/usr/bin/logger -s -p daemon.info -f /var/log/NetworkManager -t FirewallHandler"
+#else
+#        LOGGER=echo
+#fi
+
+case ACTION in
+    up)
+        #${LOGGER} "Start Firewall"
+        /etc/init.d/firewall restart
+    ;;
+    down)
+        #$LOGGER "Stop Firewall"
+        /etc/init.d/firewall stop
+    ;;
+    *)
+    ;;
+esac
+
+exit 0;
+EOF
+
+cat << EOF > /etc/NetworkManager/dispatcher.d/99-wifi-auto-toggle
+#! /bin/bash
+
+INTERFACE=$1
+ACTION=$2
+
+LOG_PREFIX="WiFi Auto-Toggle"
+ETHERNET_INTERFACE="Your_Ethernet_Interface"
+
+if [ "$INTERFACE" = "$ETHERNET_INTERFACE" ]; then
+    case "$2" in
+        up)
+            echo "$LOG_PREFIX ethernet up"
+            nmcli radio wifi off
+            ;;
+        down)
+            echo "$LOG_PREFIX ethernet down"
+            nmcli radio wifi on
+            ;;
+    esac
+    elif [ "$(nmcli -g GENERAL.STATE device show $ETHERNET_INTERFACE)" = "20 (unavailable)" ]; then
+        echo "$LOG_PREFIX failsafe"
+        nmcli radio wifi on
+fi
+
+exit 0;
+EOF
+
+sudo chown root:root /etc/NetworkManager/dispatcher.d/10-iptables;
+chmod 755 /etc/NetworkManager/dispatcher.d/10-iptables;
 
 # cat /sys/class/net/eth0/speed
 
@@ -240,4 +356,3 @@ systemctl status network@eth0.service;
 systemctl enable network@wlan0.service;
 systemctl start network@wlan0.service;
 systemctl status network@wlan0.service;
-
