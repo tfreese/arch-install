@@ -32,7 +32,7 @@ pacman --noconfirm --needed -S networkmanager nm-connection-editor network-manag
 # nmcli connection up/down ethernet-DEVICE;
 # nmcli device connect/disconnect ethernet-DEVICE;
 # nmcli device show DEVICE;
-# VAR=C nmcli -t device show DEVICE;
+# VAR=nmcli -t device show DEVICE;
 #
 # nmcli connection add type ethernet ifname DEVICE;
 # -> /etc/NetworkManager/system-connections/ethernet-DEVICE
@@ -40,7 +40,7 @@ pacman --noconfirm --needed -S networkmanager nm-connection-editor network-manag
 
 # Edit /etc/NetworkManager/system-connections/ethernet-DEVICE for static IP.
 # [ipv4]
-# address1=192.0.2.42/32
+# address1=192.0.2.42/24
 # dns=192.0.2.222;10.0.0.1;
 # dns-search=
 # method=manual
@@ -50,10 +50,8 @@ pacman --noconfirm --needed -S networkmanager nm-connection-editor network-manag
 
 # nmcli> goto ipv4
 # nmcli ipv4> set method manual
-# nmcli ipv4> set addresses 10.0.0.42/10
-# nmcli ipv4> set addresses 192.0.2.42/32
-# nmcli ipv4> set gateway  10.0.0.1
-# nmcli ipv4> set dns 192.0.2.222
+# nmcli ipv4> set addresses 10.0.0.42/24
+# nmcli ipv4> set gateway 10.0.0.1
 # nmcli ipv4> set dns 10.0.0.1
 # nmcli ipv4> save
 # nmcli ipv4> quit
