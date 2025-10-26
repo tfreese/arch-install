@@ -70,6 +70,19 @@ pacman --noconfirm --needed -S networkmanager nm-connection-editor network-manag
 # nmcli 802-11-wireless-security> save
 # nmcli 802-11-wireless-security> quit
 
+
+
+# echo 'hello' | systemd-cat
+# echo 'hello' | systemd-cat -p info
+# echo 'hello' | systemd-cat -p warning
+# echo 'hello' | systemd-cat -p emerg
+# echo 'hello' | systemd-cat -t NetworkManager -p info
+# journalctl -f
+
+journalctl -r -u NetworkManager.service
+journalctl -r -t NetworkManager
+journalctl -r -t NetworkManager-dispatcher
+
 systemctl stop systemd-networkd.service;
 systemctl stop systemd-resolved.service;
 systemctl disable systemd-networkd.service;
@@ -85,29 +98,24 @@ systemctl enable NetworkManager.service;
 cat << EOF > /etc/NetworkManager/dispatcher.d/10-iptables
 #! /bin/bash
 
-INTERFACE=$1
+DEVICE=$1
 ACTION=$2
 
-#if [ -x /usr/bin/logger ]; then
-#        LOGGER="/usr/bin/logger -s -p daemon.info -f /var/log/NetworkManager -t FirewallHandler"
-#else
-#        LOGGER=echo
-#fi
+readonly TIMESTAMP=$(date '+%Y%m%d-%H%M%S');
+echo "$TIMESTAMP: $DEVICE - $ACTION" >> /tmp/NetworkManager.log;
 
-case ACTION in
-    up)
-        #${LOGGER} "Start Firewall"
-        /etc/init.d/firewall restart
-    ;;
-    down)
-        #$LOGGER "Stop Firewall"
-        /etc/init.d/firewall stop
-    ;;
-    *)
-    ;;
+case "$ACTION" in
+        "up")
+                echo "Restart Firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
+                /etc/init.d/firewall restart;
+                ;;
+        "down")
+                echo "Restart Firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
+                /etc/init.d/firewall restart;
+                ;;
+        *)
+                ;;
 esac
-
-exit 0;
 EOF
 
 cat << EOF > /etc/NetworkManager/dispatcher.d/99-wifi-auto-toggle
