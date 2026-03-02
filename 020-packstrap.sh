@@ -15,7 +15,7 @@ set -euo pipefail
 
 # System-Partition mounten:
 # LVM
-mount /dev/vghost/root /mnt;
+mount /dev/md2 /mnt;
 
 # btrfs
 mount -o subvol=root /dev/sda3 /mnt;
@@ -26,9 +26,9 @@ mount -o subvol=home /dev/sda3 /mnt/home;
 
 # Boot-Partition mounten: UEFI / GRUP2 / SYSLINUX
 mkdir /mnt/boot;
-mount /dev/md0 /mnt/boot;
+mount /dev/sda1 /mnt/boot;
 
-pacstrap /mnt base base-devel linux linux-headers linux-firmware nano btrfs-progs lvm2;
+pacstrap /mnt base base-devel linux linux-headers linux-firmware;
 
 genfstab -p /mnt >> /mnt/etc/fstab;
 

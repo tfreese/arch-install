@@ -27,11 +27,22 @@ cat /etc/asound.conf;
 #}
 
 #############################################################################################################
-pacman --noconfirm --needed -S alsa-firmware alsa-lib alsa-oss alsa-plugins alsa-tools alsa-utils;
+# Pulseaudio, deprecated
 pacman --noconfirm --needed -S pulseaudio pulseaudio-alsa pulseaudio-equalizer;
 
-pacman --noconfirm --needed -S gstreamer gst-libav gst-plugins-bad gst-plugins-base gst-plugins-good gst-plugins-ugly;
+#############################################################################################################
+# PipeWire
+pacman -noconfirm --needed -S pipewire pipewire-pulse pipewire-alsa pipewire-jack wireplumber;
 
+# Enable the services as a user (no sudo) with
+systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumber.service;
+
+# If using Bluetooth, ensure bluez and bluez-utils are installed
+
+#############################################################################################################
+
+#pacman --noconfirm --needed -S alsa-firmware alsa-lib alsa-oss alsa-plugins alsa-tools alsa-utils;
+#pacman --noconfirm --needed -S gstreamer gst-libav gst-plugins-bad gst-plugins-base gst-plugins-good gst-plugins-ugly;
 
 # Codecs
 pacman --noconfirm --needed -S a52dec faac faad2 ffms2 flac;

@@ -24,12 +24,42 @@ pacman --noconfirm --needed -S wireless_tools;
 pacman --noconfirm --needed -S modemmanager;
 pacman --noconfirm --needed -S networkmanager nm-connection-editor network-manager-applet networkmanager-openconnect networkmanager-openvpn;
 
-# nmcli general;
-# nmcli device;
-# nmcli connection;
+# Interface herausfinden
+nmcli device status;
+nmcli general status;
+
+# Profile anzeigen
+nmcli connection show;
+
+# LAN verbinden
+systemctl enable --now NetworkManager;
+nmcli device status;
+nmcli device connect enp6s0;
+
+# Neue Verbindung anlegen (Template)
+nmcli con add type ethernet \
+    con-name "LAN-static" \
+    ifname enp6s0 \
+    ipv4.method manual \
+    ipv4.addresses "192.168.100.10/24" \
+    ipv4.gateway "192.168.100.1" \
+    ipv4.dns "192.168.100.1";
+   
+
+# Optional
+nmcli con mod "LAN-static" ipv4.ignore-auto-dns yes;
+nmcli con mod "LAN-static" ipv6.method disabled;
+
+# Aktivieren
+nmcli con up "LAN-static";
+#nmcli con down "LAN-static";
+
+# Profile löschen
+nmcli connection delete "LAN-static";
+
+
 # nmcli networking on/off;
 # nmcli radio wifi on/off;
-# nmcli connection up/down ethernet-DEVICE;
 # nmcli device connect/disconnect ethernet-DEVICE;
 # nmcli device show DEVICE;
 # VAR=nmcli -t device show DEVICE;
@@ -45,16 +75,6 @@ pacman --noconfirm --needed -S networkmanager nm-connection-editor network-manag
 # dns-search=
 # method=manual
 
-# Or by nmcli:
-# nmcli connection edit ethernet-eth0
-
-# nmcli> goto ipv4
-# nmcli ipv4> set method manual
-# nmcli ipv4> set addresses 10.0.0.42/24
-# nmcli ipv4> set gateway 10.0.0.1
-# nmcli ipv4> set dns 10.0.0.1
-# nmcli ipv4> save
-# nmcli ipv4> quit
 
 # WLAN
 # nmcli connection add ifname wlan0 type wifi ssid SSID:
@@ -68,14 +88,6 @@ pacman --noconfirm --needed -S networkmanager nm-connection-editor network-manag
 # nmcli 802-11-wireless-security> save
 # nmcli 802-11-wireless-security> quit
 
-
-
-# echo 'hello' | systemd-cat
-# echo 'hello' | systemd-cat -p info
-# echo 'hello' | systemd-cat -p warning
-# echo 'hello' | systemd-cat -p emerg
-# echo 'hello' | systemd-cat -t NetworkManager -p info
-# journalctl -f
 
 journalctl -r -u NetworkManager.service
 journalctl -r -t NetworkManager

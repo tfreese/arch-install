@@ -43,18 +43,6 @@ active-monitor=0
 # lightdm --test-mode –debug [-c /etc/lightdm/lightdm.conf]
 
 #############################################################################################################
-# SLIM
-pacman --noconfirm --needed -S slim;
-pacman --noconfirm --needed -S archlinux-themes-slim;
-
-systemctl enable slim;
-systemctl start slim;
-
-# /etc/slim.conf
-# /usr/share/slim/themes
-# Preview: slim -p /usr/share/slim/themes/.../
-
-#############################################################################################################
 # LXDM (für LXDE)
 pacman --noconfirm --needed -S lxdm;
 

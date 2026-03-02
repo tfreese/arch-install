@@ -37,8 +37,12 @@ lsblk -o NAME,LABEL,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL,UUID;
 
 #############################################################################################################
 # UEFI
-
 pacman --noconfirm --needed -S efibootmgr;
+
+# Boot-Eintrag löschen
+efibootmgr;
+	-> Boot0003* ArchLinux 3
+efibootmgr -b 0003 -B;
 
 mkdir -p /boot/EFI/systemd;
 mkdir -p /boot/EFI/BOOT;
@@ -48,7 +52,6 @@ bootctl [--path=/boot] install;
 # Bei Raid wird 'bootctl install' nicht funktionieren, daher manuell installieren.
 efibootmgr --create --disk /dev/sda --part 1 --label ArchLinux\ 1 --loader \\EFI\\systemd\\systemd-bootx64.efi;
 efibootmgr --create --disk /dev/sdb --part 1 --label ArchLinux\ 2 --loader \\EFI\\systemd\\systemd-bootx64.efi;
-efibootmgr --create --disk /dev/sdc --part 1 --label ArchLinux\ 3 --loader \\EFI\\systemd\\systemd-bootx64.efi;
 
 bootctl [--path=/boot] update;
 # Kopiert /usr/lib/systemd/boot/efi/systemd-bootx64.efi nach
@@ -111,10 +114,10 @@ linux /vmlinuz-linux
 initrd /amd-ucode.img
 initrd /initramfs-linux.img
 options root=/dev/vg0/root rw
-# options root=/dev/mdx                                                    rw   [resume=/dev/... SWAP]
+# options root=/dev/mdx                          rw   [resume=/dev/... SWAP]
 # options root=PARTUUID=<PARTUUID aus blkid> 
 # options root=UUID=... 
-# options root=                                   rootflags=subvol=root
+# options root=                                  rootflags=subvol=root
 # options cryptdevice=/dev/mdx:crypt_lvm root=/dev/vg0/root
 EOF
 
@@ -187,7 +190,6 @@ mkdir /boot/grub;
 grub-mkconfig -o /boot/grub/grub.cfg;
 grub-install --target=i386-pc --recheck /dev/sda;
 grub-install --target=i386-pc --recheck /dev/sdb;
-grub-install --target=i386-pc --recheck /dev/sdc;
 
 exit;
 reboot;
@@ -207,12 +209,6 @@ efibootmgr:
 -l; --loader	= (defaults to "\EFI\/boot/EFI\grub.efi")
 -u; --unicode	= handle extra args as UCS-2 (default is ASCII)
 -v; --verbose	= print additional information
-
-# Boot-Eintrag löschen
-sudo efibootmgr;
-	-> Boot0003* ArchLinux 3
-efibootmgr -b 0003 -B ;
-
 
 
 efibootmgr -c -d /dev/sda -p 1 -L Arch\ Linux\ 1 -l \\EFI\\gummiboot\\gummibootx64.efi

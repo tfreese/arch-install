@@ -13,6 +13,7 @@
 set -euo pipefail
 # –x für debug
 
+pacman --noconfirm --needed -S nano;
 pacman --noconfirm --needed -S sudo;
 pacman --noconfirm --needed -S bash-completion;
 pacman --noconfirm --needed -S mdadm;
