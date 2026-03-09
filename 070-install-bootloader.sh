@@ -61,11 +61,79 @@ bootctl [--path=/boot] update;
 cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/systemd/systemd-bootx64.efi;
 cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi /boot/EFI/BOOT/BOOTX64.EFI;
 
+#############################################################################################################
+mkdir /etc/pacman.d/hooks;
+
+#############################################################################################################
+# Hook bei getrennten ESP-Partitionen.
+cat << EOF > /etc/pacman.d/hooks/99-esp-sync.hook
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Package
+Target = linux
+Target = linux-lts
+Target = linux-zen
+Target = linux-hardened
+Target = intel-ucode
+Target = amd-ucode
+Target = systemd
+
+[Action]
+Description = Sync /boot (ESP) to second ESP for systemd-boot redundancy
+When = PostTransaction
+Exec = /etc/pacman.d/hooks/esp-sync.sh
+Depends = rsync
+EOF
+
+cat << EOF > /etc/pacman.d/hooks/esp-sync.sh
+#!/bin/bash
+set -euo pipefail
+
+# Primary ESP is /boot (systemd-boot-Setup)
+ESP1=/boot
+
+/usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi "$ESP1/EFI/systemd/systemd-bootx64.efi";
+/usr/bin/cp /usr/lib/systemd/boot/efi/systemd-bootx64.efi "$ESP1/EFI/BOOT/BOOTX64.EFI";
+
+# Second ESP
+ESP2_DEV=/dev/sdc1
+ESP2_MNT=/mnt/esp2
+
+# Do nothing if /boot is not mounted.
+mountpoint -q "$ESP1" || exit 0
+
+mkdir -p "$ESP2_MNT"
+
+# If Disk/Partition is missing, exit silently (no pacman-Fail).
+mountpoint -q "$ESP2_MNT" || mount "$ESP2_DEV" "$ESP2_MNT" 2>/dev/null || exit 0
+
+# Sync systemd-boot/UEFI-Structure.
+rsync -aH --delete "$ESP1/EFI/" "$ESP2_MNT/EFI/";
+rsync -aH --delete "$ESP1/loader/" "$ESP2_MNT/loader/";
+
+# Sync Kernel + initramfs + Microcode.
+rsync -aH --delete \
+--include='vmlinuz-*' \
+--include='initramfs-*.img' \
+--include='*-ucode.img' \
+--exclude='*' \
+"$ESP1/" "$ESP2_MNT/"
+
+sync;
+
+umount "$ESP2_MNT";
+EOF
+
+chmod 700 /etc/pacman.d/hooks/99-esp-sync.hook;
+chmod 700 /etc/pacman.d/hooks/esp-sync.sh;
+
+#############################################################################################################
 # Bei einem Update von systemd-boot müssen die neuen *.efi Dateien wieder nach /boot/EFI kopiert werden.
 # Manuell mit bootctl update;
 # oder
 # automatisch per pacman-Hook:
-mkdir /etc/pacman.d/hooks;
 
 cat << EOF > /etc/pacman.d/hooks/systemd-boot.hook
 [Trigger]

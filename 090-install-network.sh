@@ -19,6 +19,13 @@ pacman --noconfirm --needed -S ethtool;
 pacman --noconfirm --needed -S wpa_supplicant;
 pacman --noconfirm --needed -S wireless_tools;
 
+
+# Enable temporary.
+# ip link set dev eth0 mtu 1452 up
+# ip addr add 192.168.155.100/24 broadcast 192.168.155.255 dev eth0
+# ip route add default via 192.168.155.1 dev eth0 metric 10
+# ip route add 192.168.155.0/24 via 192.168.155.1 dev eth0 onlink
+
 #############################################################################################################
 # NetworkManager - https://wiki.archlinux.org/title/NetworkManager
 pacman --noconfirm --needed -S modemmanager;
@@ -117,11 +124,11 @@ echo "$TIMESTAMP: $DEVICE - $ACTION" >> /tmp/NetworkManager.log;
 case "$ACTION" in
         "up")
                 echo "Restart Firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
-                /etc/init.d/firewall restart;
+                /etc/firewall.sh restart;
                 ;;
         "down")
                 echo "Restart Firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
-                /etc/init.d/firewall restart;
+                /etc/firewall.s restart;
                 ;;
         *)
                 ;;

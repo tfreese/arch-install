@@ -30,7 +30,7 @@ pacman --noconfirm --needed -S libva-utils libva-vdpau-driver;
 #pacman –Ss | grep nvidia;
 
 # NVIDIA
-pacman --noconfirm --needed -S nvidia nvidia-utils nvidia-settings;
+pacman --noconfirm --needed -S nvidia-open nvidia-utils nvidia-settings;
 # Anschliessend nach dem GUI-Start 'sudo nvidia-xconfig' ausführen.
 
 # RADEON
