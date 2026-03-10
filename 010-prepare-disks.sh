@@ -27,64 +27,64 @@ lsblk -o NAME,LABEL,SIZE,FSTYPE,TYPE,MOUNTPOINT,MODEL,UUID;
 
 #############################################################################################################
 # Filesystem bereinigen
-mdadm --zero-superblock /dev/sda[123];
-wipefs --all --force /dev/sda[123];
+mdadm --zero-superblock /dev/sdx[123];
+wipefs --all --force /dev/sdx[123];
 
 # MBR + Partitions-Tabelle + Signatur löschen
 dd if=/dev/zero of=/dev/sdX bs=512 count=1;
 
 # Partitionen löschen
-parted /dev/sda rm 3;
-parted /dev/sda rm 2;
-parted /dev/sda rm 1;
+parted /dev/sdx rm 3;
+parted /dev/sdx rm 2;
+parted /dev/sdx rm 1;
 
 # partprobe
 
 # Partitionen anlegen
-parted /dev/sda mklabel gpt;
+parted /dev/sdx mklabel gpt;
 
 # Boot-Partitionen, KEIN RAID!
-parted -a optimal /dev/sda mkpart           1MiB 1025MiB name 1 BOOT set 1 bios_grub on # syslinux
-parted -a optimal /dev/sda mkpart           1MiB 1025MiB name 1 BOOT set 1 boot on # syslinux
-parted -a optimal /dev/sda mkpart ESP fat32 1MiB 1025MiB name 1 BOOT set 1 esp on set 1 boot on # UEFI
+parted -a optimal /dev/sdx mkpart           1MiB 1025MiB name 1 BOOT set 1 bios_grub on # syslinux
+parted -a optimal /dev/sdx mkpart           1MiB 1025MiB name 1 BOOT set 1 boot on # syslinux
+parted -a optimal /dev/sdx mkpart ESP fat32 1MiB 1025MiB name 1 BOOT set 1 esp on set 1 boot on # UEFI
 
 # Raid-Partitionen
-parted -a optimal /dev/sda mkpart           1025MiB  17GiB name 2 SWAP set 2 raid on
-parted -a optimal /dev/sda mkpart           17GiB   145GiB name 3 ROOT set 3 raid on
-parted -a optimal /dev/sda mkpart           145GiB 3800GiB name 4 DATA set 4 raid on
-parted -a optimal /dev/sda mkpart           3800GiB   100% name 5 LVM  set 5 raid on
+parted -a optimal /dev/sdx mkpart           1025MiB  17GiB name 2 SWAP set 2 raid on
+parted -a optimal /dev/sdx mkpart           17GiB   145GiB name 3 ROOT set 3 raid on
+parted -a optimal /dev/sdx mkpart           145GiB 3800GiB name 4 DATA set 4 raid on
+parted -a optimal /dev/sdx mkpart           3800GiB   100% name 5 LVM  set 5 raid on
 
-# parted /dev/sda set 2 swap on;
-#parted /dev/sda name 2 swap;
+# parted /dev/sdx set 2 swap on;
+#parted /dev/sdx name 2 swap;
 
 #############################################################################################################
 
-parted /dev/sda print free;
+parted /dev/sdx print free;
 
-parted /dev/sda align-check opt 1;
-parted /dev/sda align-check opt 2;
-parted /dev/sda align-check opt 3;
-parted /dev/sda align-check opt 4;
-parted /dev/sda align-check opt 5;
+parted /dev/sdx align-check opt 1;
+parted /dev/sdx align-check opt 2;
+parted /dev/sdx align-check opt 3;
+parted /dev/sdx align-check opt 4;
+parted /dev/sdx align-check opt 5;
 
 # Partitions-Tabellen kopieren ZIEL <- QUELLE
-sgdisk -R /dev/sdb /dev/sda;
+sgdisk -R /dev/sdy /dev/sdx;
 
 ## UUIDS neu vergeben
-sgdisk -G /dev/sdb;
+sgdisk -G /dev/sdy;
 
-parted /dev/sdb print free;
+parted /dev/sdyy print free;
 
 # Raids erstellen
-mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1                             --name=host:swap /dev/sd[abc]2;
-mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=5 [--chunk=64 --assume-clean] --name=host:root /dev/sd[abc]3;
-mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=1 [--size=kb]                 --name=host:data /dev/sd[abc]4;
-mdadm --create --verbose /dev/md3 --bitmap=internal --raid-devices=3 --level=1 [--size=kb]                 --name=host:lvm  /dev/sd[abc]5;
+mdadm --create --verbose /dev/md0 --bitmap=internal --raid-devices=3 --level=1                             --name=host:swap /dev/sd[xy]2;
+mdadm --create --verbose /dev/md1 --bitmap=internal --raid-devices=3 --level=5 [--chunk=64 --assume-clean] --name=host:root /dev/sd[xy]3;
+mdadm --create --verbose /dev/md2 --bitmap=internal --raid-devices=3 --level=1 [--size=kb]                 --name=host:data /dev/sd[xy]4;
+mdadm --create --verbose /dev/md3 --bitmap=internal --raid-devices=3 --level=1 [--size=kb]                 --name=host:lvm  /dev/sd[xy]5;
 #--force
 
 # BOOT Partion formatieren (FAT32): benötigt dosfstools
-mkfs.vfat -F 32 /dev/sda1;
-mkfs.vfat -F 32 /dev/sdb1;
+mkfs.vfat -F 32 /dev/sdx1;
+mkfs.vfat -F 32 /dev/sdy1;
 
 # SWAP erstellen
 # parted /dev/md1 set 1 lvm on;
@@ -92,10 +92,10 @@ mkswap -f /dev/md0;
 swapon /dev/md0;
 
 # Oder SWAP ohne Raid mit Kernel-Striping
-mkswap -f /dev/sda2;
-mkswap -f /dev/sdb2;
-swapon -p 1 /dev/sda2;
-swapon -p 1 /dev/sdb2;
+mkswap -f /dev/sdx2;
+mkswap -f /dev/sdy2;
+swapon -p 1 /dev/sdax;
+swapon -p 1 /dev/sdy2;
 #echo "SSD	none	swap	defaults,discard,nofail,pri=100		0 0" >> /mnt/etc/fstab;
 #echo "HDD	none	swap	defaults,nofail,pri=10				0 0" >> /mnt/etc/fstab;
 
@@ -109,7 +109,7 @@ pvcreate -v --dataalignment 64k /dev/mapper/crypt_lvm;
 vgcreate -v --dataalignment 64k vghost /dev/mapper/crypt_lvm;
 
 # btrfs
-mkfs.btrfs -L NAME -d raid1 -m raid1 /dev/sda4 /dev/sdb4 /dev/sdc4;
+mkfs.btrfs -L NAME -d raid1 -m raid1 /dev/sdx4 /dev/sdy4;
 
 # Meta-Daten doppelt ablegen bei einer einzelnen Disk (nicht bei SSD verwenden!).
 mkfs.btrfs -L pool-NAME -m dup /dev/md2;

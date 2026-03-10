@@ -110,7 +110,7 @@ pacman --noconfirm --needed -S lm_sensors psensor; # sensors-detect
 pacman --noconfirm --needed -S lshw; # Hardware Infos: lshw -C memory
 pacman --noconfirm --needed -S dnsutils; # DNS-Tools
 pacman --noconfirm --needed -S nvme-cli; # Client zum Auslesen von M2 SSDs: nvme smart-log /dev/nvme0n1
-pacman --noconfirm --needed -S pacman-contrib;
+pacman --noconfirm --needed -S pacman-contrib; # checkupdates
 pacman --noconfirm --needed -S samba smbclient;
 pacman --noconfirm --needed -S smartmontools; # update-smart-drivedb
 pacman --noconfirm --needed -S sshfs;

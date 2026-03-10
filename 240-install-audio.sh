@@ -42,9 +42,9 @@ systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumbe
 #############################################################################################################
 
 #pacman --noconfirm --needed -S alsa-firmware alsa-lib alsa-oss alsa-plugins alsa-tools alsa-utils;
-#pacman --noconfirm --needed -S gstreamer gst-libav gst-plugins-bad gst-plugins-base gst-plugins-good gst-plugins-ugly;
 
 # Codecs
+pacman --noconfirm --needed -S gst-plugins-bad gst-plugins-good gst-plugins-ugly gst-libav;
 pacman --noconfirm --needed -S a52dec faac faad2 ffms2 flac;
 pacman --noconfirm --needed -S libdca libdv libdvdcss libmad libmpeg2 libtheora libfdk-aac libvorbis libxv;
 pacman --noconfirm --needed -S mpg123 wavpack x264 x265 xvidcore;
