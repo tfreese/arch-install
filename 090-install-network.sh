@@ -115,6 +115,8 @@ systemctl enable NetworkManager.service;
 cat << EOF > /etc/NetworkManager/dispatcher.d/10-iptables
 #! /bin/bash
 
+# journalctl -u NetworkManager-dispatcher -r
+
 DEVICE=$1
 ACTION=$2
 
