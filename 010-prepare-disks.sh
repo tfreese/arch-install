@@ -44,8 +44,7 @@ parted /dev/sdx rm 1;
 parted /dev/sdx mklabel gpt;
 
 # Boot-Partitionen, KEIN RAID!
-parted -a optimal /dev/sdx mkpart           1MiB 1025MiB name 1 BOOT set 1 bios_grub on # syslinux
-parted -a optimal /dev/sdx mkpart           1MiB 1025MiB name 1 BOOT set 1 boot on # syslinux
+parted -a optimal /dev/sdx mkpart           1MiB 1025MiB name 1 BOOT set 1 bios_grub on set 1 boot on # syslinux
 parted -a optimal /dev/sdx mkpart ESP fat32 1MiB 1025MiB name 1 BOOT set 1 esp on set 1 boot on # UEFI
 
 # Raid-Partitionen
