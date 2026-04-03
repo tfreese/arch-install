@@ -42,6 +42,8 @@ sed -i 's/2.arch.pool.ntp.org/ptbtime3.ptb.de/' /etc/ntp.conf;
 sed -i '/3.arch.pool.ntp.org/d' /etc/ntp.conf;
 nano /etc/ntp.conf;
 
-systemctl enable ntpd;
-systemctl start ntpd;
-systemctl status ntpd;
+# See 090-install-network.sh with NetworkManager, use DispatcherScript for NTP!
+systemctl disable ntpd;
+#systemctl enable ntpd;
+#systemctl start ntpd;
+#systemctl status ntpd;

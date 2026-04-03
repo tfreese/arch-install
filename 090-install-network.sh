@@ -112,7 +112,21 @@ systemctl status NetworkManager.service;
 systemctl enable NetworkManager.service;
 
 # Dispatcher-Script in /etc/NetworkManager/dispatcher.d/
-cat << EOF > /etc/NetworkManager/dispatcher.d/10-iptables
+cat << EOF > /etc/NetworkManager/dispatcher.d/10-ntpd
+#!/bin/bash
+
+case "$2" in
+	up)
+        echo "Start ntpd" | systemd-cat -t NetworkManager-dispatcher -p info;
+        systemctl start ntpd.service;
+	;;
+	down)
+        echo "Stop ntpd" | systemd-cat -t NetworkManager-dispatcher -p info;
+        systemctl stop ntpd.service;
+	;;
+esac
+EOF
+cat << EOF > /etc/NetworkManager/dispatcher.d/99-iptables
 #! /bin/bash
 
 # journalctl -u NetworkManager-dispatcher -r
@@ -125,11 +139,11 @@ echo "$TIMESTAMP: $DEVICE - $ACTION" >> /tmp/NetworkManager.log;
 
 case "$ACTION" in
         "up")
-                echo "Restart Firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
+                echo "Start Firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
                 /etc/firewall.sh restart;
                 ;;
         "down")
-                echo "Restart Firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
+                echo "Stop Firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
                 /etc/firewall.s restart;
                 ;;
         *)
