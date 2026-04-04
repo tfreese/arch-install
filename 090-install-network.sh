@@ -96,14 +96,15 @@ nmcli connection delete "LAN-static";
 # nmcli 802-11-wireless-security> quit
 
 
-journalctl -r -u NetworkManager.service
-journalctl -r -t NetworkManager
-journalctl -r -t NetworkManager-dispatcher
+journalctl -r -u NetworkManager.service;
+journalctl -r -t NetworkManager;
+journalctl -r -t NetworkManager-dispatcher;
 
 systemctl stop systemd-networkd.service;
 systemctl stop systemd-resolved.service;
 systemctl disable systemd-networkd.service;
 systemctl disable systemd-resolved.service;
+
 
 # Disable /etc/systemd/resolved.conf
 
@@ -111,21 +112,23 @@ systemctl start NetworkManager.service;
 systemctl status NetworkManager.service;
 systemctl enable NetworkManager.service;
 
+
 # Dispatcher-Script in /etc/NetworkManager/dispatcher.d/
 cat << EOF > /etc/NetworkManager/dispatcher.d/10-ntpd
 #!/bin/bash
 
 case "$2" in
 	up)
-        echo "Start ntpd" | systemd-cat -t NetworkManager-dispatcher -p info;
-        systemctl start ntpd.service;
+        echo "Restart ntpd" | systemd-cat -t NetworkManager-dispatcher -p info;
+        systemctl restart ntpd.service;
 	;;
 	down)
-        echo "Stop ntpd" | systemd-cat -t NetworkManager-dispatcher -p info;
-        systemctl stop ntpd.service;
 	;;
 esac
 EOF
+sudo chown root:root /etc/NetworkManager/dispatcher.d/10-ntpd;
+chmod 755 /etc/NetworkManager/dispatcher.d/10-ntpd;
+
 cat << EOF > /etc/NetworkManager/dispatcher.d/99-iptables
 #! /bin/bash
 
@@ -150,6 +153,8 @@ case "$ACTION" in
                 ;;
 esac
 EOF
+sudo chown root:root /etc/NetworkManager/dispatcher.d/99-iptables;
+chmod 755 /etc/NetworkManager/dispatcher.d/99-iptables;
 
 cat << EOF > /etc/NetworkManager/dispatcher.d/99-wifi-auto-toggle
 #! /bin/bash
@@ -178,9 +183,8 @@ fi
 
 exit 0;
 EOF
-
-sudo chown root:root /etc/NetworkManager/dispatcher.d/10-iptables;
-chmod 755 /etc/NetworkManager/dispatcher.d/10-iptables;
+sudo chown root:root /etc/NetworkManager/dispatcher.d/99-wifi-auto-toggle;
+chmod 755 /etc/NetworkManager/dispatcher.d/99-wifi-auto-toggle;
 
 # cat /sys/class/net/eth0/speed
 

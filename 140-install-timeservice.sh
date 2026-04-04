@@ -36,14 +36,21 @@ systemctl status systemd-timesyncd.service;
 
 pacman --noconfirm --needed -S ntp;
 
-sed -i_"$TIME" 's/0.arch.pool.ntp.org/ptbtime1.ptb.de/' /etc/ntp.conf;
-sed -i 's/1.arch.pool.ntp.org/ptbtime2.ptb.de/' /etc/ntp.conf;
-sed -i 's/2.arch.pool.ntp.org/ptbtime3.ptb.de/' /etc/ntp.conf;
+sed -i_"$TIME" 's/0.arch.pool.ntp.org/ptbtime1.ptb.de iburst/' /etc/ntp.conf;
+sed -i 's/1.arch.pool.ntp.org/ptbtime2.ptb.de iburst/' /etc/ntp.conf;
+sed -i 's/2.arch.pool.ntp.org/ptbtime3.ptb.de iburst/' /etc/ntp.conf;
 sed -i '/3.arch.pool.ntp.org/d' /etc/ntp.conf;
 nano /etc/ntp.conf;
+
+systemctl stop systemd-timesyncd;
+systemctl disable systemd-timesyncd;
+timedatectl set-ntp false;
 
 # See 090-install-network.sh with NetworkManager, use DispatcherScript for NTP!
 systemctl disable ntpd;
 #systemctl enable ntpd;
 #systemctl start ntpd;
 #systemctl status ntpd;
+
+ntpdate -u ptbtime1.ptb.de;
+ntpd -gq;
