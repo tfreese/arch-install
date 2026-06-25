@@ -114,17 +114,33 @@ systemctl enable NetworkManager.service;
 
 
 # Dispatcher-Script in /etc/NetworkManager/dispatcher.d/
+# journalctl -u NetworkManager-dispatcher -r
+
 cat << EOF > /etc/NetworkManager/dispatcher.d/10-ntpd
 #!/bin/bash
 
-case "$2" in
-	up)
-        echo "Restart ntpd" | systemd-cat -t NetworkManager-dispatcher -p info;
-        systemctl restart ntpd.service;
-	;;
-	down)
-	;;
-esac
+INTERFACE=$1
+EVENT=$2
+
+readonly TIMESTAMP=$(date '+%Y%m%d-%H%M%S');
+echo "$TIMESTAMP: $INTERFACE - $EVENT" >> /tmp/NetworkManager.log;
+
+if [ "$INTERFACE" = "enp6s0" ] && [ "$EVENT" = "up" ]; then
+    ip route add 192.168.100.0/24 via 10.0.0.2
+fi
+
+if [ "$INTERFACE" = "enp6s0" ] ; then
+         case "$EVENT" in
+                 up)
+                         echo "Restart ntpd" | systemd-cat -t NetworkManager-dispatcher -p info;
+                         systemctl restart ntpd.service;
+                 ;;
+                 down)
+                         echo "Stop ntpd" | systemd-cat -t NetworkManager-dispatcher -p info;
+                         systemctl stop ntpd.service;                 
+                 ;;
+         esac
+fi
 EOF
 sudo chown root:root /etc/NetworkManager/dispatcher.d/10-ntpd;
 chmod 755 /etc/NetworkManager/dispatcher.d/10-ntpd;
@@ -132,26 +148,26 @@ chmod 755 /etc/NetworkManager/dispatcher.d/10-ntpd;
 cat << EOF > /etc/NetworkManager/dispatcher.d/99-iptables
 #! /bin/bash
 
-# journalctl -u NetworkManager-dispatcher -r
-
-DEVICE=$1
-ACTION=$2
+INTERFACE=$1
+EVENT=$2
 
 readonly TIMESTAMP=$(date '+%Y%m%d-%H%M%S');
-echo "$TIMESTAMP: $DEVICE - $ACTION" >> /tmp/NetworkManager.log;
+echo "$TIMESTAMP: $INTERFACE - $EVENT" >> /tmp/NetworkManager.log;
 
-case "$ACTION" in
-        "up")
-                echo "Start Firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
-                /etc/firewall.sh restart;
-                ;;
-        "down")
-                echo "Stop Firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
-                /etc/firewall.s restart;
-                ;;
-        *)
-                ;;
-esac
+if [ "$INTERFACE" = "enp6s0" ] ; then
+    case "$EVENT" in
+            "up")
+                    echo "Start firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
+                    /etc/firewall.sh restart;
+                    ;;
+            "down")
+                    echo "Stop firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
+                    /etc/firewall.s stop;
+                    ;;
+            *)
+                    ;;
+    esac
+fi
 EOF
 sudo chown root:root /etc/NetworkManager/dispatcher.d/99-iptables;
 chmod 755 /etc/NetworkManager/dispatcher.d/99-iptables;
@@ -160,7 +176,7 @@ cat << EOF > /etc/NetworkManager/dispatcher.d/99-wifi-auto-toggle
 #! /bin/bash
 
 INTERFACE=$1
-ACTION=$2
+EVENT=$2
 
 LOG_PREFIX="WiFi Auto-Toggle"
 ETHERNET_INTERFACE="Your_Ethernet_Interface"

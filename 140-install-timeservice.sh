@@ -21,9 +21,12 @@ if [ -d /etc/systemd/timesyncd.conf ]; then
 	cp /etc/systemd/timesyncd.conf /etc/systemd/timesyncd.conf_"$TIME";
 fi
 
+# 0.europe.pool.ntp.org 1.europe.pool.ntp.org 2.europe.pool.ntp.org 3.europe.pool.ntp.org
+# ptbtime1.ptb.de ptbtime2.ptb.de ptbtime3.ptb.de
+
 cat << EOF > /etc/systemd/timesyncd.conf
 [Time]
-NTP=ptbtime1.ptb.de ptbtime2.ptb.de ptbtime3.ptb.de
+NTP=0.europe.pool.ntp.org 1.europe.pool.ntp.org 2.europe.pool.ntp.org 3.europe.pool.ntp.org
 FallbackNTP=0.arch.pool.ntp.org 1.arch.pool.ntp.org 2.arch.pool.ntp.org 3.arch.pool.ntp.org
 EOF
 
