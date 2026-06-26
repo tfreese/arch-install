@@ -123,7 +123,7 @@ INTERFACE=$1
 EVENT=$2
 
 readonly TIMESTAMP=$(date '+%Y%m%d-%H%M%S');
-echo "$TIMESTAMP: $INTERFACE - $EVENT" >> /tmp/NetworkManager.log;
+echo "$TIMESTAMP: 10-ntpd: $INTERFACE - $EVENT" >> /tmp/NetworkManager.log;
 
 if [ "$INTERFACE" = "enp6s0" ] && [ "$EVENT" = "up" ]; then
     ip route add 192.168.100.0/24 via 10.0.0.2
@@ -152,7 +152,7 @@ INTERFACE=$1
 EVENT=$2
 
 readonly TIMESTAMP=$(date '+%Y%m%d-%H%M%S');
-echo "$TIMESTAMP: $INTERFACE - $EVENT" >> /tmp/NetworkManager.log;
+echo "$TIMESTAMP: 99-iptables: $INTERFACE - $EVENT" >> /tmp/NetworkManager.log;
 
 if [ "$INTERFACE" = "enp6s0" ] ; then
     case "$EVENT" in
