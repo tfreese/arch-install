@@ -119,53 +119,54 @@ systemctl enable NetworkManager.service;
 cat << EOF > /etc/NetworkManager/dispatcher.d/10-ntpd
 #!/bin/bash
 
-INTERFACE=$1
-EVENT=$2
+INTERFACE="$1"
+ACTION="$2"
 
-readonly TIMESTAMP=$(date '+%Y%m%d-%H%M%S');
-echo "$TIMESTAMP: 10-ntpd: $INTERFACE - $EVENT" >> /tmp/NetworkManager.log;
+readonly TIMESTAMP=$(date '+%Y%m%d-%H%M%S')
+echo "$TIMESTAMP: 10-ntpd: $INTERFACE - $ACTION" >> /tmp/NetworkManager.log
 
-if [ "$INTERFACE" = "enp6s0" ] && [ "$EVENT" = "up" ]; then
-    ip route add 192.168.100.0/24 via 10.0.0.2
+if [ "$INTERFACE" = "enp6s0" ]; then
+    case "$ACTION" in
+        up)
+            /usr/bin/echo "Restart ntpd" | /usr/bin/systemd-cat -t NetworkManager-dispatcher -p info;
+            /usr/bin/systemctl restart ntpd.service;
+            exit 0;
+            ;;
+        down)
+            /usr/bin/echo "Stop ntpd" | /usr/bin/systemd-cat -t NetworkManager-dispatcher -p info;
+            /usr/bin/systemctl stop ntpd.service;
+            exit 0;
+            ;;
+        *)
+            exit 0
+            ;;
+    esac
 fi
 
-if [ "$INTERFACE" = "enp6s0" ] ; then
-         case "$EVENT" in
-                 up)
-                         echo "Restart ntpd" | systemd-cat -t NetworkManager-dispatcher -p info;
-                         systemctl restart ntpd.service;
-                 ;;
-                 down)
-                         echo "Stop ntpd" | systemd-cat -t NetworkManager-dispatcher -p info;
-                         systemctl stop ntpd.service;                 
-                 ;;
-         esac
-fi
+exit 0
 EOF
 sudo chown root:root /etc/NetworkManager/dispatcher.d/10-ntpd;
 chmod 755 /etc/NetworkManager/dispatcher.d/10-ntpd;
 
 cat << EOF > /etc/NetworkManager/dispatcher.d/99-iptables
-#! /bin/bash
+#!/bin/bash
 
-INTERFACE=$1
-EVENT=$2
+INTERFACE="$1"
+ACTION="$2"
 
-readonly TIMESTAMP=$(date '+%Y%m%d-%H%M%S');
-echo "$TIMESTAMP: 99-iptables: $INTERFACE - $EVENT" >> /tmp/NetworkManager.log;
+readonly TIMESTAMP=$(date '+%Y%m%d-%H%M%S')
+echo "$TIMESTAMP: 99-iptables: $INTERFACE - $ACTION" >> /tmp/NetworkManager.log
 
-if [ "$INTERFACE" = "enp6s0" ] ; then
-    case "$EVENT" in
-            "up")
-                    echo "Start firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
-                    /etc/firewall.sh restart;
-                    ;;
-            "down")
-                    echo "Stop firewall" | systemd-cat -t NetworkManager-dispatcher -p info;
-                    /etc/firewall.s stop;
-                    ;;
-            *)
-                    ;;
+if [ "$INTERFACE" = "enp6s0" ]; then
+    case "$ACTION" in
+        up)
+            /usr/bin/echo "Restart firewall" | /usr/bin/systemd-cat -t NetworkManager-dispatcher -p info
+            /etc/firewall.sh restart
+            ;;
+        down)
+            /usr/bin/echo "Stop firewall" | /usr/bin/systemd-cat -t NetworkManager-dispatcher -p info
+            /etc/firewall.sh stop
+            ;;
     esac
 fi
 EOF
@@ -175,14 +176,13 @@ chmod 755 /etc/NetworkManager/dispatcher.d/99-iptables;
 cat << EOF > /etc/NetworkManager/dispatcher.d/99-wifi-auto-toggle
 #! /bin/bash
 
-INTERFACE=$1
-EVENT=$2
+INTERFACE="$1"
+ACTION=$2
 
 LOG_PREFIX="WiFi Auto-Toggle"
-ETHERNET_INTERFACE="Your_Ethernet_Interface"
 
-if [ "$INTERFACE" = "$ETHERNET_INTERFACE" ]; then
-    case "$2" in
+if [ "$INTERFACE" = "enp6s0" ]; then
+    case "$ACTION" in
         up)
             echo "$LOG_PREFIX ethernet up"
             nmcli radio wifi off
