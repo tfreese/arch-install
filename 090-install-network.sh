@@ -65,6 +65,7 @@ nmcli con up "LAN-static";
 nmcli connection delete "LAN-static";
 
 
+# nmcli networking connectivity check
 # nmcli networking on/off;
 # nmcli radio wifi on/off;
 # nmcli device connect/disconnect ethernet-DEVICE;
@@ -129,6 +130,7 @@ if [ "$INTERFACE" = "enp6s0" ]; then
     case "$ACTION" in
         up)
             /usr/bin/echo "Restart ntpd" | /usr/bin/systemd-cat -t NetworkManager-dispatcher -p info;
+            /usr/bin/ntpd -gq;
             /usr/bin/systemctl restart ntpd.service;
             exit 0;
             ;;

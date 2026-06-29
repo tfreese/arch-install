@@ -35,7 +35,102 @@ systemctl start systemd-timesyncd.service;
 systemctl status systemd-timesyncd.service;
 
 #############################################################################################################
-# ODER NTP
+# ODER CHRONY
+
+pacman --noconfirm --needed -S chrony
+
+cat << EOF > /etc/chrony.conf
+# ====================================================================
+# CHRONY CONFIGURATION FILE (/etc/chrony.conf)
+# Optimized for Arch Linux - High Accuracy, Stability & Security
+# ====================================================================
+
+# --------------------------------------------------------------------
+# 1. TIME SERVERS (NTP POOL & STRATUM 1/2 SERVICES)
+# --------------------------------------------------------------------
+# 'iburst' forces rapid synchronization on startup (4 requests in 6 seconds).
+# 'maxsources 3' limits the active selection per pool to maintain diversity.
+# NTS (Network Time Security)
+
+# Default PTB (prefer) for local low-latency
+server ptbtime1.ptb.de iburst nts prefer
+server ptbtime2.ptb.de iburst nts prefer
+server ptbtime3.ptb.de iburst nts prefer
+
+# Fallback
+pool de.pool.ntp.org iburst maxsources 3
+pool europe.pool.ntp.org iburst maxsources 2
+
+# Global Fallbacks, noselect = "query but do not use"
+server time.cloudflare.com iburst nts noselect
+server time.google.com iburst noselect
+
+# --------------------------------------------------------------------
+# 2. DRIFT & TIME CORRECTION
+# --------------------------------------------------------------------
+# Record the rate at which the system clock gains/losses time in a file.
+# This allows chrony to remain accurate even if connection is temporarily lost.
+driftfile /var/lib/chrony/drift
+
+# Allow the clock to step (jump) instead of slew (gradually adjust) 
+# if the adjustment is larger than 1 second, but ONLY during the first 3 updates.
+makestep 1.0 3
+
+# Enable hardware timestamping on all network interfaces that support it.
+# This drastically reduces jitter and increases precision to microseconds.
+hwtimestamp *
+
+# --------------------------------------------------------------------
+# 3. KERNEL SYNCHRONIZATION
+# --------------------------------------------------------------------
+# Let the Linux kernel update its real-time clock (RTC) every 11 minutes.
+# Ensures that your hardware clock is accurate when you shut down.
+rtcsync
+
+# --------------------------------------------------------------------
+# 4. LOGGING & DEBUGGING
+# --------------------------------------------------------------------
+# Define where log files are stored.
+logdir /var/log/chrony
+
+# Select what to log (measurements, statistics and clock tracking).
+# Un-comment the line below if you need to debug accuracy issues.
+# log measurements statistics tracking
+
+# --------------------------------------------------------------------
+# 5. SECURITY & ACCESS CONTROL
+# --------------------------------------------------------------------
+# By default, do not serve time to anyone. Act purely as a client.
+# (If this should be an NTP server, add: allow 192.168.1.0/24)
+deny all
+
+# Drop root privileges and switch to the 'chrony' user after startup.
+user chrony
+
+# Control access to the 'chronyc' command-line monitoring tool.
+# Restricted to the local root loopback interface.
+bindcmdaddress 127.0.0.1
+bindcmdaddress ::1
+
+# Prevent chrony from freezing in memory leaks by dumping core files if it crashes.
+dumponexit
+
+EOF
+
+systemctl enable chronyd;
+systemctl start chronyd;
+systemctl status chronyd;
+
+Synchronisationsstatus prüfen: chronyc tracking
+Verfügbare Zeitserver anzeigen: chronyc sources -v
+Sofortige Zeitsynchronisation erzwingen: sudo chronyc makestep
+Netzwerkverbindung wurde aufgebaut: chronyc -a onine > /dev/null 2>&1
+Netzwerkverbindung wurde getrennt: chronyc -a offline > /dev/null 2>&1
+
+Im NetworkManager NICHT den chrony-service stoppten und starten, dauert viel zu lang und ist nicht nötig.
+ 
+#############################################################################################################
+# ODER NTP (Veraltet)
 
 pacman --noconfirm --needed -S ntp;
 
