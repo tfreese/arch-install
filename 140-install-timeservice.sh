@@ -114,18 +114,21 @@ bindcmdaddress ::1
 
 # Prevent chrony from freezing in memory leaks by dumping core files if it crashes.
 dumponexit
-
 EOF
 
 systemctl enable chronyd;
 systemctl start chronyd;
 systemctl status chronyd;
 
+Aktuelle Logs anzeigen: journalctl -u chronyd -r;
+Logs in Echtzeit verfolgen: journalctl -u chronyd -f
+Nur die Einträge seit dem letzten Systemstart anzeigen: journalctl -u chronyd -b
+
 Synchronisationsstatus prüfen: chronyc tracking
 Verfügbare Zeitserver anzeigen: chronyc sources -v
 Sofortige Zeitsynchronisation erzwingen: sudo chronyc makestep
-Netzwerkverbindung wurde aufgebaut: chronyc -a onine > /dev/null 2>&1
-Netzwerkverbindung wurde getrennt: chronyc -a offline > /dev/null 2>&1
+Netzwerkverbindung wurde aufgebaut: chronyc onine > /dev/null 2>&1
+Netzwerkverbindung wurde getrennt: chronyc offline > /dev/null 2>&1
 
 Im NetworkManager NICHT den chrony-service stoppten und starten, dauert viel zu lang und ist nicht nötig.
  

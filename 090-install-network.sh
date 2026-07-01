@@ -117,7 +117,7 @@ systemctl enable NetworkManager.service;
 # Dispatcher-Script in /etc/NetworkManager/dispatcher.d/
 # journalctl -u NetworkManager-dispatcher -r
 
-cat << EOF > /etc/NetworkManager/dispatcher.d/10-ntpd
+cat << EOF > /etc/NetworkManager/dispatcher.d/10-time
 #!/bin/bash
 
 INTERFACE="$1"
@@ -129,13 +129,13 @@ echo "$TIMESTAMP: 10-ntpd: $INTERFACE - $ACTION" >> /tmp/NetworkManager.log
 if [ "$INTERFACE" = "enp6s0" ]; then
     case "$ACTION" in
         up)
-            /usr/bin/echo "Restart ntpd" | /usr/bin/systemd-cat -t NetworkManager-dispatcher -p info;
+            /usr/bin/echo "Restart time service " | /usr/bin/systemd-cat -t NetworkManager-dispatcher -p info;
             /usr/bin/ntpd -gq;
             /usr/bin/systemctl restart ntpd.service;
             exit 0;
             ;;
         down)
-            /usr/bin/echo "Stop ntpd" | /usr/bin/systemd-cat -t NetworkManager-dispatcher -p info;
+            /usr/bin/echo "Stop time service" | /usr/bin/systemd-cat -t NetworkManager-dispatcher -p info;
             /usr/bin/systemctl stop ntpd.service;
             exit 0;
             ;;
@@ -147,8 +147,8 @@ fi
 
 exit 0
 EOF
-sudo chown root:root /etc/NetworkManager/dispatcher.d/10-ntpd;
-chmod 755 /etc/NetworkManager/dispatcher.d/10-ntpd;
+sudo chown root:root /etc/NetworkManager/dispatcher.d/10-time;
+chmod 755 /etc/NetworkManager/dispatcher.d/10-time;
 
 cat << EOF > /etc/NetworkManager/dispatcher.d/99-iptables
 #!/bin/bash
