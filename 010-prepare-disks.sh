@@ -31,7 +31,7 @@ mdadm --zero-superblock /dev/sdx[123];
 wipefs --all --force /dev/sdx[123];
 
 # MBR + Partitions-Tabelle + Signatur löschen
-dd if=/dev/zero of=/dev/sdX bs=512 count=1;
+dd if=/dev/zero of=/dev/sdx bs=512 count=1;
 
 # Partitionen löschen
 parted /dev/sdx rm 3;
@@ -45,13 +45,14 @@ parted /dev/sdx mklabel gpt;
 
 # Boot-Partitionen, KEIN RAID!
 parted -a optimal /dev/sdx mkpart           1MiB 1025MiB name 1 BOOT set 1 bios_grub on set 1 boot on # syslinux
-parted -a optimal /dev/sdx mkpart ESP fat32 1MiB 1025MiB name 1 BOOT set 1 esp on set 1 boot on # UEFI
+#parted -a optimal /dev/sdx mkpart ESP fat32 1MiB 1025MiB name 1 BOOT set 1 esp on set 1 boot on # UEFI
+parted -a optimal /dev/sdx mkpart ESP fat32 1MiB 1025MiB name 1 UEFI set 1 esp on;
 
 # Raid-Partitionen
-parted -a optimal /dev/sdx mkpart           1025MiB  17GiB name 2 SWAP set 2 raid on
-parted -a optimal /dev/sdx mkpart           17GiB   145GiB name 3 ROOT set 3 raid on
-parted -a optimal /dev/sdx mkpart           145GiB 3800GiB name 4 DATA set 4 raid on
-parted -a optimal /dev/sdx mkpart           3800GiB   100% name 5 LVM  set 5 raid on
+parted -a optimal /dev/sdx mkpart primary 1025MiB 17GiB name 2 SWAP set 2 raid on;
+parted -a optimal /dev/sdx mkpart primary 17GiB 145GiB name 3 ROOT set 3 raid on;
+parted -a optimal /dev/sdx mkpart primary 145GiB 3800GiB name 4 DATA set 4 raid on;
+parted -a optimal /dev/sdx mkpart primary 3800GiB 100% name 5 LVM  set 5 raid on;
 
 # parted /dev/sdx set 2 swap on;
 #parted /dev/sdx name 2 swap;
